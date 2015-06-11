@@ -1,8 +1,8 @@
 /*test*/
 var types = {
-	builder: require('Builder'),
-	guard: require('Guard'),
-	harvester: require('Harvester')
+	builder: require('CreepBuilder'),
+	guard: require('CreepGuard'),
+	harvester: require('CreepHarvester')
 };
 var creeperCounter = require('CreeperCounter');
 var Creator = require('Creator');

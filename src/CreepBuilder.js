@@ -5,12 +5,12 @@
  * You can import it from another modules like this:
  * var mod = require('Builder'); // -> 'a thing'
  */
-var creeperCounter = require('CreeperCounter');
-var harvester = require('Harvester');
+var PopulationCounter = require('PopulationCounter');
+var harvester = require('CreepHarvester');
 var Resources = require('Resources');
 
 module.exports = function (creep) {
-	if(creeperCounter.goalsMet() == false || (Resources.energy() / Resources.energyCapacity()) < 0.5) {
+	if(PopulationCounter.goalsMet() == false || (Resources.energy() / Resources.energyCapacity()) < 0.2) {
 		harvester(creep);
  		return;
 	}
