@@ -10,7 +10,7 @@ var harvester = require('CreepHarvester');
 var Resources = require('Resources');
 
 module.exports = function (creep) {
-	if(PopulationCounter.goalsMet() == false || (Resources.energy() / Resources.energyCapacity()) < 0.2) {
+	if(PopulationCounter.goalsMet() == false || (Resources.energy() / Resources.energyCapacity()) < 0.4) {
 		harvester(creep);
  		return;
 	}
