@@ -4,7 +4,7 @@ var types = {
 	guard: require('CreepGuard'),
 	harvester: require('CreepHarvester')
 };
-var creeperCounter = require('CreeperCounter');
+var PopulationCounter = require('PopulationCounter');
 var Creator = require('Creator');
 var Resources = require('Resources');
 
@@ -12,11 +12,13 @@ Memory.fullResourceTicker = 0;
 
 console.log(
 	'goals met:' + 
-	creeperCounter.goalsMet() + 
+	PopulationCounter.goalsMet() + 
 	', population: ' + 
-	creeperCounter.population + 
-	' (' + creeperCounter.getType('builder').total + '/' + creeperCounter.getType('harvester').total + '/' + creeperCounter.getType('guard').total + '), ' + 
-	'resources at: ' + parseInt( (Resources.energy() / Resources.energyCapacity())*100) +'%');
+	PopulationCounter.population + 
+	' (' + PopulationCounter.getType('builder').total + '/' + PopulationCounter.getType('harvester').total + '/' + PopulationCounter.getType('guard').total + '), ' + 
+	'resources at: ' + parseInt( (Resources.energy() / Resources.energyCapacity())*100) +'%'
+);
+
 for(var name in Game.creeps) {
 	var creep = Game.creeps[name];
 	var creepType = creep.memory.role;
@@ -34,9 +36,9 @@ for(var name in Game.spawns) {
 		if(Memory.fullResourceTicker == 50) {
 			forceBuild = true;
 		}
-		var types = creeperCounter.getTypes()
+		var types = PopulationCounter.getTypes()
 		for(var i = 0; i < types.length; i++) {
-			var type = creeperCounter.getType(types[i]);
+			var type = PopulationCounter.getType(types[i]);
 			
 			if((i == types.length-1 && Resources.energy() == Resources.energyCapacity())) {
 				Memory.fullResourceTicker++;

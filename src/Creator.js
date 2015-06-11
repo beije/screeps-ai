@@ -6,12 +6,12 @@
  * var mod = require('Creator'); // -> 'a thing'
  */
 var Resources = require('Resources');
-var CreeperCounter = require('CreeperCounter')
+var PopulationCounter = require('PopulationCounter')
  
 module.exports = function (type) {
 	var abilities = [];
 	var id = Math.floor(Math.random()*100000);
-	var level = parseInt(CreeperCounter.getType(type).total / CreeperCounter.populationLevelMultiplier);
+	var level = parseInt(PopulationCounter.getType(type).total / PopulationCounter.populationLevelMultiplier);
 	
 	switch(type) {
 		case 'harvester':

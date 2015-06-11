@@ -3,10 +3,10 @@
  * module.exports = 'a thing';
  *
  * You can import it from another modules like this:
- * var mod = require('CreeperCounter'); // -> 'a thing'
+ * var mod = require('PopulationCounter'); // -> 'a thing'
  */
 
-function CreeperCounter() {
+function PopulationCounter() {
 	this.population = 0;
 	this.populationLevelMultiplier = 5;
 	this.typeDistribution = {
@@ -43,7 +43,7 @@ function CreeperCounter() {
 	}
 };
 
-CreeperCounter.prototype.goalsMet = function() {
+PopulationCounter.prototype.goalsMet = function() {
 	for(var n in this.typeDistribution) {
 		var type = this.typeDistribution[n];
 		if(type.currentPercentage < (type.goalPercentage - type.goalPercentage/4) || type.total == 0) {
@@ -54,12 +54,12 @@ CreeperCounter.prototype.goalsMet = function() {
 	return true;
 };
 
-CreeperCounter.prototype.getType = function(type) {
+PopulationCounter.prototype.getType = function(type) {
 	return this.typeDistribution[type];
 };
 
 
-CreeperCounter.prototype.getTypes = function(type) {
+PopulationCounter.prototype.getTypes = function(type) {
 	var types = [];
 	for(var n in this.typeDistribution) {
 		types.push(n);
@@ -67,11 +67,11 @@ CreeperCounter.prototype.getTypes = function(type) {
 	return types;
 };
  
-CreeperCounter.prototype.totalPopulation = function() {
+PopulationCounter.prototype.totalPopulation = function() {
 	return this.population;
 };
  
-CreeperCounter.prototype.maxPopulation = function() {
+PopulationCounter.prototype.maxPopulation = function() {
 	var population = 0;
 	for(var n in this.typeDistribution) {
 		population += this.typeDistribution[n].max;
@@ -79,4 +79,4 @@ CreeperCounter.prototype.maxPopulation = function() {
 	return population;
 };
 
-module.exports = new CreeperCounter();
+module.exports = new PopulationCounter();
