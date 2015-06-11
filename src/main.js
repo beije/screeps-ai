@@ -14,9 +14,10 @@ console.log(
 	'goals met:' + 
 	PopulationCounter.goalsMet() + 
 	', population: ' + 
-	PopulationCounter.population + 
+	PopulationCounter.population + '/' + PopulationCounter.maxPopulation() + 
 	' (' + PopulationCounter.getType('builder').total + '/' + PopulationCounter.getType('harvester').total + '/' + PopulationCounter.getType('guard').total + '), ' + 
-	'resources at: ' + parseInt( (Resources.energy() / Resources.energyCapacity())*100) +'%'
+	'resources at: ' + parseInt( (Resources.energy() / Resources.energyCapacity())*100) +'%, ' +
+	'next death: ' + PopulationCounter.getNextExpectedDeath() +' ticks'
 );
 
 for(var name in Game.creeps) {

@@ -6,6 +6,10 @@
  * var mod = require('PopulationCounter'); // -> 'a thing'
  */
 
+var Cached = {
+	nextDeath: -1
+};
+
 function PopulationCounter() {
 	this.population = 0;
 	this.populationLevelMultiplier = 5;
@@ -20,13 +24,13 @@ function PopulationCounter() {
 			total: 0,
 			goalPercentage: 0.3,
 			currentPercentage: 0,
-			max: 15
+			max: 12
 		},
 		guard: {
 			total: 0,
 			goalPercentage: 0.2,
 			currentPercentage: 0,
-			max: 10
+			max: 8
 		}
 	};
 
@@ -77,6 +81,20 @@ PopulationCounter.prototype.maxPopulation = function() {
 		population += this.typeDistribution[n].max;
 	}
 	return population;
+};
+
+PopulationCounter.prototype.getNextExpectedDeath = function() {
+	if(Cached.nextDeath == -1) {
+		Cached.nextDeath = 1000000;
+		for(var name in Game.creeps) {
+			var creep = Game.creeps[name];
+			if(creep.ticksToLive < Cached.nextDeath) {
+				Cached.nextDeath = creep.ticksToLive;
+			}
+		}
+	}
+	
+	return Cached.nextDeath;
 };
 
 module.exports = new PopulationCounter();
