@@ -13,30 +13,34 @@ module.exports = function (creep) {
 	var lastPos = creep.memory.lastPos;
 	var currPos = creep.pos;
 	
+	if(creep.memory.selectedSource == undefined) {
+		creep.memory.selectedSource = Math.floor(Math.random()*sources.length);
+	}
+
 	if(creep.memory.lastEnergy != creep.energy) {
 		creep.memory.moveAttempts = 0;    
 	}
-
-    if(creep.energy === 0){
+	
+    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
         var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
         if(creepsNear.length){
             for(var n in creepsNear){
-                if(creepsNear[n].memory.role == 'harvester' && creepsNear[n].energy === creepsNear[n].energyCapacity){
+                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.actingAs == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
                     var closest = res.pos.findClosest([creep, creepsNear[n]]);
                     if(closest === creep){
                         creepsNear[n].transferEnergy(creep);
-                        return;
+                        break;
                     }
                 }
             }
         }
     }
-	
+
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y) {
 		creep.memory.moveAttempts++;
 		if(creep.memory.moveAttempts >= 15) {
 			creep.memory.moveAttempts = 0;
-			creep.memory.moveCounter = 0;
+			creep.memory.moveCounter = 5;
 		}
 	}
 	
@@ -57,11 +61,15 @@ module.exports = function (creep) {
 		creep.transferEnergy(res);
 		return;
 	}*/
-	
-	if(creep.memory.selectedSource == undefined) {
-		creep.memory.selectedSource = Math.floor(Math.random()*sources.length);
-	}
-	if(creep.energy < creep.energyCapacity) {
+	var continueDeposit = false;
+	/*if(creep.energy != 0 && creep.memory.lastEnergy == creep.energy && res) {
+		var closest = creep.pos.findClosest([sources[creep.memory.selectedSource], res]);
+		if(closest === res) {
+			continueDeposit = true;
+		}
+	}*/
+
+	if(creep.energy < creep.energyCapacity && continueDeposit == false) {
 		creep.moveTo(sources[creep.memory.selectedSource]);
 		creep.harvest(sources[creep.memory.selectedSource]);
 	} else {

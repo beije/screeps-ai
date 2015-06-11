@@ -10,11 +10,13 @@ var harvester = require('CreepHarvester');
 var Resources = require('Resources');
 
 module.exports = function (creep) {
-	if(PopulationCounter.goalsMet() == false || ((Resources.energy() / Resources.energyCapacity()) < 0.4 && PopulationCounter.getNextExpectedDeath() < 15)) {
+	if(PopulationCounter.goalsMet() == false || (Resources.energy() < 300 && PopulationCounter.getNextExpectedDeath() < 100)) {
+		creep.memory.actingAs = 'harvester';
 		harvester(creep);
+
  		return;
 	}
-
+	creep.memory.actingAs = null;
 	if(creep.energy == 0) {
 		var res = Resources.getSpawnResource();
 		if(res){
