@@ -1,0 +1,14 @@
+{
+  "name": "screeps-ai",
+  "version": "0.0.0",
+  "description": "AI for screeps.com",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Benjamin Horn",
+  "license": "",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-screeps": "^1.0.3"
+  }
+}
