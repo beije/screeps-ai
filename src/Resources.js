@@ -21,6 +21,9 @@ Resources.getAllContainers = function() {
 	var resources = [];
 	for(var name in Game.structures) {
 		var res = Game.structures[name];
+		if(res.my == false) {
+			continue;
+		}
 		if(res.structureType == STRUCTURE_EXTENSION) {
 			resources.push(res);
 		}
