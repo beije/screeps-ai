@@ -8,6 +8,7 @@
 var Resources = require('Resources');
 module.exports = function (creep) {
 	setupHarvester(creep);
+	var res = Resources.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
 	var lastPos = creep.memory.lastPos;
 	var currPos = creep.pos;
@@ -15,12 +16,27 @@ module.exports = function (creep) {
 	if(creep.memory.lastEnergy != creep.energy) {
 		creep.memory.moveAttempts = 0;    
 	}
+
+    if(creep.energy === 0){
+        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
+        if(creepsNear.length){
+            for(var n in creepsNear){
+                if(creepsNear[n].memory.role == 'harvester' && creepsNear[n].energy === creepsNear[n].energyCapacity){
+                    var closest = res.pos.findClosest([creep, creepsNear[n]]);
+                    if(closest === creep){
+                        creepsNear[n].transferEnergy(creep);
+                        return;
+                    }
+                }
+            }
+        }
+    }
 	
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y) {
 		creep.memory.moveAttempts++;
 		if(creep.memory.moveAttempts >= 15) {
 			creep.memory.moveAttempts = 0;
-			creep.memory.moveCounter = 10;
+			creep.memory.moveCounter = 0;
 		}
 	}
 	
@@ -49,7 +65,6 @@ module.exports = function (creep) {
 		creep.moveTo(sources[creep.memory.selectedSource]);
 		creep.harvest(sources[creep.memory.selectedSource]);
 	} else {
-		var res = Resources.getEmptyResource(creep.energyCapacity);
 		creep.moveTo(res);
 		creep.transferEnergy(res);
 	}
