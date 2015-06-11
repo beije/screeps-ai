@@ -11,12 +11,12 @@ var PopulationCounter = require('PopulationCounter')
 module.exports = function (type) {
 	var abilities = [];
 	var id = Math.floor(Math.random()*100000);
-	var level = parseInt(PopulationCounter.getType(type).total / PopulationCounter.populationLevelMultiplier);
+	var creepLevel = Math.floor(PopulationCounter.getType(type).total / PopulationCounter.populationLevelMultiplier);
+	var resourceLevel = Math.floor(Resources.getFullResources().length / 3);
+	var level = creepLevel + resourceLevel;
 	
 	switch(type) {
 		case 'harvester':
-			//abilities = [WORK, CARRY, CARRY, MOVE];   
-		
 			if(level <= 1) {
 				abilities = [WORK, CARRY, MOVE];    
 			} else 
@@ -35,11 +35,8 @@ module.exports = function (type) {
 			if(level > 6) {
 				abilities = [TOUGH, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE];    
 			}
-			
 		break;
 		case 'builder': 
-			//abilities = [WORK, WORK, CARRY, MOVE];  
-		
 			if(level <= 1) {
 				abilities = [WORK, CARRY, MOVE];    
 			} else 
@@ -61,8 +58,6 @@ module.exports = function (type) {
 			
 		break;
 		case 'guard': 
-			//abilities = [TOUGH, ATTACK, MOVE, MOVE];
-		
 			if(level <= 1) {
 				abilities = [TOUGH, ATTACK, MOVE];    
 			} else 
@@ -81,7 +76,6 @@ module.exports = function (type) {
 			if(level > 6) {
 				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
 			}
-			
 		break;
 	}
 	

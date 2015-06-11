@@ -5,10 +5,10 @@
  * You can import it from another modules like this:
  * var mod = require('Resources'); // -> 'a thing'
  */
-Cached = {
+var Cached = {
 	allContainers: false
 };
-Resources = {};
+var Resources = {};
 
 Resources.getAllContainers = function() {
 	if(Cached.allContainers) {
@@ -70,15 +70,24 @@ Resources.getEmptyResource = function(capacity) {
 	
 	return false;
 };
-Resources.getFullResource = function() {
+Resources.getFullResources = function() {
 	var resources = this.getAllContainers();
+	var full = [];
 	for(var i = 0; i < resources.length; i++) {
 		var res = resources[i];
 		if(res.energy == res.energyCapacity) {
-			return res;
+			full.push(res);
 		}
 	}
 	
+	return full;
+};
+Resources.getFullResource = function() {
+	var resources = this.getFullResources();
+	if(resources.length) {
+		return resources[0];
+	}
+		
 	return false;
 };
 Resources.getSpawnResource = function() {
