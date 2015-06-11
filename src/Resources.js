@@ -6,7 +6,10 @@
  * var mod = require('Resources'); // -> 'a thing'
  */
 var Cached = {
-	allContainers: false
+	allContainers: false,
+	emptyResources: false,
+	energyCapacity: -1,
+	energy: -1
 };
 var Resources = {};
 
@@ -32,25 +35,53 @@ Resources.getAllContainers = function() {
 	return resources;
 };
 Resources.energy = function() {
-	var energy = 0;
-	var resources = this.getAllContainers();
-	for(var i = 0; i < resources.length; i++) {
-		var res = resources[i];
-		energy += res.energy;
+	if(Cached.energy === -1) {
+		var energy = 0;
+		var resources = this.getAllContainers();
+		for(var i = 0; i < resources.length; i++) {
+			var res = resources[i];
+			energy += res.energy;
+		}
+		Cached.energy = energy;
 	}
 	
-	return energy;
+	return Cached.energy;
 }
 Resources.energyCapacity = function() {
-	var energyCapacity = 0;
-	var resources = this.getAllContainers();
-	for(var i = 0; i < resources.length; i++) {
-		var res = resources[i];
-		energyCapacity += res.energyCapacity;
+	if(Cached.energyCapacity === -1) {
+		var energyCapacity = 0;
+		var resources = this.getAllContainers();
+		for(var i = 0; i < resources.length; i++) {
+			var res = resources[i];
+			energyCapacity += res.energyCapacity;
+		}
+		Cached.energyCapacity = energyCapacity;
 	}
 	
-	return energyCapacity;
+	return Cached.energyCapacity;
 } 
+
+Resources.getEmptyResources = function() {
+	if(Cached.emptyResources == false) {
+		console.log('get empty resources');
+		var resources = this.getAllContainers();
+		var empty = [];
+		var len = resources.length
+		for(var i = 0; i < len; i++) {
+			var res = resources[i];
+			if(res.energy / res.energyCapacity < 0.1) {
+				empty.push(res);
+			}
+		}
+
+		Cached.emptyResources = empty;
+	}
+
+	
+	return Cached.emptyResources;
+};
+
+
 Resources.getEmptyResource = function(capacity) {
 	var resources = this.getAllContainers();
 	capacity = parseInt(capacity);
