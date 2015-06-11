@@ -20,20 +20,21 @@ module.exports = function (creep) {
 	if(creep.memory.lastEnergy != creep.energy) {
 		creep.memory.moveAttempts = 0;    
 	}
-	
-    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
-        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
-        if(creepsNear.length){
-            for(var n in creepsNear){
-                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.actingAs == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
-                    var closest = res.pos.findClosest([creep, creepsNear[n]]);
-                    if(closest === creep){
-                        creepsNear[n].transferEnergy(creep);
-                        break;
-                    }
-                }
-            }
-        }
+	if(res.pos) {
+	    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
+	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
+	        if(creepsNear.length){
+	            for(var n in creepsNear){
+	                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.actingAs == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
+	                    var closest = res.pos.findClosest([creep, creepsNear[n]]);
+	                    if(closest === creep){
+	                        creepsNear[n].transferEnergy(creep);
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	    }
     }
 
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y) {

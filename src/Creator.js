@@ -30,10 +30,10 @@ module.exports = function (type) {
 				abilities = [WORK, WORK, CARRY, CARRY, MOVE, MOVE];    
 			} else
 			if(level <= 5) {
-				abilities = [TOUGH, WORK, WORK, CARRY, CARRY, MOVE, MOVE];    
+				abilities = [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];    
 			} else
 			if(level > 6) {
-				abilities = [TOUGH, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE];    
+				abilities = [TOUGH, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];    
 			}
 		break;
 		case 'builder': 

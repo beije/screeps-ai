@@ -16,7 +16,7 @@ function PopulationCounter() {
 	this.typeDistribution = {
 		harvester: {
 			total: 0,
-			goalPercentage: 0.5,
+			goalPercentage: 0.6,
 			currentPercentage: 0,
 			max: 20
 		},
