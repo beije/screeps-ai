@@ -5,11 +5,11 @@
  * You can import it from another modules like this:
  * var mod = require('CreeperCounter'); // -> 'a thing'
  */
- 
+
 function CreeperCounter() {
-	 this.population = 0;
-	 this.populationLevelMultiplier = 5;
-	 this.typeDistribution = {
+	this.population = 0;
+	this.populationLevelMultiplier = 5;
+	this.typeDistribution = {
 		harvester: {
 			total: 0,
 			goalPercentage: 0.5,
@@ -41,9 +41,9 @@ function CreeperCounter() {
 		var curr = this.typeDistribution[name];
 		this.typeDistribution[name].currentPercentage = curr.total / this.population;
 	}
- };
- 
- CreeperCounter.prototype.goalsMet = function() {
+};
+
+CreeperCounter.prototype.goalsMet = function() {
 	for(var n in this.typeDistribution) {
 		var type = this.typeDistribution[n];
 		if(type.currentPercentage < (type.goalPercentage - type.goalPercentage/4) || type.total == 0) {
@@ -52,31 +52,31 @@ function CreeperCounter() {
 	}
 	
 	return true;
- }
+};
+
+CreeperCounter.prototype.getType = function(type) {
+	return this.typeDistribution[type];
+};
+
+
+CreeperCounter.prototype.getTypes = function(type) {
+	var types = [];
+	for(var n in this.typeDistribution) {
+		types.push(n);
+	}
+	return types;
+};
  
- CreeperCounter.prototype.getType = function(type) {
-	 return this.typeDistribution[type];
- };
+CreeperCounter.prototype.totalPopulation = function() {
+	return this.population;
+};
  
- 
- CreeperCounter.prototype.getTypes = function(type) {
-	 var types = [];
-	 for(var n in this.typeDistribution) {
-		 types.push(n);
-	 }
-	 return types;
- };
- 
- CreeperCounter.prototype.totalPopulation = function() {
-	 return this.population;
- };
- 
- CreeperCounter.prototype.maxPopulation = function() {
-	 var population = 0;
-	 for(var n in this.typeDistribution) {
-		 population += this.typeDistribution[n].max;
-	 }
-	 return population;
- };
- 
- module.exports = new CreeperCounter();
+CreeperCounter.prototype.maxPopulation = function() {
+	var population = 0;
+	for(var n in this.typeDistribution) {
+		population += this.typeDistribution[n].max;
+	}
+	return population;
+};
+
+module.exports = new CreeperCounter();

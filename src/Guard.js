@@ -12,12 +12,12 @@ var positions = [
 	[49,0]
 ];
 	
-	function convertPosToSimple(pos) {
-		return {
-			x: pos.x,
-			y: pos.y
-		};
-	}
+function convertPosToSimple(pos) {
+	return {
+		x: pos.x,
+		y: pos.y
+	};
+}
 	
 module.exports = function (creep) {
 	var targets = creep.room.find(FIND_HOSTILE_CREEPS);

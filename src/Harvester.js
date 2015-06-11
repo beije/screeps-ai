@@ -5,9 +5,9 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
- var Resources = require('Resources');
- module.exports = function (creep) {
-	 setupHarvester(creep);
+var Resources = require('Resources');
+module.exports = function (creep) {
+	setupHarvester(creep);
 	var sources = creep.room.find(FIND_SOURCES);
 	var lastPos = creep.memory.lastPos;
 	var currPos = creep.pos;

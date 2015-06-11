@@ -5,10 +5,10 @@
  * You can import it from another modules like this:
  * var mod = require('Creator'); // -> 'a thing'
  */
- var Resources = require('Resources');
- var CreeperCounter = require('CreeperCounter')
+var Resources = require('Resources');
+var CreeperCounter = require('CreeperCounter')
  
- module.exports = function (type) {
+module.exports = function (type) {
 	var abilities = [];
 	var id = Math.floor(Math.random()*100000);
 	var level = parseInt(CreeperCounter.getType(type).total / CreeperCounter.populationLevelMultiplier);
@@ -83,7 +83,7 @@
 			}
 			
 		break;
-	}   
+	}
 	
 	var canBuild = Game.spawns.spawn1.canCreateCreep(
 		abilities, 
@@ -104,4 +104,4 @@
 			role: type
 		}
 	);
- }
+};
