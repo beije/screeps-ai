@@ -13,8 +13,16 @@ var ACTIONS = {
 var ResourceDeposits = require('ResourceDeposits');
 module.exports = function (creep) {
 	setupHarvester(creep);
-	var res = ResourceDeposits.getClosestEmptyResource(creep);
-	//console.log(closestRes);
+	var res = false;
+	if(creep.memory.depositId) {
+		res = ResourceDeposits.getEmptyDepositOnId(creep.memory.depositId);
+	}
+	if(!res) {
+		res = ResourceDeposits.getClosestEmptyResource(creep);
+		if(res.id) {
+			creep.memory.depositId = res.id;
+		}
+	}
 	//var res = ResourceDeposits.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
 	var lastPos = creep.memory.lastPos;
@@ -32,7 +40,7 @@ module.exports = function (creep) {
 	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
 	        if(creepsNear.length){
 	            for(var n in creepsNear){
-	                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.actingAs == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
+	                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.role == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
 	                    var closest = res.pos.findClosest([creep, creepsNear[n]]);
 	                    if(closest === creep){
 	                        creepsNear[n].transferEnergy(creep);
@@ -103,5 +111,8 @@ function setupHarvester(creep) {
 	}
 	if(!creep.memory.lastAction) {
 		creep.memory.lastAction = ACTIONS.HARVEST;
+	}
+	if(!creep.memory.depositId) {
+		creep.memory.depositId = false;
 	}
 };

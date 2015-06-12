@@ -37,6 +37,24 @@ ResourceDeposits.getAllContainers = function() {
 	
 	return resources;
 };
+
+ResourceDeposits.isEmptyDeposit = function(deposit) {
+	if(deposit.energy / deposit.energyCapacity < 0.5) {
+		return true;
+	}
+	
+	return false;
+}
+ResourceDeposits.getEmptyDepositOnId = function(id) {
+	var resources = this.getAllContainers();
+	for(var i = 0; i < resources.length; i++){
+		if(resources[i].id == id && this.isEmptyDeposit(resources[i])) {
+			return resources[i];
+		}
+	}
+	
+	return false;
+};
 ResourceDeposits.energy = function() {
 	if(Cached.energy === -1) {
 		var energy = 0;
@@ -71,7 +89,7 @@ ResourceDeposits.getEmptyResources = function() {
 		var len = resources.length
 		for(var i = 0; i < len; i++) {
 			var res = resources[i];
-			if(res.energy / res.energyCapacity < 0.5) {
+			if(this.isEmptyDeposit(res)) {
 				empty.push(res);
 			}
 		}
@@ -88,7 +106,8 @@ ResourceDeposits.getClosestEmptyResource = function(creep) {
 	var resource = false;
 	if(resources.length != 0) {
 		resource = creep.pos.findClosest(resources);
-	} else {
+	}
+	if(!resource) {
 		resource = this.getSpawnResource();
 	}
 	

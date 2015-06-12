@@ -12,7 +12,7 @@ module.exports = function (type) {
 	var abilities = [];
 	var id = Math.floor(Math.random()*100000);
 	var creepLevel = Math.floor(PopulationCounter.totalPopulation() / PopulationCounter.populationLevelMultiplier);
-	var resourceLevel = Math.floor(ResourceDeposits.getFullResources().length / 4);
+	var resourceLevel = Math.floor(ResourceDeposits.getFullResources().length / 5);
 	var level = creepLevel + resourceLevel;
 	
 	switch(type) {
