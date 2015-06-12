@@ -40,7 +40,7 @@ module.exports = function (creep) {
 	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
 	        if(creepsNear.length){
 	            for(var n in creepsNear){
-	                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.role == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
+	                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.actingAs == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
 	                    var closest = res.pos.findClosest([creep, creepsNear[n]]);
 	                    if(closest === creep){
 	                        creepsNear[n].transferEnergy(creep);

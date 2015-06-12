@@ -19,9 +19,20 @@ module.exports = function (creep) {
 	creep.memory.actingAs = null;
 	if(creep.energy == 0) {
 		var res = ResourceDeposits.getSpawnResource();
-		if(res){
+		if(res && res.energy != 0){
 			creep.moveTo(res);
 			res.transferEnergy(creep);
+		} else {
+		    if(creep.energy < creep.energyCapacity){
+		        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
+		        if(creepsNear.length){
+		            for(var n in creepsNear){
+		                if((creepsNear[n].memory.role == 'harvester' || creepsNear[n].memory.actingAs == 'harvester') && creepsNear[n].energy === creepsNear[n].energyCapacity){
+		                	creepsNear[n].transferEnergy(creep);
+		                }
+		            }
+		        }
+		    }
 		}
 	} else {
 		var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
