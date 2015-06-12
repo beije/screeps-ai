@@ -46,11 +46,10 @@ ResourceDeposits.isEmptyDeposit = function(deposit) {
 	return false;
 }
 ResourceDeposits.getEmptyDepositOnId = function(id) {
-	var resources = this.getAllContainers();
-	for(var i = 0; i < resources.length; i++){
-		if(resources[i].id == id && this.isEmptyDeposit(resources[i])) {
-			return resources[i];
-		}
+	var resource = Game.getObjectById(id);
+
+	if(resource && this.isEmptyDeposit(resource)) {
+		return resource;
 	}
 	
 	return false;
