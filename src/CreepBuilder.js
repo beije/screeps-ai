@@ -7,10 +7,10 @@
  */
 var PopulationCounter = require('PopulationCounter');
 var harvester = require('CreepHarvester');
-var Resources = require('Resources');
+var ResourceDeposits = require('ResourceDeposits');
 
 module.exports = function (creep) {
-	if(PopulationCounter.goalsMet() == false || ((Resources.energy() / Resources.energyCapacity()) < 0.2)) {
+	if(PopulationCounter.goalsMet() == false || ((ResourceDeposits.energy() / ResourceDeposits.energyCapacity()) < 0.2)) {
 		creep.memory.actingAs = 'harvester';
 		harvester(creep);
 
@@ -18,7 +18,7 @@ module.exports = function (creep) {
 	}
 	creep.memory.actingAs = null;
 	if(creep.energy == 0) {
-		var res = Resources.getSpawnResource();
+		var res = ResourceDeposits.getSpawnResource();
 		if(res){
 			creep.moveTo(res);
 			res.transferEnergy(creep);

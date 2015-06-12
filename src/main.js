@@ -6,7 +6,7 @@ var types = {
 };
 var PopulationCounter = require('PopulationCounter');
 var Creator = require('Creator');
-var Resources = require('Resources');
+var ResourceDeposits = require('ResourceDeposits');
 
 Memory.fullResourceTicker = 0;
 
@@ -16,7 +16,7 @@ console.log(
 	', population: ' + 
 	PopulationCounter.population + '/' + PopulationCounter.maxPopulation() + 
 	' (' + PopulationCounter.getType('builder').total + '/' + PopulationCounter.getType('harvester').total + '/' + PopulationCounter.getType('guard').total + '), ' + 
-	'resources at: ' + parseInt( (Resources.energy() / Resources.energyCapacity())*100) +'%, ' +
+	'resources at: ' + parseInt( (ResourceDeposits.energy() / ResourceDeposits.energyCapacity())*100) +'%, ' +
 	'next death: ' + PopulationCounter.getNextExpectedDeath() +' ticks'
 );
 
@@ -32,7 +32,7 @@ for(var name in Game.spawns) {
 		continue;
 	}
 
-	if((Resources.energy() / Resources.energyCapacity()) > 0.2) {
+	if((ResourceDeposits.energy() / ResourceDeposits.energyCapacity()) > 0.2) {
 		var forceBuild = false;
 		if(Memory.fullResourceTicker == 50) {
 			forceBuild = true;
@@ -41,7 +41,7 @@ for(var name in Game.spawns) {
 		for(var i = 0; i < types.length; i++) {
 			var type = PopulationCounter.getType(types[i]);
 			
-			if((i == types.length-1 && Resources.energy() == Resources.energyCapacity())) {
+			if((i == types.length-1 && ResourceDeposits.energy() == ResourceDeposits.energyCapacity())) {
 				Memory.fullResourceTicker++;
 			} else {
 				Memory.fullResourceTicker = 0;

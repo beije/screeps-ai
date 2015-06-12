@@ -5,12 +5,12 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
-var Resources = require('Resources');
+var ResourceDeposits = require('ResourceDeposits');
 module.exports = function (creep) {
 	setupHarvester(creep);
-	var res = Resources.getClosestEmptyResource(creep);
+	var res = ResourceDeposits.getClosestEmptyResource(creep);
 	//console.log(closestRes);
-	//var res = Resources.getEmptyResource(creep.energyCapacity);
+	//var res = ResourceDeposits.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
 	var lastPos = creep.memory.lastPos;
 	var currPos = creep.pos;
@@ -59,7 +59,7 @@ module.exports = function (creep) {
 	creep.memory.lastEnergy = creep.energy;
 	
 	/*if(creep.ticksToLive < 300 && creep.energy != 0) {
-		//var res = Resources.getEmptyResource();
+		//var res = ResourceDeposits.getEmptyResource();
 		//creep.moveTo(res);
 		creep.transferEnergy(res);
 		return;

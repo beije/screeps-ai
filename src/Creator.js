@@ -5,14 +5,14 @@
  * You can import it from another modules like this:
  * var mod = require('Creator'); // -> 'a thing'
  */
-var Resources = require('Resources');
+var ResourceDeposits = require('ResourceDeposits');
 var PopulationCounter = require('PopulationCounter')
  
 module.exports = function (type) {
 	var abilities = [];
 	var id = Math.floor(Math.random()*100000);
 	var creepLevel = Math.floor(PopulationCounter.getType(type).total / PopulationCounter.populationLevelMultiplier);
-	var resourceLevel = Math.floor(Resources.getFullResources().length / 3);
+	var resourceLevel = Math.floor(ResourceDeposits.getFullResources().length / 3);
 	var level = creepLevel + resourceLevel;
 	
 	switch(type) {

@@ -3,7 +3,7 @@
  * module.exports = 'a thing';
  *
  * You can import it from another modules like this:
- * var mod = require('Resources'); // -> 'a thing'
+ * var mod = require('ResourceDeposits'); // -> 'a thing'
  */
 var Cached = {
 	allContainers: false,
@@ -11,9 +11,9 @@ var Cached = {
 	energyCapacity: -1,
 	energy: -1
 };
-var Resources = {};
+var ResourceDeposits = {};
 
-Resources.getAllContainers = function() {
+ResourceDeposits.getAllContainers = function() {
 	if(Cached.allContainers) {
 		return Cached.allContainers;
 	}
@@ -37,7 +37,7 @@ Resources.getAllContainers = function() {
 	
 	return resources;
 };
-Resources.energy = function() {
+ResourceDeposits.energy = function() {
 	if(Cached.energy === -1) {
 		var energy = 0;
 		var resources = this.getAllContainers();
@@ -50,7 +50,7 @@ Resources.energy = function() {
 	
 	return Cached.energy;
 }
-Resources.energyCapacity = function() {
+ResourceDeposits.energyCapacity = function() {
 	if(Cached.energyCapacity === -1) {
 		var energyCapacity = 0;
 		var resources = this.getAllContainers();
@@ -64,7 +64,7 @@ Resources.energyCapacity = function() {
 	return Cached.energyCapacity;
 } 
 
-Resources.getEmptyResources = function() {
+ResourceDeposits.getEmptyResources = function() {
 	if(Cached.emptyResources == false) {
 		console.log('get empty resources');
 		var resources = this.getAllContainers();
@@ -84,14 +84,20 @@ Resources.getEmptyResources = function() {
 	return Cached.emptyResources;
 };
 
-Resources.getClosestEmptyResource = function(creep) {
+ResourceDeposits.getClosestEmptyResource = function(creep) {
 	var resources = this.getEmptyResources();
-	return creep.pos.findClosest(resources);
+	var resource = false;
+	if(resources) {
+		resource = creep.pos.findClosest(resources);
+	} else {
+		resource = this.getSpawnResource();
+	}
 	
+	return resource;
 };
 
 
-Resources.getEmptyResource = function(capacity) {
+ResourceDeposits.getEmptyResource = function(capacity) {
 	var resources = this.getAllContainers();
 	capacity = parseInt(capacity);
 	for(var i = 0; i < resources.length; i++) {
@@ -110,7 +116,7 @@ Resources.getEmptyResource = function(capacity) {
 	
 	return false;
 };
-Resources.getFullResources = function() {
+ResourceDeposits.getFullResources = function() {
 	var resources = this.getAllContainers();
 	var full = [];
 	for(var i = 0; i < resources.length; i++) {
@@ -122,7 +128,7 @@ Resources.getFullResources = function() {
 	
 	return full;
 };
-Resources.getFullResource = function() {
+ResourceDeposits.getFullResource = function() {
 	var resources = this.getFullResources();
 	if(resources.length) {
 		return resources[0];
@@ -130,7 +136,7 @@ Resources.getFullResource = function() {
 		
 	return false;
 };
-Resources.getSpawnResource = function() {
+ResourceDeposits.getSpawnResource = function() {
 	var resources = this.getAllContainers();
 	for(var i = 0; i < resources.length; i++) {
 		var res = resources[i];
@@ -144,4 +150,4 @@ Resources.getSpawnResource = function() {
 	return false;
 };
  
-module.exports = Resources;
+module.exports = ResourceDeposits;
