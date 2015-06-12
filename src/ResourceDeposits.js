@@ -71,7 +71,7 @@ ResourceDeposits.getEmptyResources = function() {
 		var len = resources.length
 		for(var i = 0; i < len; i++) {
 			var res = resources[i];
-			if(res.energy / res.energyCapacity < 0.1) {
+			if(res.energy / res.energyCapacity < 0.5) {
 				empty.push(res);
 			}
 		}
