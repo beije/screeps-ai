@@ -5,6 +5,7 @@
  * You can import it from another modules like this:
  * var mod = require('Guard'); // -> 'a thing'
  */
+ 
 var positions = [
 	[0,0],
 	[0,49],

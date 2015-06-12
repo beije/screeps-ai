@@ -5,18 +5,25 @@
  * You can import it from another modules like this:
  * var mod = require('Builder'); // -> 'a thing'
  */
+var RandomMovement = require('CreepRandomMovement');
 var PopulationCounter = require('PopulationCounter');
 var harvester = require('CreepHarvester');
 var ResourceDeposits = require('ResourceDeposits');
 
 module.exports = function (creep) {
-	if(PopulationCounter.goalsMet() == false && ((ResourceDeposits.energy() / ResourceDeposits.energyCapacity()) < 0.2)) {
+	if(PopulationCounter.goalsMet() == false && ((ResourceDeposits.energy() / ResourceDeposits.energyCapacity()) == 0)) {
 		creep.memory.actingAs = 'harvester';
 		harvester(creep);
 
  		return;
 	}
+	
 	creep.memory.actingAs = null;
+	
+	if(RandomMovement(creep) == true) {
+		return;
+	}
+	
 	if(creep.energy == 0) {
 		var res = ResourceDeposits.getSpawnResource();
 		if(res && res.energy != 0){
@@ -51,3 +58,8 @@ module.exports = function (creep) {
 		}
 	}
 };
+function setupBuilder(creep) {
+	if(creep.memory.actingAs == undefined) {
+		creep.memory.actingAs = null;
+	}
+}

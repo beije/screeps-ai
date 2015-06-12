@@ -10,7 +10,9 @@ var ACTIONS = {
 	DEPOSIT: 2
 };
  
+var RandomMovement = require('CreepRandomMovement');
 var ResourceDeposits = require('ResourceDeposits');
+
 module.exports = function (creep) {
 	setupHarvester(creep);
 	var res = false;
@@ -25,16 +27,11 @@ module.exports = function (creep) {
 	}
 	//var res = ResourceDeposits.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
-	var lastPos = creep.memory.lastPos;
-	var currPos = creep.pos;
 	
 	if(creep.memory.selectedSource == undefined) {
 		creep.memory.selectedSource = Math.floor(Math.random()*sources.length);
 	}
-
-	if(creep.memory.lastEnergy != creep.energy) {
-		creep.memory.moveAttempts = 0;    
-	}
+	
 	if(res && res.pos && res.pos.findClosest) {
 	    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
 	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
@@ -51,25 +48,10 @@ module.exports = function (creep) {
 	        }
 	    }
     }
-
-	if(lastPos.x == currPos.x && lastPos.y == currPos.y) {
-		creep.memory.moveAttempts++;
-		if(creep.memory.moveAttempts >= 15) {
-			creep.memory.moveAttempts = 0;
-			creep.memory.moveCounter = 5;
-		}
-	}
 	
-	if(creep.memory.moveCounter) {
-		creep.memory.moveCounter--;
-		var tempPos = creep.memory.tempPos;
-		creep.moveTo(tempPos.x, tempPos.y);
+	if(RandomMovement(creep) == true) {
 		return;
 	}
-	
-	creep.memory.lastPos.x = creep.pos.x;
-	creep.memory.lastPos.y = creep.pos.y;
-	creep.memory.lastEnergy = creep.energy;
 	
 	/*if(creep.ticksToLive < 300 && creep.energy != 0) {
 		//var res = ResourceDeposits.getEmptyResource();
@@ -94,21 +76,6 @@ module.exports = function (creep) {
 };
 
 function setupHarvester(creep) {
-	if(!creep.memory.tempPos) {
-		creep.memory.tempPos = {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)};
-	}
-	if(!creep.memory.lastPos) {
-		creep.memory.lastPos = {};
-	}
-	if(!creep.memory.lastEnergy) {
-		creep.memory.lastEnergy = 0;
-	}
-	if(!creep.memory.moveCounter) {
-		creep.memory.moveCounter = 0;
-	}
-	if(!creep.memory.moveAttempts) {
-		creep.memory.moveAttempts = 0;
-	}
 	if(!creep.memory.lastAction) {
 		creep.memory.lastAction = ACTIONS.HARVEST;
 	}
