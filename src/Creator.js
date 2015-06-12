@@ -32,8 +32,20 @@ module.exports = function (type) {
 			if(level <= 5) {
 				abilities = [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];    
 			} else
-			if(level > 6) {
-				abilities = [TOUGH, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];    
+			if(level <= 6) {
+				abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];    
+			} else
+			if(level <= 7) {
+				abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];    
+			} else
+			if(level <= 8) {
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];    
+			} else
+			if(level <= 9) {
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];    
+			} else
+			if(level > 10) {
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];    
 			}
 		break;
 		case 'builder': 
@@ -52,8 +64,20 @@ module.exports = function (type) {
 			if(level <= 5) {
 				abilities = [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE];
 			} else
-			if(level > 6) {
+			if(level <= 6) {
 				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE];
+			} else
+			if(level <= 7) {
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
+			} else
+			if(level <= 8) {
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 9) {
+				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+			} else
+			if(level > 10) {
+				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
 			}
 			
 		break;
@@ -68,13 +92,25 @@ module.exports = function (type) {
 				abilities = [TOUGH, ATTACK, ATTACK, MOVE, MOVE];
 			} else
 			if(level <= 4) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE];
 			} else
 			if(level <= 5) {
 				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE];
 			} else
-			if(level > 6) {
+			if(level <= 6) {
 				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 7) {
+				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 8) {
+				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 9) {
+				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+			} else
+			if(level > 10) {
+				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE];
 			}
 		break;
 	}

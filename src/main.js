@@ -10,7 +10,7 @@ var ResourceDeposits = require('ResourceDeposits');
 
 Memory.fullResourceTicker = 0;
 
-console.log(
+/*console.log(
 	'goals met:' + 
 	PopulationCounter.goalsMet() + 
 	', population: ' + 
@@ -18,7 +18,7 @@ console.log(
 	' (' + PopulationCounter.getType('builder').total + '/' + PopulationCounter.getType('harvester').total + '/' + PopulationCounter.getType('guard').total + '), ' + 
 	'resources at: ' + parseInt( (ResourceDeposits.energy() / ResourceDeposits.energyCapacity())*100) +'%, ' +
 	'next death: ' + PopulationCounter.getNextExpectedDeath() +' ticks'
-);
+);*/
 
 for(var name in Game.creeps) {
 	var creep = Game.creeps[name];
