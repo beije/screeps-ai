@@ -47,6 +47,11 @@ function PopulationCounter() {
 	}
 };
 
+PopulationCounter.prototype.getPopulationInRoom = function(room) {
+	var creeps = room.find(FIND_MY_CREEPS);
+	return creeps;
+}
+
 PopulationCounter.prototype.goalsMet = function() {
 	for(var n in this.typeDistribution) {
 		var type = this.typeDistribution[n];

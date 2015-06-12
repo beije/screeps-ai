@@ -7,18 +7,20 @@ var types = {
 var PopulationCounter = require('PopulationCounter');
 var Creator = require('Creator');
 var ResourceDeposits = require('ResourceDeposits');
+var EnergyResources = require('EnergyResources');
 
 Memory.fullResourceTicker = 0;
-
-/*console.log(
+EnergyResources.distributeResources();
+console.log(
 	'goals met:' + 
 	PopulationCounter.goalsMet() + 
 	', population: ' + 
 	PopulationCounter.population + '/' + PopulationCounter.maxPopulation() + 
 	' (' + PopulationCounter.getType('builder').total + '/' + PopulationCounter.getType('harvester').total + '/' + PopulationCounter.getType('guard').total + '), ' + 
 	'resources at: ' + parseInt( (ResourceDeposits.energy() / ResourceDeposits.energyCapacity())*100) +'%, ' +
+	'max resources: ' + ResourceDeposits.energyCapacity() +'u, ' +
 	'next death: ' + PopulationCounter.getNextExpectedDeath() +' ticks'
-);*/
+);
 
 for(var name in Game.creeps) {
 	var creep = Game.creeps[name];
