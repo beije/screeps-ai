@@ -26,6 +26,14 @@ module.exports = function (type) {
 	var resourceLevel = Math.floor(ResourceDeposits.getFullResources().length / 5);
 	var level = creepLevel + resourceLevel;
 	
+	// TOUGH          10
+	// MOVE           50	
+	// CARRY          50	
+	// ATTACK         80	
+	// WORK           100	
+	// RANGED_ATTACK  150	
+	// HEAL           200	
+	
 	switch(type) {
 		case 'harvester':
 			if(level <= 1) {
@@ -55,7 +63,7 @@ module.exports = function (type) {
 			if(level <= 9) {
 				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];    
 			} else
-			if(level > 10) {
+			if(level >= 10) {
 				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];    
 			}
 		break;
@@ -87,7 +95,7 @@ module.exports = function (type) {
 			if(level <= 9) {
 				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
 			} else
-			if(level > 10) {
+			if(level >= 10) {
 				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
 			}
 			
@@ -100,28 +108,28 @@ module.exports = function (type) {
 				abilities = [TOUGH, ATTACK, MOVE, MOVE];
 			} else 
 			if(level <= 3) {
-				abilities = [TOUGH, ATTACK, ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, ATTACK, RANGED_ATTACK, MOVE, MOVE];
 			} else
 			if(level <= 4) {
-				abilities = [TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, ATTACK, ATTACK, RANGED_ATTACK, MOVE, MOVE];
 			} else
 			if(level <= 5) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE];
 			} else
 			if(level <= 6) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE];
 			} else
 			if(level <= 7) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, MOVE, MOVE, MOVE];
 			} else
 			if(level <= 8) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
 			} else
 			if(level <= 9) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
 			} else
-			if(level > 10) {
-				abilities = [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE];
+			if(level >= 10) {
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE];
 			}
 		break;
 	}
