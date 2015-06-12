@@ -18,19 +18,19 @@ function PopulationCounter() {
 			total: 0,
 			goalPercentage: 0.5,
 			currentPercentage: 0,
-			max: 20
+			max: 25
 		},
 		builder: {
 			total: 0,
 			goalPercentage: 0.3,
 			currentPercentage: 0,
-			max: 12
+			max: 15
 		},
 		guard: {
 			total: 0,
 			goalPercentage: 0.2,
 			currentPercentage: 0,
-			max: 8
+			max: 10
 		}
 	};
 
@@ -40,7 +40,7 @@ function PopulationCounter() {
 		this.typeDistribution[creepType].total++;
 		this.population++;
 	}
-	
+
 	for(var name in this.typeDistribution) {
 		var curr = this.typeDistribution[name];
 		this.typeDistribution[name].currentPercentage = curr.total / this.population;
@@ -54,7 +54,7 @@ PopulationCounter.prototype.goalsMet = function() {
 			return false;
 		}
 	}
-	
+
 	return true;
 };
 
@@ -70,11 +70,11 @@ PopulationCounter.prototype.getTypes = function(type) {
 	}
 	return types;
 };
- 
+
 PopulationCounter.prototype.totalPopulation = function() {
 	return this.population;
 };
- 
+
 PopulationCounter.prototype.maxPopulation = function() {
 	var population = 0;
 	for(var n in this.typeDistribution) {
@@ -93,7 +93,7 @@ PopulationCounter.prototype.getNextExpectedDeath = function() {
 			}
 		}
 	}
-	
+
 	return Cached.nextDeath;
 };
 
