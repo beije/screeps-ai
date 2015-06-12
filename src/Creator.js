@@ -6,7 +6,18 @@
  * var mod = require('Creator'); // -> 'a thing'
  */
 var ResourceDeposits = require('ResourceDeposits');
-var PopulationCounter = require('PopulationCounter')
+var PopulationCounter = require('PopulationCounter');
+
+function garbageColletion() {
+	var counter = 0;
+	for(var n in Memory.creeps) {
+		var c = Game.creeps[n];
+		if(!c) {
+			delete Memory.creeps[n];
+			counter++;
+		}
+	}
+}
  
 module.exports = function (type) {
 	var abilities = [];
@@ -126,6 +137,7 @@ module.exports = function (type) {
 		//console.log('Can not build creep: ' + type);
 		return;
 	}
+	garbageColletion();
 	console.log('Spawn level ' + level + ' ' + type);
 	Game.spawns.spawn1.createCreep(
 		abilities, 
