@@ -28,7 +28,6 @@ module.exports = function (creep) {
 		if(targets.length) {
 			creep.moveTo(targets[0]);
 			var result = creep.build(targets[0]);
-			console.log(result);
 		} else {
 			for(var name in Game.structures) {
 				var struct = Game.structures[name];
