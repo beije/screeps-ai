@@ -1,3 +1,15 @@
+var CreepBase = {};
+
+CreepBase.remember = function(key, value) {
+	if(!value) {
+		return this.creep.memory[key];
+	}
+	
+	this.creep.memory[key] = value;
+	
+	return value;
+}
+/*
 function randomMovement(creep) {
 	if(!creep.memory.tempPos) {
 		creep.memory.tempPos = {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)};
@@ -46,5 +58,5 @@ function randomMovement(creep) {
 	
 	return false;
 }
-
-module.exports = randomMovement;
+*/
+module.exports = CreepBase;
