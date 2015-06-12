@@ -5,6 +5,11 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
+var ACTIONS = {
+	HARVEST: 1,
+	DEPOSIT: 2
+};
+ 
 var ResourceDeposits = require('ResourceDeposits');
 module.exports = function (creep) {
 	setupHarvester(creep);
@@ -65,19 +70,18 @@ module.exports = function (creep) {
 		return;
 	}*/
 	var continueDeposit = false;
-	/*if(creep.energy != 0 && creep.memory.lastEnergy == creep.energy && res) {
-		var closest = creep.pos.findClosest([sources[creep.memory.selectedSource], res]);
-		if(closest === res) {
-			continueDeposit = true;
-		}
-	}*/
+	if(creep.energy != 0 && creep.memory.lastEnergy > creep.energy && res && creep.memory.lastAction == ACTIONS.DEPOSIT) {
+		continueDeposit = true;
+	}
 
 	if(creep.energy < creep.energyCapacity && continueDeposit == false) {
 		creep.moveTo(sources[creep.memory.selectedSource]);
 		creep.harvest(sources[creep.memory.selectedSource]);
+		creep.memory.lastAction = ACTIONS.HARVEST;
 	} else {
 		creep.moveTo(res);
 		creep.transferEnergy(res);
+		creep.memory.lastAction = ACTIONS.DEPOSIT;		
 	}
 };
 
@@ -96,5 +100,8 @@ function setupHarvester(creep) {
 	}
 	if(!creep.memory.moveAttempts) {
 		creep.memory.moveAttempts = 0;
+	}
+	if(!creep.memory.lastAction) {
+		creep.memory.lastAction = ACTIONS.HARVEST;
 	}
 };

@@ -66,7 +66,6 @@ ResourceDeposits.energyCapacity = function() {
 
 ResourceDeposits.getEmptyResources = function() {
 	if(Cached.emptyResources == false) {
-		console.log('get empty resources');
 		var resources = this.getAllContainers();
 		var empty = [];
 		var len = resources.length
@@ -87,7 +86,7 @@ ResourceDeposits.getEmptyResources = function() {
 ResourceDeposits.getClosestEmptyResource = function(creep) {
 	var resources = this.getEmptyResources();
 	var resource = false;
-	if(resources) {
+	if(resources.length != 0) {
 		resource = creep.pos.findClosest(resources);
 	} else {
 		resource = this.getSpawnResource();
