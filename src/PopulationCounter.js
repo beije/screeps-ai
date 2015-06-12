@@ -12,7 +12,7 @@ var Cached = {
 
 function PopulationCounter() {
 	this.population = 0;
-	this.populationLevelMultiplier = 5;
+	this.populationLevelMultiplier = 8;
 	this.typeDistribution = {
 		harvester: {
 			total: 0,
