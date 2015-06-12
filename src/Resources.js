@@ -6,8 +6,14 @@ function Resources(room, population) {
 
 Resources.prototype.getAvailableResource = function() {
 	// Some kind of unit counter per resource (with Population)
+	var srcs = this.getSources();
+	var srcIndex = Math.floor(Math.random(srcs.length));
+	
+	return srcs[srcIndex];
 };
-
+Resources.prototype.getResourceById = function(id) {
+	return Game.getObjectById(id);
+};
 Resources.prototype.getSources = function(room) {
 	return Cache.remember(
 		'resources-sources',

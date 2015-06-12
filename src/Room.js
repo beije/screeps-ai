@@ -12,7 +12,7 @@ function Room(room) {
 	this.depositManager = new Deposits(this.room);
 	this.resourceManager = new Resources(this.room, this.population);
 	
-	this.creepFactory = new CreepFactory(this.depositsManager);
+	this.creepFactory = new CreepFactory(this.depositsManager, this.resourceManager);
 }
 
 Room.prototype.loadCreeps = function() {

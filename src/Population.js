@@ -28,7 +28,7 @@ function Population(room) {
 	this.creeps = this.room.find(FIND_MY_CREEPS);
 	
 	for(var i = 0; i < this.creeps.length; i++) {
-		var creepType = creep.memory.role;
+		var creepType = this.creeps[i].memory.role;
 		if(!this.typeDistribution[creepType]) {
 			this.typeDistribution[creepType] = createTypeDistribution(creepType);
 		}

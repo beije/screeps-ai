@@ -9,10 +9,52 @@ var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
 };
- 
-var RandomMovement = require('CreepRandomMovement');
-var ResourceDeposits = require('ResourceDeposits');
 
+function CreepMiner(creep, depositManager, resourceManager) {
+	this.creep = creep;
+	this.depositManager = depositManager;
+	this.resourceManager = resourceManager;
+	this.resource = false;
+	
+	if(!this.remember('source')) {
+		var src = resourceManager.getAvailableResource();
+		this.remember('source', src.id);
+	} else {
+		this.resource = resourceManager.getResourceById(this.remember('source'));
+	}
+	
+	this.remember('role', 'CreepMiner');
+	
+	this.act();
+};
+
+CreepMiner.prototype.act = function() {
+	if(this.creep.energy == 0) {
+		// Fetch more energy
+		this.creep.moveTo(this.resource);
+		this.creep.harvest(this.resource);
+		this.remember('last-action', ACTIONS.HARVEST);
+		this.remember('closest-deposit', 0);
+	} else {
+		var deposit = false;
+		
+		// Deposit energy
+		if(!this.remember('closest-deposit')) {
+			deposit = this.depositManager.getClosestEmptyDeposit(creep);
+			this.remember('closest-deposit', deposit.id);
+		}
+		if(!deposit) {
+			deposit = this.depositManager.getEmptyDepositOnId(this.remember('closest-deposit'));
+		}
+		this.creep.moveTo(deposit);
+		this.creep.transferEnergy(deposit);
+		this.remember('last-action', ACTIONS.DEPOSIT);
+	}
+};
+
+ 
+module.exports = CreepMiner;
+/*
 module.exports = function (creep) {
 	setupHarvester(creep);
 	var res = false;
@@ -53,12 +95,6 @@ module.exports = function (creep) {
 		return;
 	}
 	
-	/*if(creep.ticksToLive < 300 && creep.energy != 0) {
-		//var res = ResourceDeposits.getEmptyResource();
-		//creep.moveTo(res);
-		creep.transferEnergy(res);
-		return;
-	}*/
 	var continueDeposit = false;
 	if(creep.energy != 0 && res && creep.memory.lastAction == ACTIONS.DEPOSIT) {
 		continueDeposit = true;
@@ -82,4 +118,4 @@ function setupHarvester(creep) {
 	if(!creep.memory.depositId) {
 		creep.memory.depositId = false;
 	}
-};
+};*/
