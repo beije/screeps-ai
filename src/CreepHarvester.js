@@ -78,7 +78,7 @@ module.exports = function (creep) {
 		return;
 	}*/
 	var continueDeposit = false;
-	if(creep.energy != 0 && creep.memory.lastEnergy > creep.energy && res && creep.memory.lastAction == ACTIONS.DEPOSIT) {
+	if(creep.energy != 0 && res && creep.memory.lastAction == ACTIONS.DEPOSIT) {
 		continueDeposit = true;
 	}
 
