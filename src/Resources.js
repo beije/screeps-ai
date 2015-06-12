@@ -84,6 +84,12 @@ Resources.getEmptyResources = function() {
 	return Cached.emptyResources;
 };
 
+Resources.getClosestEmptyResource = function(creep) {
+	var resources = this.getEmptyResources();
+	return creep.pos.findClosest(resources);
+	
+};
+
 
 Resources.getEmptyResource = function(capacity) {
 	var resources = this.getAllContainers();

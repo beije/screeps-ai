@@ -8,7 +8,9 @@
 var Resources = require('Resources');
 module.exports = function (creep) {
 	setupHarvester(creep);
-	var res = Resources.getEmptyResource(creep.energyCapacity);
+	var res = Resources.getClosestEmptyResource(creep);
+	//console.log(closestRes);
+	//var res = Resources.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
 	var lastPos = creep.memory.lastPos;
 	var currPos = creep.pos;
@@ -20,7 +22,7 @@ module.exports = function (creep) {
 	if(creep.memory.lastEnergy != creep.energy) {
 		creep.memory.moveAttempts = 0;    
 	}
-	if(res.pos) {
+	if(res && res.pos && res.pos.findClosest) {
 	    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
 	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
 	        if(creepsNear.length){
