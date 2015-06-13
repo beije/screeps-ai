@@ -10,6 +10,10 @@ CreepBase.remember = function(key, value) {
 	return value;
 }
 
+CreepBase.forget = function(key) {
+	delete this.creep.memory[key];
+}
+
 CreepBase.randomMovement = function() {
 	if(!this.remember('temp-pos')) {
 		this.remember('temp-pos', {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)});
