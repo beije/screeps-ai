@@ -52,8 +52,8 @@ Room.prototype.loadCreeps = function() {
 	}
 
 	this.distributeResources('CreepMiner');
+	this.distributeResources('CreepCarrier');
 	this.distributeCarriers();
-	//this.distributeResources('CreepCarrier');
 };
 
 Room.prototype.distributeCarriers = function() {
