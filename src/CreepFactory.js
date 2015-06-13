@@ -177,7 +177,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 		}
 	);
 	if(canBuild !== 0) {
-		//console.log('Can not build creep: ' + type);
+		console.log('Can not build creep: ' + creepType + ' @ ' + level);
 		return;
 	}
 
