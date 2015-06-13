@@ -21,15 +21,12 @@ CreepFactory.prototype.load = function(creep) {
 	}
 
 	switch(role) {
-		case 'builder':
 		case 'CreepBuilder':
 			loadedCreep = new CreepBuilder(creep, this.depositManager, this.constructionsManager);
 		break;
-		case 'harvester':
 		case 'CreepMiner':
 			loadedCreep = new CreepMiner(creep, this.depositManager, this.resourceManager);
 		break;
-		case 'guard':
 		case 'CreepSoldier':
 			loadedCreep = new CreepSoldier(creep);
 		break;
