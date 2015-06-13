@@ -5,10 +5,44 @@
  * You can import it from another modules like this:
  * var mod = require('Builder'); // -> 'a thing'
  */
-var RandomMovement = require('CreepRandomMovement');
-var PopulationCounter = require('PopulationCounter');
-var harvester = require('CreepHarvester');
-var ResourceDeposits = require('ResourceDeposits');
+var CreepBuilder = function(creep, depositManager, constructionManager) {
+	this.creep = creep;
+	this.depositManager = depositManager;
+	this.constructionManager = constructionManager;
+};
+
+CreepBuilder.prototype.init = function() {
+	this.remember('role', 'CreepBuilder');
+
+	if(this.randomMovement() == false) {
+		this.act();
+	}
+};
+
+CreepBuilder.prototype.act = function() {
+
+	if(this.creep.energy == 0) {
+		var deposit = this.depositManager.getSpawnDeposit();
+
+		this.creep.moveTo(deposit);
+		deposit.transferEnergy(this.creep);
+	} else {
+		var site = this.constructionManager.getClosestConstructionSite(this.creep);
+		if(site) {
+			this.creep.moveTo(site);
+			var result = this.creep.build(site);
+		} else {
+			var controller = this.constructionManager.getController();
+
+			this.creep.moveTo(controller);
+			this.creep.upgradeController(controller);
+		}
+	}
+};
+
+module.exports = CreepBuilder;
+
+/*
 
 module.exports = function (creep) {
 	if(PopulationCounter.goalsMet() == false && ((ResourceDeposits.energy() / ResourceDeposits.energyCapacity()) == 0)) {
@@ -17,13 +51,13 @@ module.exports = function (creep) {
 
  		return;
 	}
-	
+
 	creep.memory.actingAs = null;
-	
+
 	if(RandomMovement(creep) == true) {
 		return;
 	}
-	
+
 	if(creep.energy == 0) {
 		var res = ResourceDeposits.getSpawnResource();
 		if(res && res.energy != 0){
@@ -63,3 +97,4 @@ function setupBuilder(creep) {
 		creep.memory.actingAs = null;
 	}
 }
+*/

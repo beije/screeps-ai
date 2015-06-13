@@ -9,10 +9,59 @@ var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
 };
- 
-var RandomMovement = require('CreepRandomMovement');
-var ResourceDeposits = require('ResourceDeposits');
 
+function CreepMiner(creep, depositManager, resourceManager) {
+	this.creep = creep;
+	this.depositManager = depositManager;
+	this.resourceManager = resourceManager;
+	this.resource = false;
+};
+
+CreepMiner.prototype.init = function() {
+	this.remember('role', 'CreepMiner');
+
+	if(!this.remember('source')) {
+		var src = this.resourceManager.getAvailableResource();
+		this.remember('source', src.id);
+	} else {
+		this.resource = this.resourceManager.getResourceById(this.remember('source'));
+	}
+
+	if(this.randomMovement() == false) {
+		this.act();
+	}
+};
+
+CreepMiner.prototype.act = function() {
+	if(this.creep.energy == 0 || (this.remember('last-action') == ACTIONS.HARVEST && this.creep.energy < this.creep.energyCapacity)) {
+		// Fetch more energy
+		this.creep.moveTo(this.resource);
+		this.creep.harvest(this.resource);
+		this.remember('last-action', ACTIONS.HARVEST);
+		this.remember('closest-deposit', 0);
+	} else {
+		var deposit = false;
+
+		// Deposit energy
+		if(!this.remember('closest-deposit')) {
+			deposit = this.depositManager.getClosestEmptyDeposit(this.creep);
+			this.remember('closest-deposit', deposit.id);
+		}
+		if(!deposit) {
+			deposit = this.depositManager.getEmptyDepositOnId(this.remember('closest-deposit'));
+		}
+		if(!deposit) {
+			deposit = this.depositManager.getSpawnDeposit();
+		}
+		this.creep.moveTo(deposit);
+		this.creep.transferEnergy(deposit);
+		this.remember('last-action', ACTIONS.DEPOSIT);
+	}
+};
+
+
+module.exports = CreepMiner;
+/*
 module.exports = function (creep) {
 	setupHarvester(creep);
 	var res = false;
@@ -27,11 +76,11 @@ module.exports = function (creep) {
 	}
 	//var res = ResourceDeposits.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
-	
+
 	if(creep.memory.selectedSource == undefined) {
 		creep.memory.selectedSource = Math.floor(Math.random()*sources.length);
 	}
-	
+
 	if(res && res.pos && res.pos.findClosest) {
 	    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
 	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
@@ -48,17 +97,11 @@ module.exports = function (creep) {
 	        }
 	    }
     }
-	
+
 	if(RandomMovement(creep) == true) {
 		return;
 	}
-	
-	/*if(creep.ticksToLive < 300 && creep.energy != 0) {
-		//var res = ResourceDeposits.getEmptyResource();
-		//creep.moveTo(res);
-		creep.transferEnergy(res);
-		return;
-	}*/
+
 	var continueDeposit = false;
 	if(creep.energy != 0 && res && creep.memory.lastAction == ACTIONS.DEPOSIT) {
 		continueDeposit = true;
@@ -71,7 +114,7 @@ module.exports = function (creep) {
 	} else {
 		creep.moveTo(res);
 		creep.transferEnergy(res);
-		creep.memory.lastAction = ACTIONS.DEPOSIT;		
+		creep.memory.lastAction = ACTIONS.DEPOSIT;
 	}
 };
 
@@ -82,4 +125,4 @@ function setupHarvester(creep) {
 	if(!creep.memory.depositId) {
 		creep.memory.depositId = false;
 	}
-};
+};*/
