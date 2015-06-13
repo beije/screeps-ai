@@ -6,9 +6,10 @@ var CreepMiner = require('CreepMiner');
 var CreepSoldier = require('CreepSoldier');
 var CreepHealer = require('CreepHealer');
 
-function CreepFactory(depositManager, resourceManager) {
+function CreepFactory(depositManager, resourceManager, constructionsManager) {
 	this.depositManager = depositManager;
 	this.resourceManager = resourceManager
+	this.constructionsManager = constructionsManager
 };
 
 CreepFactory.prototype.load = function(creep) {
@@ -17,10 +18,10 @@ CreepFactory.prototype.load = function(creep) {
 		// Create new one.
 		return;
 	}
-	
+
 	switch(creep.memory.role) {
 		case 'builder':
-			loadedCreep = new CreepBuilder(creep, this.depositManager);
+			loadedCreep = new CreepBuilder(creep, this.depositManager, this.constructionsManager);
 		break;
 		case 'miner':
 			loadedCreep = new CreepMiner(creep, this.depositManager, this.resourceManager);
@@ -32,9 +33,9 @@ CreepFactory.prototype.load = function(creep) {
 			loadedCreep = new CreepHealer(creep, this.depositManager);
 		break;
 	}
-	
+
 	HelperFunctions.extend(loadedCreep, CreepBase);
-	
+
 	return loadedCreep;
 };
 
