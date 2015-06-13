@@ -6,6 +6,7 @@ var CreepMiner = require('CreepMiner');
 var CreepSoldier = require('CreepSoldier');
 var CreepHealer = require('CreepHealer');
 var CreepScout = require('CreepScout');
+var CreepCarrier = require('CreepCarrier');
 
 function CreepFactory(depositManager, resourceManager, constructionsManager, population, roomHandler) {
 	this.depositManager = depositManager;
@@ -24,16 +25,19 @@ CreepFactory.prototype.load = function(creep) {
 
 	switch(role) {
 		case 'CreepBuilder':
-			loadedCreep = new CreepBuilder(creep, this.depositManager, this.resourceManager, this.constructionsManager);
+			loadedCreep = new CreepBuilder(creep, this.depositManager, this.constructionsManager);
 		break;
 		case 'CreepMiner':
-			loadedCreep = new CreepMiner(creep, this.depositManager, this.resourceManager);
+			loadedCreep = new CreepMiner(creep, this.resourceManager);
 		break;
 		case 'CreepSoldier':
 			loadedCreep = new CreepSoldier(creep);
 		break;
 		case 'CreepHealer':
 			loadedCreep = new CreepHealer(creep, this.depositManager);
+		break;
+		case 'CreepCarrier':
+			loadedCreep = new CreepCarrier(creep, this.depositManager, this.resourceManager, this.constructionsManager);
 		break;
 	}
 
@@ -65,34 +69,66 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 	switch(creepType) {
 		case 'CreepMiner':
 			if(level <= 1) {
-				abilities = [WORK, CARRY, MOVE];
+				abilities = [WORK, WORK, MOVE];
 			} else
 			if(level <= 2) {
-				abilities = [WORK, CARRY, CARRY, MOVE];
+				abilities = [WORK, WORK, CARRY, MOVE];
 			} else
 			if(level <= 3) {
-				abilities = [WORK, CARRY, CARRY, MOVE, MOVE];
+				abilities = [WORK, WORK, CARRY, MOVE];
 			} else
 			if(level <= 4) {
-				abilities = [WORK, WORK, CARRY, CARRY, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, CARRY, MOVE];
 			} else
 			if(level <= 5) {
-				abilities = [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE];
 			} else
 			if(level <= 6) {
-				abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
 			} else
 			if(level <= 7) {
-				abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, WORK, WORK, MOVE];
 			} else
 			if(level <= 8) {
-				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE];
 			} else
 			if(level <= 9) {
-				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE];
 			} else
 			if(level >= 10) {
-				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE];
+			}
+		break;
+		case 'CreepCarrier':
+			if(level <= 1) {
+				abilities = [CARRY, MOVE];
+			} else
+			if(level <= 2) {
+				abilities = [CARRY, CARRY, MOVE];
+			} else
+			if(level <= 3) {
+				abilities = [CARRY, CARRY, MOVE, MOVE];
+			} else
+			if(level <= 4) {
+				abilities = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 5) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 6) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 7) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 8) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 9) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+			} else
+			if(level >= 10) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,  CARRY, MOVE, MOVE, MOVE, MOVE];
 			}
 		break;
 		case 'CreepBuilder':
