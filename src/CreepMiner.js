@@ -35,12 +35,27 @@ CreepMiner.prototype.act = function() {
 };
 
 CreepMiner.prototype.harvestEnergy = function() {
+	this.giveEnergy();
 	if(this.creep.energy == this.creep.energyCapacity) {
 		return;
 	}
-
 	this.creep.moveTo(this.resource);
 	this.creep.harvest(this.resource);
+}
+
+CreepMiner.prototype.giveEnergy = function() {
+	var creepsNear = this.creep.pos.findInRange(FIND_MY_CREEPS, 1);
+	if(creepsNear.length){
+		for(var n in creepsNear){
+			if(creepsNear[n].memory.role === 'CreepMiner'){
+
+				if(creepsNear[n].memory.lastEnergy == creepsNear[n].energy && creepsNear[n].energy < creepsNear[n].energyCapacity) {
+					console.log('give energy');
+					this.creep.transferEnergy(creepsNear[n]);
+				}
+			}
+		}
+	}
 }
 
 module.exports = CreepMiner;

@@ -53,7 +53,7 @@ CreepFactory.prototype.load = function(creep) {
 
 CreepFactory.prototype.new = function(creepType, spawn) {
 	var abilities = [];
-	var id = Math.floor(Math.random()*100000);
+	var id = new Date().getTime();
 	var creepLevel = Math.floor(this.population.getTotalPopulation() / this.population.populationLevelMultiplier);
 	var resourceLevel = Math.floor(this.depositManager.getFullDeposits().length / 5);
 	var level = creepLevel + resourceLevel;
@@ -177,7 +177,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 		}
 	);
 	if(canBuild !== 0) {
-		//console.log('Can not build creep: ' + type);
+		console.log('Can not build creep: ' + creepType + ' @ ' + level);
 		return;
 	}
 

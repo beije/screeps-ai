@@ -14,7 +14,7 @@ function Room(room, roomHandler) {
 	this.depositManager = new Deposits(this.room);
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
-	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites+1)*2;
+	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites.length+1)*2;
 	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length+1)*2;
 	this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepBuilder.max+this.population.typeDistribution.CreepMiner.max;
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
@@ -32,7 +32,7 @@ Room.prototype.populate = function() {
 			for(var i = 0; i < types.length; i++) {
 				var type = this.population.getType(types[i]);
 
-				if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0) {
+				if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0 || type.total < type.max*0.75) {
 					this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
 					break;
 				}
@@ -62,8 +62,8 @@ Room.prototype.distributeCarriers = function() {
 	var carriers = [];
 	for(var i = 0; i < this.creeps.length; i++) {
 		var creep = this.creeps[i];
-		if(creep.remember('role') != 'CreepBuilder') {
-			builders.push(creep);
+		if(creep.remember('role') == 'CreepBuilder') {
+			builders.push(creep.creep);
 		}
 		if(creep.remember('role') != 'CreepCarrier') {
 			continue;
@@ -82,9 +82,10 @@ Room.prototype.distributeCarriers = function() {
 	counter = 0;
 	for(var i = 0; i < carriers.length; i++) {
 		var creep = carriers[i];
-		if(creep.remember('role') != 'CreepBuilder') {
+		if(creep.remember('role') != 'CreepCarrier') {
 			continue;
 		}
+
 		creep.remember('target-worker', builders[counter].id);
 		counter++;
 		if(counter >= builders.length) {

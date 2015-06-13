@@ -26,10 +26,23 @@ CreepBuilder.prototype.act = function() {
 		var result = this.creep.build(site);
 	} else {
 		var controller = this.constructionManager.getController();
-
+		this.giveEnergy();
 		this.creep.moveTo(controller);
 		this.creep.upgradeController(controller);
 	}
 };
+
+CreepBuilder.prototype.giveEnergy = function() {
+	var creepsNear = this.creep.pos.findInRange(FIND_MY_CREEPS, 1);
+	if(creepsNear.length){
+		for(var n in creepsNear){
+			if(creepsNear[n].memory.role === 'CreepBuilder'){
+				if(creepsNear[n].memory.lastEnergy > creepsNear[n].energy) {
+					this.creep.transferEnergy(creepsNear[n]);
+				}
+			}
+		}
+	}
+}
 
 module.exports = CreepBuilder;
