@@ -1,7 +1,7 @@
 var CreepBase = {};
 
 CreepBase.remember = function(key, value) {
-	if(!value) {
+	if(value === undefined) {
 		return this.creep.memory[key];
 	}
 
@@ -52,7 +52,7 @@ CreepBase.randomMovement = function() {
 	if(moveCounter) {
 		moveCounter--;
 		this.remember('move-counter', moveCounter);
-		creep.moveTo(tempPos.x, tempPos.y);
+		this.creep.moveTo(tempPos.x, tempPos.y);
 		return true;
 	}
 

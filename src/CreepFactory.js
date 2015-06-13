@@ -8,30 +8,42 @@ var CreepHealer = require('CreepHealer');
 
 function CreepFactory(depositManager, resourceManager, constructionsManager, population) {
 	this.depositManager = depositManager;
-	this.resourceManager = resourceManager
-	this.population = population
-	this.constructionsManager = constructionsManager
+	this.resourceManager = resourceManager;
+	this.population = population;
+	this.constructionsManager = constructionsManager;
 };
 
 CreepFactory.prototype.load = function(creep) {
 	var loadedCreep = null;
+	var role = creep.memory.role;
+	if(!role) {
+		role = creep.name.split('-')[0];
+	}
 
-	switch(creep.memory.role) {
+	switch(role) {
 		case 'builder':
+		case 'CreepBuilder':
 			loadedCreep = new CreepBuilder(creep, this.depositManager, this.constructionsManager);
 		break;
-		case 'miner':
+		case 'harvester':
+		case 'CreepMiner':
 			loadedCreep = new CreepMiner(creep, this.depositManager, this.resourceManager);
 		break;
-		case 'soldier':
+		case 'guard':
+		case 'CreepSoldier':
 			loadedCreep = new CreepSoldier(creep);
 		break;
-		case 'healer':
+		case 'CreepHealer':
 			loadedCreep = new CreepHealer(creep, this.depositManager);
 		break;
 	}
 
+	if(!loadedCreep) {
+		return;
+	}
+
 	HelperFunctions.extend(loadedCreep, CreepBase);
+	loadedCreep.init();
 
 	return loadedCreep;
 };
@@ -39,8 +51,8 @@ CreepFactory.prototype.load = function(creep) {
 CreepFactory.prototype.new = function(creepType, spawn) {
 	var abilities = [];
 	var id = Math.floor(Math.random()*100000);
-	var creepLevel = Math.floor(this.population.totalPopulation() / this.population.populationLevelMultiplier);
-	var resourceLevel = Math.floor(this.depositManager.getFullResources().length / 5);
+	var creepLevel = Math.floor(this.population.getTotalPopulation() / this.population.populationLevelMultiplier);
+	var resourceLevel = Math.floor(this.depositManager.getFullDeposits().length / 5);
 	var level = creepLevel + resourceLevel;
 
 	// TOUGH          10
@@ -153,7 +165,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 
 	var canBuild = spawn.canCreateCreep(
 		abilities,
-		type + '-' + id,
+		creepType + '-' + id,
 		{
 			role: creepType
 		}
@@ -163,14 +175,8 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 		return;
 	}
 
-	console.log('Spawn level ' + level + ' ' + type);
-	spawn.createCreep(
-		abilities,
-		type + '-' + id,
-		{
-			role: creepType
-		}
-	);
+	console.log('Spawn level ' + level + ' ' + creepType);
+	spawn.createCreep(abilities, creepType + '-' + id, {role: creepType});
 };
 
 module.exports = CreepFactory;

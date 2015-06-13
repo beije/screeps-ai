@@ -7,7 +7,11 @@ var positions = [
 
 function CreepSoldier(creep) {
     this.creep = creep;
+};
+
+CreepSoldier.prototype.init = function() {
     this.remember('role', 'CreepSoldier');
+    this.act();
 };
 
 CreepSoldier.prototype.act = function() {
@@ -31,8 +35,8 @@ CreepSoldier.prototype.act = function() {
         var objective = this.remember('current-objective');
         var moveAttempts = this.remember('move-attempts');
         if(lastPosition.x == this.creep.pos.x && lastPosition.y == this.creep.pos.y) {
-            movementAttempts++;
-            this.remember('move-attempts', movementAttempts);
+            moveAttempts++;
+            this.remember('move-attempts', moveAttempts);
         }
         if(moveAttempts == 5) {
             objective++;
@@ -42,7 +46,7 @@ CreepSoldier.prototype.act = function() {
 
             this.remember('move-attempts', 0);
             this.remember('last-position', {x:0, y:0});
-            this.remember('last-position', objective);
+            this.remember('current-objective', objective);
 
         } else {
             this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});

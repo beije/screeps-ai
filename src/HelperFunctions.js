@@ -4,12 +4,22 @@ HelperFunctions.extend = function(target, source) {
 		if(!source.hasOwnProperty(n)) {
 			continue;
 		}
-		if(target.hasOwnPropert(n)) {
+		if(target.hasOwnProperty(n)) {
 			continue;
 		}
-		
+
 		target[n] = source[n];
 	}
-}
+};
 
+HelperFunctions.garbageCollection = function() {
+	var counter = 0;
+	for(var n in Memory.creeps) {
+		var c = Game.creeps[n];
+		if(!c) {
+			delete Memory.creeps[n];
+			counter++;
+		}
+	}
+}
 module.exports = HelperFunctions;

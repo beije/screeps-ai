@@ -14,7 +14,7 @@ function Room(room) {
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
 
-	this.creepFactory = new CreepFactory(this.depositsManager, this.resourceManager, this.constructionManager, this.population);
+	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population);
 }
 
 Room.prototype.populate = function() {
@@ -24,13 +24,14 @@ Room.prototype.populate = function() {
 			continue;
 		}
 
-		if((this.resourceManager.energy() / this.resourceManager.energyCapacity()) > 0.2) {
+		if((this.depositManager.energy() / this.depositManager.energyCapacity()) > 0.2) {
 			var types = this.population.getTypes()
 			for(var i = 0; i < types.length; i++) {
 				var type = this.population.getType(types[i]);
 
 				if((type.goalPercentage > type.currentPercentage && type.total < type.max)) {
-					this.creepFactory.new(types[i]);
+					this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
+					break;
 				}
 			}
 		}

@@ -21,4 +21,4 @@ Constructions.prototype.getClosestConstructionSite = function(creep) {
     return site;
 };
 
-module.exports = Construction;
+module.exports = Constructions;
