@@ -17,9 +17,6 @@ function Room(room, roomHandler) {
 	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites+1)*2;
 	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length+1)*2;
 	this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepBuilder.max+this.population.typeDistribution.CreepMiner.max;
-	console.log('carrier: ' + this.population.typeDistribution.CreepCarrier.max);
-	console.log('CreepMiner: ' + this.population.typeDistribution.CreepMiner.max);
-	console.log('CreepBuilder: ' + this.population.typeDistribution.CreepBuilder.max);
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
 }
 
@@ -35,7 +32,7 @@ Room.prototype.populate = function() {
 			for(var i = 0; i < types.length; i++) {
 				var type = this.population.getType(types[i]);
 
-				if((type.goalPercentage > type.currentPercentage && type.total < type.max)) {
+				if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0) {
 					this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
 					break;
 				}
