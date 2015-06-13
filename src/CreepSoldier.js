@@ -27,8 +27,13 @@ CreepSoldier.prototype.act = function() {
     }
 
     if(targets.length) {
-        creep.moveTo(targets[0]);
-        creep.attack(targets[0]);
+        var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+        if(rangedTargets.length > 0) {
+            this.creep.rangedAttack(rangedTargets[0]);
+        }
+
+        this.creep.moveTo(targets[0]);
+        this.creep.attack(targets[0]);
     } else {
         //var exits = Room.find(FIND_EXIT);
         var lastPosition = this.remember('last-position');
