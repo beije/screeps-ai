@@ -114,7 +114,7 @@ Deposits.prototype.energyCapacity = function() {
 };
 
 Deposits.prototype.getFullDeposits = function() {
-	return Cache.remember(
+	return this.cache.remember(
 		'deposits-full',
 		function() {
 			var full = [];
