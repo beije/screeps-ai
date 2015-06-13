@@ -5,6 +5,7 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
+var Cache = require('Cache');
 var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
@@ -33,31 +34,62 @@ CreepMiner.prototype.init = function() {
 };
 
 CreepMiner.prototype.act = function() {
+	if(this.creep.energy < this.creep.energyCapacity && this.remember('last-energy') == this.creep.energy){
+		this.tryToSteal();
+	}
+
 	if(this.creep.energy == 0 || (this.remember('last-action') == ACTIONS.HARVEST && this.creep.energy < this.creep.energyCapacity)) {
 		// Fetch more energy
 		this.creep.moveTo(this.resource);
 		this.creep.harvest(this.resource);
 		this.remember('last-action', ACTIONS.HARVEST);
-		this.remember('closest-deposit', 0);
+		this.forget('closest-deposit');
 	} else {
-		var deposit = false;
-
-		// Deposit energy
-		if(!this.remember('closest-deposit')) {
-			deposit = this.depositManager.getClosestEmptyDeposit(this.creep);
-			this.remember('closest-deposit', deposit.id);
-		}
-		if(!deposit) {
-			deposit = this.depositManager.getEmptyDepositOnId(this.remember('closest-deposit'));
-		}
-		if(!deposit) {
-			deposit = this.depositManager.getSpawnDeposit();
-		}
+		var deposit = this.getDeposit();
 		this.creep.moveTo(deposit);
 		this.creep.transferEnergy(deposit);
 		this.remember('last-action', ACTIONS.DEPOSIT);
 	}
 };
+CreepMiner.prototype.getDeposit = function() {
+	return Cache.remember(
+		'selected-deposit',
+		function() {
+			var deposit = false;
+
+			// Deposit energy
+			if(!this.remember('closest-deposit')) {
+				deposit = this.depositManager.getClosestEmptyDeposit(this.creep);
+				this.remember('closest-deposit', deposit.id);
+			}
+			if(!deposit) {
+				deposit = this.depositManager.getEmptyDepositOnId(this.remember('closest-deposit'));
+			}
+			if(!deposit) {
+				deposit = this.depositManager.getSpawnDeposit();
+			}
+
+			return deposit;
+		}.bind(this)
+	)
+}
+CreepMiner.prototype.tryToSteal = function() {
+	var deposit = this.getDeposit();
+	if(deposit && deposit.pos && deposit.pos.findClosest) {
+		var creepsNear = this.creep.pos.findInRange(FIND_MY_CREEPS, 1);
+		if(creepsNear.length){
+			for(var n in creepsNear){
+				if((creepsNear[n].memory.role === this.remember('role')) && creepsNear[n].energy === creepsNear[n].energyCapacity){
+					var closest = deposit.pos.findClosest([this.creep, creepsNear[n]]);
+					if(closest === this.creep){
+						creepsNear[n].transferEnergy(this.creep);
+						break;
+					}
+				}
+			}
+		}
+	}
+}
 
 
 module.exports = CreepMiner;
