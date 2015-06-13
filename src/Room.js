@@ -63,6 +63,11 @@ Room.prototype.distributeResources = function() {
 		if(creep.remember('role') != 'CreepMiner') {
 			continue;
 		}
+		
+		if(!sources[source]) {
+			continue;
+		}
+
 		creep.remember('source', sources[source].id);
 		counter++;
 		if(counter >= perSource) {
