@@ -26,7 +26,7 @@ function Population(room) {
 	};
 
 	this.creeps = this.room.find(FIND_MY_CREEPS);
-
+	
 	for(var i = 0; i < this.creeps.length; i++) {
 		var creepType = this.creeps[i].memory.role;
 		if(!this.typeDistribution[creepType]) {
@@ -92,7 +92,7 @@ Population.prototype.getNextExpectedDeath = function() {
 					ttl = creep.ticksToLive;
 				}
 			}
-		}
+		}.bind(this)
 	);
 };
 
