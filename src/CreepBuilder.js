@@ -14,9 +14,9 @@ var CreepBuilder = function(creep, depositManager, constructionManager) {
 CreepBuilder.prototype.init = function() {
 	this.remember('role', 'CreepBuilder');
 
-	if(this.randomMovement() == false) {
+	//if(this.randomMovement() == false) {
 		this.act();
-	}
+	//}
 };
 
 CreepBuilder.prototype.act = function() {

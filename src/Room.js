@@ -14,7 +14,12 @@ function Room(room, roomHandler) {
 	this.depositManager = new Deposits(this.room);
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
-
+	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites+1)*2;
+	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length+1)*2;
+	this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepBuilder.max+this.population.typeDistribution.CreepMiner.max;
+	console.log('carrier: ' + this.population.typeDistribution.CreepCarrier.max);
+	console.log('CreepMiner: ' + this.population.typeDistribution.CreepMiner.max);
+	console.log('CreepBuilder: ' + this.population.typeDistribution.CreepBuilder.max);
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
 }
 
@@ -56,19 +61,38 @@ Room.prototype.loadCreeps = function() {
 
 Room.prototype.distributeCarriers = function() {
 	var counter = 0;
+	var builders = [];
+	var carriers = [];
 	for(var i = 0; i < this.creeps.length; i++) {
 		var creep = this.creeps[i];
+		if(creep.remember('role') != 'CreepBuilder') {
+			builders.push(creep);
+		}
 		if(creep.remember('role') != 'CreepCarrier') {
 			continue;
 		}
-		
+		carriers.push(creep);
 		if(counter%2) {
+			// Construction
 			creep.setDepositFor(1);
 		} else {
+			// Population
 			creep.setDepositFor(2);
 		}
 
 		counter++;
+	}
+	counter = 0;
+	for(var i = 0; i < carriers.length; i++) {
+		var creep = carriers[i];
+		if(creep.remember('role') != 'CreepBuilder') {
+			continue;
+		}
+		creep.remember('target-worker', builders[counter].id);
+		counter++;
+		if(counter >= builders.length) {
+			counter = 0;
+		}
 	}
 };
 
