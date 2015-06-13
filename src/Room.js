@@ -62,8 +62,8 @@ Room.prototype.distributeCarriers = function() {
 	var carriers = [];
 	for(var i = 0; i < this.creeps.length; i++) {
 		var creep = this.creeps[i];
-		if(creep.remember('role') != 'CreepBuilder') {
-			builders.push(creep);
+		if(creep.remember('role') == 'CreepBuilder') {
+			builders.push(creep.creep);
 		}
 		if(creep.remember('role') != 'CreepCarrier') {
 			continue;
@@ -82,9 +82,10 @@ Room.prototype.distributeCarriers = function() {
 	counter = 0;
 	for(var i = 0; i < carriers.length; i++) {
 		var creep = carriers[i];
-		if(creep.remember('role') != 'CreepBuilder') {
+		if(creep.remember('role') != 'CreepCarrier') {
 			continue;
 		}
+		
 		creep.remember('target-worker', builders[counter].id);
 		counter++;
 		if(counter >= builders.length) {

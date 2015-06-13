@@ -68,7 +68,7 @@ CreepCarrier.prototype.depositEnergy = function() {
 	}
 
 	if(this.depositFor == DEPOSIT_FOR.CONSTRUCTION) {
-		var worker = this.remember('target-worker');
+		var worker = this.getWorker();
 		if(!worker) {
 			worker = this.constructionsManager.controller;
 		}
@@ -79,6 +79,13 @@ CreepCarrier.prototype.depositEnergy = function() {
 	this.remember('last-action', ACTIONS.DEPOSIT);
 }
 
+CreepCarrier.prototype.getWorker = function() {
+	if(this.remember('target-worker')) {
+		return Game.getObjectById(this.remember('target-worker'));
+	}
+
+	return false;
+}
 CreepCarrier.prototype.getDeposit = function() {
 	return this.cache.remember(
 		'selected-deposit',
