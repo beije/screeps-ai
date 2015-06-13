@@ -46,6 +46,28 @@ Room.prototype.loadCreeps = function() {
 			this.creepFactory.load(creeps[n])
 		);
 	}
-}
+
+	this.distributeResources();
+};
+
+Room.prototype.distributeResources = function() {
+	var sources = this.resourceManager.getSources();
+	var perSource = Math.ceil(this.population.getType('CreepMiner').total/sources.length);
+	var counter = 0;
+	var source = 0;
+	
+	for(var i = 0; i < this.creeps.length; i++) {
+		var creep = this.creeps[i];
+		if(creep.remember('role') != 'CreepMiner') {
+			continue;
+		}
+		creep.remember('source', sources[source].id);
+		counter++;
+		if(counter >= perSource) {
+			counter = 0;
+			source++;
+		}
+	}
+};
 
 module.exports = Room;
