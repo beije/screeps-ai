@@ -49,7 +49,8 @@ function Population(room) {
 Population.prototype.goalsMet = function() {
 	for(var n in this.typeDistribution) {
 		var type = this.typeDistribution[n];
-		if(type.currentPercentage < (type.goalPercentage - type.goalPercentage/4) || type.total == 0  || type.total < type.max*0.75) {
+		if((type.currentPercentage < (type.goalPercentage - type.goalPercentage/4) && type.total < type.max) || type.total == 0  || type.total < type.max*0.75) {
+			console.log('not enough '+n);
 			return false;
 		}
 	}
