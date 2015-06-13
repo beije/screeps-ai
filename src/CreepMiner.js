@@ -34,23 +34,37 @@ CreepMiner.prototype.init = function() {
 };
 
 CreepMiner.prototype.act = function() {
+	var continueDeposit = false;
+
 	if(this.creep.energy < this.creep.energyCapacity && this.remember('last-energy') == this.creep.energy){
 		this.tryToSteal();
 	}
 
-	if(this.creep.energy == 0 || (this.remember('last-action') == ACTIONS.HARVEST && this.creep.energy < this.creep.energyCapacity)) {
-		// Fetch more energy
-		this.creep.moveTo(this.resource);
-		this.creep.harvest(this.resource);
-		this.remember('last-action', ACTIONS.HARVEST);
-		this.forget('closest-deposit');
+	if(this.creep.energy != 0 && this.remember('last-action') == ACTIONS.DEPOSIT) {
+		continueDeposit = true;
+	}
+
+	if(this.creep.energy < this.creep.energyCapacity && continueDeposit == false) {
+		this.harvestEnergy()
 	} else {
-		var deposit = this.getDeposit();
-		this.creep.moveTo(deposit);
-		this.creep.transferEnergy(deposit);
-		this.remember('last-action', ACTIONS.DEPOSIT);
+		this.depositEnergy();
 	}
 };
+
+CreepMiner.prototype.harvestEnergy = function() {
+	this.creep.moveTo(this.resource);
+	this.creep.harvest(this.resource);
+	this.remember('last-action', ACTIONS.HARVEST);
+	this.forget('closest-deposit');
+}
+
+CreepMiner.prototype.depositEnergy = function() {
+	var deposit = this.getDeposit();
+	this.creep.moveTo(deposit);
+	this.creep.transferEnergy(deposit);
+	this.remember('last-action', ACTIONS.DEPOSIT);
+}
+
 CreepMiner.prototype.getDeposit = function() {
 	return Cache.remember(
 		'selected-deposit',
@@ -58,13 +72,15 @@ CreepMiner.prototype.getDeposit = function() {
 			var deposit = false;
 
 			// Deposit energy
-			if(!this.remember('closest-deposit')) {
+			if(this.remember('closest-deposit')) {
+				deposit = this.depositManager.getEmptyDepositOnId(this.remember('closest-deposit'));
+			}
+
+			if(!deposit) {
 				deposit = this.depositManager.getClosestEmptyDeposit(this.creep);
 				this.remember('closest-deposit', deposit.id);
 			}
-			if(!deposit) {
-				deposit = this.depositManager.getEmptyDepositOnId(this.remember('closest-deposit'));
-			}
+
 			if(!deposit) {
 				deposit = this.depositManager.getSpawnDeposit();
 			}
