@@ -43,11 +43,11 @@ CreepBase.randomMovement = function() {
 		this.remember('move-attempts', moveAttempts)
 	}
 
-	if(lastPos.x == currPos.x && lastPos.y == currPos.y) {
+	if(lastPos.x == currPos.x && lastPos.y == currPos.y && this.creep.fatigue == 0) {
 		moveAttempts++;
-		if(moveAttempts >= 15) {
+		if(moveAttempts >= 5) {
 			moveAttempts = 0;
-			moveCounter = 5;
+			moveCounter = 3;
 		}
 		this.remember('move-attempts', moveAttempts)
 		this.remember('move-counter', moveCounter)
