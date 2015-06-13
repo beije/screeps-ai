@@ -1,3 +1,7 @@
+var CreepScout = require('CreepScout');
+var CreepBase = require('CreepBase');
+var HelperFunctions = require('HelperFunctions');
+
 var ScoutHandler = {
     roomHandler: {}
 };
