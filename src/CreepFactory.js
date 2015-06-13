@@ -24,7 +24,7 @@ CreepFactory.prototype.load = function(creep) {
 
 	switch(role) {
 		case 'CreepBuilder':
-			loadedCreep = new CreepBuilder(creep, this.depositManager, this.constructionsManager);
+			loadedCreep = new CreepBuilder(creep, this.depositManager, this.resourceManager, this.constructionsManager);
 		break;
 		case 'CreepMiner':
 			loadedCreep = new CreepMiner(creep, this.depositManager, this.resourceManager);
