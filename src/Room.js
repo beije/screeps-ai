@@ -32,7 +32,7 @@ Room.prototype.populate = function() {
 			for(var i = 0; i < types.length; i++) {
 				var type = this.population.getType(types[i]);
 
-				if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0) {
+				if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0 || type.total < type.max*0.75) {
 					this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
 					break;
 				}
