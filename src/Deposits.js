@@ -84,6 +84,10 @@ Deposits.prototype.energy = function() {
 				energy += res.energy;
 			}
 
+			for(var i = 0; i < this.spawns.length; i++) {
+				energy += this.spawns[i].energy;
+			}
+
 			return energy;
 		}.bind(this)
 	);
@@ -99,6 +103,11 @@ Deposits.prototype.energyCapacity = function() {
 				var res = resources[i];
 				energyCapacity += res.energyCapacity;
 			}
+
+			for(var i = 0; i < this.spawns.length; i++) {
+				energyCapacity += this.spawns[i].energyCapacity;
+			}
+
 			return energyCapacity;
 		}.bind(this)
 	);
