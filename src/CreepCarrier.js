@@ -39,8 +39,14 @@ CreepCarrier.prototype.init = function() {
 	}
 };
 
+CreepCarrier.prototype.onRandomMovement = function() {
+	this.remember('last-action', ACTIONS.DEPOSIT);
+}
+
 CreepCarrier.prototype.setDepositFor = function(type) {
-	this.remember('depositFor', type);
+	if(this.energy >= this.energyCapacity/2) {
+		this.remember('depositFor', type);
+	}
 }
 
 CreepCarrier.prototype.act = function() {

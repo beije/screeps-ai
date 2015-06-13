@@ -57,6 +57,9 @@ CreepBase.randomMovement = function() {
 		moveCounter--;
 		this.remember('move-counter', moveCounter);
 		this.creep.moveTo(tempPos.x, tempPos.y);
+		if(this.onRandomMovement) {
+			this.onRandomMovement();
+		}
 		return true;
 	}
 
