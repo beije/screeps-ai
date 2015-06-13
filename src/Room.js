@@ -55,7 +55,7 @@ Room.prototype.distributeResources = function() {
 	var perSource = Math.ceil(this.population.getType('CreepMiner').total/sources.length);
 	var counter = 0;
 	var source = 0;
-	
+
 	for(var i = 0; i < this.creeps.length; i++) {
 		var creep = this.creeps[i];
 		if(creep.remember('role') != 'CreepMiner') {
