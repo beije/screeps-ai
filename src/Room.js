@@ -4,8 +4,9 @@ var Population = require('Population');
 var Resources = require('Resources');
 var Constructions = require('Constructions');
 
-function Room(room) {
+function Room(room, roomHandler) {
 	this.room = room;
+	this.roomHandler = roomHandler;
 	this.creeps = [];
 	this.structures = [];
 
@@ -14,7 +15,7 @@ function Room(room) {
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
 
-	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population);
+	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
 }
 
 Room.prototype.populate = function() {
@@ -42,9 +43,10 @@ Room.prototype.populate = function() {
 Room.prototype.loadCreeps = function() {
 	var creeps = this.room.find(FIND_MY_CREEPS);
 	for(var n in creeps) {
-		this.creeps.push(
-			this.creepFactory.load(creeps[n])
-		);
+		var c = this.creepFactory.load(creeps[n]);
+		if(c) {
+			this.creeps.push(c);
+		}
 	}
 
 	this.distributeResources();

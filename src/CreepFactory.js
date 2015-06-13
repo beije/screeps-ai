@@ -5,12 +5,14 @@ var CreepBuilder = require('CreepBuilder');
 var CreepMiner = require('CreepMiner');
 var CreepSoldier = require('CreepSoldier');
 var CreepHealer = require('CreepHealer');
+var CreepScout = require('CreepScout');
 
-function CreepFactory(depositManager, resourceManager, constructionsManager, population) {
+function CreepFactory(depositManager, resourceManager, constructionsManager, population, roomHandler) {
 	this.depositManager = depositManager;
 	this.resourceManager = resourceManager;
 	this.population = population;
 	this.constructionsManager = constructionsManager;
+	this.roomHandler = roomHandler;
 };
 
 CreepFactory.prototype.load = function(creep) {
@@ -36,7 +38,7 @@ CreepFactory.prototype.load = function(creep) {
 	}
 
 	if(!loadedCreep) {
-		return;
+		return false;
 	}
 
 	HelperFunctions.extend(loadedCreep, CreepBase);
@@ -157,6 +159,9 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 			if(level >= 10) {
 				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE];
 			}
+		break;
+		case 'CreepScout':
+			abilities = [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE];
 		break;
 	}
 
