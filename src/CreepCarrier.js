@@ -58,7 +58,7 @@ CreepCarrier.prototype.act = function() {
 
 CreepCarrier.prototype.depositEnergy = function() {
 	if(this.depositManager.energy() == this.depositManager.energyCapacity()) {
-		this.depositFor == DEPOSIT_FOR.CONSTRUCTION;
+		this.depositFor = DEPOSIT_FOR.CONSTRUCTION;
 	}
 
 	if(this.depositFor == DEPOSIT_FOR.POPULATION) {
