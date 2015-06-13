@@ -1,9 +1,9 @@
-var Cache = require('Cache');
 var CONSTS = {
 	EMPTY_LEVEL: 0.5
 };
 
 function Deposits(room) {
+	this.cache = require('Cache');
 	this.room = room;
 	this.deposits = this.room.find(
 		FIND_MY_STRUCTURES,
@@ -24,7 +24,7 @@ Deposits.prototype.getSpawnDeposit = function() {
 };
 
 Deposits.prototype.getEmptyDeposits = function() {
-	return Cache.remember(
+	return this.cache.remember(
 		'empty-deposits',
 		function() {
 			var empty = [];
@@ -73,7 +73,7 @@ Deposits.prototype.getClosestEmptyDeposit = function(creep) {
 };
 
 Deposits.prototype.energy = function() {
-	return Cache.remember(
+	return this.cache.remember(
 		'deposits-energy',
 		function() {
 			var energy = 0;
@@ -94,7 +94,7 @@ Deposits.prototype.energy = function() {
 };
 
 Deposits.prototype.energyCapacity = function() {
-	return Cache.remember(
+	return this.cache.remember(
 		'deposits-energy-capacity',
 		function() {
 			var energyCapacity = 0;

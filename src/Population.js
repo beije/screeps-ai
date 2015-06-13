@@ -1,6 +1,5 @@
-var Cache = require('Cache');
-
 function Population(room) {
+	this.cache = require('Cache');
 	this.room = room;
 	this.population = 0;
 	this.populationLevelMultiplier = 8;
@@ -75,7 +74,7 @@ Population.prototype.getTotalPopulation = function() {
 };
 
 Population.prototype.getMaxPopulation = function() {
-	return Cache.remember(
+	return this.cache.remember(
 		'max-population',
 		function() {
 			var population = 0;
@@ -88,7 +87,7 @@ Population.prototype.getMaxPopulation = function() {
 };
 
 Population.prototype.getNextExpectedDeath = function() {
-	return Cache.remember(
+	return this.cache.remember(
 		'creep-ttl',
 		function() {
 			var ttl = 100000;

@@ -1,6 +1,5 @@
-var Cache = require('Cache');
-
 function Resources(room, population) {
+	this.cache = require('Cache');
 	this.room = room;
 	this.population = population;
 }
@@ -16,7 +15,7 @@ Resources.prototype.getResourceById = function(id) {
 	return Game.getObjectById(id);
 };
 Resources.prototype.getSources = function(room) {
-	return Cache.remember(
+	return this.cache.remember(
 		'resources-sources',
 		function() {
 			return this.room.find(FIND_SOURCES);

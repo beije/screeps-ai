@@ -1,6 +1,5 @@
-var Cache = require('Cache');
-
 var CreepScout = function(creep, roomHandler) {
+    this.cache = require('Cache');
     this.creep = creep;
     this.roomHandler = roomHandler;
 };
@@ -43,7 +42,7 @@ CreepScout.prototype.findExit = function() {
 }
 
 CreepScout.prototype.findController = function() {
-    return Cache.remember(
+    return this.cache.remember(
         'room-controller',
         function() {
             return this.creep.room.find(
