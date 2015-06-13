@@ -14,7 +14,7 @@ function Room(room, roomHandler) {
 	this.depositManager = new Deposits(this.room);
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
-	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites+1)*2;
+	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites.length+1)*2;
 	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length+1)*2;
 	this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepBuilder.max+this.population.typeDistribution.CreepMiner.max;
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
@@ -85,7 +85,7 @@ Room.prototype.distributeCarriers = function() {
 		if(creep.remember('role') != 'CreepCarrier') {
 			continue;
 		}
-		
+
 		creep.remember('target-worker', builders[counter].id);
 		counter++;
 		if(counter >= builders.length) {
