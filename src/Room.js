@@ -50,7 +50,26 @@ Room.prototype.loadCreeps = function() {
 	}
 
 	this.distributeResources('CreepMiner');
+	this.distributeCarriers();
 	//this.distributeResources('CreepCarrier');
+};
+
+Room.prototype.distributeCarriers = function() {
+	var counter = 0;
+	for(var i = 0; i < this.creeps.length; i++) {
+		var creep = this.creeps[i];
+		if(creep.remember('role') != 'CreepCarrier') {
+			continue;
+		}
+		
+		if(counter%2) {
+			creep.setDepositFor(1);
+		} else {
+			creep.setDepositFor(2);
+		}
+
+		counter++;
+	}
 };
 
 Room.prototype.distributeResources = function(type) {

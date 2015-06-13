@@ -20,23 +20,15 @@ CreepBuilder.prototype.init = function() {
 };
 
 CreepBuilder.prototype.act = function() {
-
-	if(this.creep.energy == 0) {
-		var deposit = this.depositManager.getSpawnDeposit();
-
-		this.creep.moveTo(deposit);
-		deposit.transferEnergy(this.creep);
+	var site = this.constructionManager.getClosestConstructionSite(this.creep);
+	if(site) {
+		this.creep.moveTo(site);
+		var result = this.creep.build(site);
 	} else {
-		var site = this.constructionManager.getClosestConstructionSite(this.creep);
-		if(site) {
-			this.creep.moveTo(site);
-			var result = this.creep.build(site);
-		} else {
-			var controller = this.constructionManager.getController();
+		var controller = this.constructionManager.getController();
 
-			this.creep.moveTo(controller);
-			this.creep.upgradeController(controller);
-		}
+		this.creep.moveTo(controller);
+		this.creep.upgradeController(controller);
 	}
 };
 
