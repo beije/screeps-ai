@@ -49,21 +49,22 @@ Room.prototype.loadCreeps = function() {
 		}
 	}
 
-	this.distributeResources();
+	this.distributeResources('CreepMiner');
+	//this.distributeResources('CreepCarrier');
 };
 
-Room.prototype.distributeResources = function() {
+Room.prototype.distributeResources = function(type) {
 	var sources = this.resourceManager.getSources();
-	var perSource = Math.ceil(this.population.getType('CreepMiner').total/sources.length);
+	var perSource = Math.ceil(this.population.getType(type).total/sources.length);
 	var counter = 0;
 	var source = 0;
 
 	for(var i = 0; i < this.creeps.length; i++) {
 		var creep = this.creeps[i];
-		if(creep.remember('role') != 'CreepMiner') {
+		if(creep.remember('role') != type) {
 			continue;
 		}
-		
+
 		if(!sources[source]) {
 			continue;
 		}

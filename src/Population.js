@@ -7,21 +7,27 @@ function Population(room) {
 	this.typeDistribution = {
 		CreepMiner: {
 			total: 0,
-			goalPercentage: 0.6,
+			goalPercentage: 0.2,
 			currentPercentage: 0,
-			max: 25
+			max: 5
 		},
-		CreepBuilder: {
+		CreepCarrier: {
 			total: 0,
 			goalPercentage: 0.3,
 			currentPercentage: 0,
 			max: 15
 		},
+		CreepBuilder: {
+			total: 0,
+			goalPercentage: 0.25,
+			currentPercentage: 0,
+			max: 15
+		},
 		CreepSoldier: {
 			total: 0,
-			goalPercentage: 0.2,
+			goalPercentage: 0.25,
 			currentPercentage: 0,
-			max: 10
+			max: 15
 		}
 	};
 
@@ -88,7 +94,7 @@ Population.prototype.getNextExpectedDeath = function() {
 			var ttl = 100000;
 			for(var i = 0; i < this.creeps.length; i++) {
 				var creep = this.creeps[i];
-				
+
 				if(creep.ticksToLive < ttl) {
 					ttl = creep.ticksToLive;
 				}
@@ -106,8 +112,8 @@ module.exports = Population;
 function createTypeDistribution(type) {
 	return {
 		total: 0,
-		goalPercentage: 0.6,
+		goalPercentage: 0.1,
 		currentPercentage: 0,
-		max: 25
+		max: 5
 	};
 };
