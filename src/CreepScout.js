@@ -10,18 +10,16 @@ CreepScout.prototype.init = function() {
     if(this.remember('role')) {
         this.remember('roomName', this.creep.room.name);
     }
-    console.log('Scout inited');
+
     this.act();
 };
 
 CreepScout.prototype.act = function() {
     if(this.roomHandler.isOurRoom(this.creep.room.name)) {
-        console.log('Find room.');
         // Find new exit
         var exit = this.findExit()
         this.creep.moveTo(exit.x, exit.y);
     } else {
-        console.log('Conquer.');
         // Find controller, destroy & conquer
         this.conquer();
     }
@@ -31,6 +29,7 @@ CreepScout.prototype.findExit = function() {
     var exitPos = this.remember('exit');
     if(!exitPos) {
         var exit = this.creep.room.find(FIND_EXIT);
+
         if(exit.length != 0) {
             exitPos = {
                 x: exit[0].x,
