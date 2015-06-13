@@ -39,9 +39,10 @@ CreepSoldier.prototype.act = function() {
         var lastPosition = this.remember('last-position');
         var objective = this.remember('current-objective');
         var moveAttempts = this.remember('move-attempts');
-        if(lastPosition.x == this.creep.pos.x && lastPosition.y == this.creep.pos.y) {
-            moveAttempts++;
-            this.remember('move-attempts', moveAttempts);
+        if(lastPosition.x == this.creep.pos.x && lastPosition.y == this.creep.pos.y && this.creep.fatigue == 0) {
+            moveAttempts = this.remember('move-attempts', moveAttempts+1);
+        } else {
+            moveAttempts = this.remember('move-attempts', 0);
         }
         if(moveAttempts == 5) {
             objective++;
@@ -53,10 +54,9 @@ CreepSoldier.prototype.act = function() {
             this.remember('last-position', {x:0, y:0});
             this.remember('current-objective', objective);
 
-        } else {
-            this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});
         }
 
+        this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});
         this.creep.moveTo(positions[objective][0], positions[objective][1]);
     }
 }
