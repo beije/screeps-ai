@@ -7,13 +7,13 @@ function Population(room) {
 	this.typeDistribution = {
 		CreepMiner: {
 			total: 0,
-			goalPercentage: 0.25,
+			goalPercentage: 0.2,
 			currentPercentage: 0,
 			max: 5
 		},
 		CreepCarrier: {
 			total: 0,
-			goalPercentage: 0.25,
+			goalPercentage: 0.3,
 			currentPercentage: 0,
 			max: 15
 		},
