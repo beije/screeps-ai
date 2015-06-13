@@ -14,29 +14,21 @@ var CreepBuilder = function(creep, depositManager, constructionManager) {
 CreepBuilder.prototype.init = function() {
 	this.remember('role', 'CreepBuilder');
 
-	if(this.randomMovement() == false) {
+	//if(this.randomMovement() == false) {
 		this.act();
-	}
+	//}
 };
 
 CreepBuilder.prototype.act = function() {
-
-	if(this.creep.energy == 0) {
-		var deposit = this.depositManager.getSpawnDeposit();
-
-		this.creep.moveTo(deposit);
-		deposit.transferEnergy(this.creep);
+	var site = this.constructionManager.getClosestConstructionSite(this.creep);
+	if(site) {
+		this.creep.moveTo(site);
+		var result = this.creep.build(site);
 	} else {
-		var site = this.constructionManager.getClosestConstructionSite(this.creep);
-		if(site) {
-			this.creep.moveTo(site);
-			var result = this.creep.build(site);
-		} else {
-			var controller = this.constructionManager.getController();
+		var controller = this.constructionManager.getController();
 
-			this.creep.moveTo(controller);
-			this.creep.upgradeController(controller);
-		}
+		this.creep.moveTo(controller);
+		this.creep.upgradeController(controller);
 	}
 };
 
