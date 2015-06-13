@@ -4,59 +4,62 @@ CreepBase.remember = function(key, value) {
 	if(!value) {
 		return this.creep.memory[key];
 	}
-	
+
 	this.creep.memory[key] = value;
-	
+
 	return value;
 }
-/*
-function randomMovement(creep) {
-	if(!creep.memory.tempPos) {
-		creep.memory.tempPos = {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)};
+
+CreepBase.randomMovement = function() {
+	if(!this.remember('temp-pos')) {
+		this.remember('temp-pos', {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)});
 	}
-	if(!creep.memory.lastPos) {
-		creep.memory.lastPos = {x:0, y:0};
+	if(!this.remember('last-pos')) {
+		this.remember('last-pos', {x:0, y:0});
 	}
-	if(!creep.memory.lastEnergy) {
-		creep.memory.lastEnergy = 0;
+	if(!this.remember('last-energy')) {
+		this.remember('last-energy', 0);
 	}
-	if(!creep.memory.moveCounter) {
-		creep.memory.moveCounter = 0;
+	if(!this.remember('move-counter')) {
+		this.remember('move-counter', 0);
 	}
-	if(!creep.memory.moveAttempts) {
-		creep.memory.moveAttempts = 0;
+	if(!this.remember('move-attempts')) {
+		this.remember('move-attempts', 0);
 	}
-	if(!creep.memory.lastEnergy) {
-		creep.memory.lastEnergy = 0;
+
+	var moveCounter = this.remember('move-counter');
+	var moveAttempts = this.remember('move-attempts');
+	var lastEnergy = this.remember('last-energy');
+	var tempPos = this.remember('temp-pos');
+	var lastPos = this.remember('last-pos');
+	var currPos = this.creep.pos;
+
+	if(lastEnergy != this.creep.energy) {
+		moveAttempts = 0;
+		this.remember('move-attempts', moveAttempts)
 	}
-	
-	var lastPos = creep.memory.lastPos;
-	var currPos = creep.pos;
-	
-	if(creep.memory.lastEnergy != creep.energy) {
-		creep.memory.moveAttempts = 0;    
-	}
-	
+
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y) {
-		creep.memory.moveAttempts++;
-		if(creep.memory.moveAttempts >= 15) {
-			creep.memory.moveAttempts = 0;
-			creep.memory.moveCounter = 5;
+		moveAttempts++;
+		if(moveAttempts >= 15) {
+			moveAttempts = 0;
+			moveCounter = 5;
 		}
+		this.remember('move-attempts', moveAttempts)
+		this.remember('move-counter', moveCounter)
 	}
-	
-	if(creep.memory.moveCounter) {
-		creep.memory.moveCounter--;
-		var tempPos = creep.memory.tempPos;
+
+	if(moveCounter) {
+		moveCounter--;
+		this.remember('move-counter', moveCounter);
 		creep.moveTo(tempPos.x, tempPos.y);
 		return true;
 	}
-	
-	creep.memory.lastPos.x = creep.pos.x;
-	creep.memory.lastPos.y = creep.pos.y;
-	creep.memory.lastEnergy = creep.energy;
-	
+
+	this.remember('last-pos', {x:this.creep.pos.x, y:this.creep.pos.y});
+	this.remember('last-energy', this.creep.energy);
+
 	return false;
-}
-*/
+};
+
 module.exports = CreepBase;

@@ -15,17 +15,19 @@ function CreepMiner(creep, depositManager, resourceManager) {
 	this.depositManager = depositManager;
 	this.resourceManager = resourceManager;
 	this.resource = false;
-	
+
 	if(!this.remember('source')) {
 		var src = resourceManager.getAvailableResource();
 		this.remember('source', src.id);
 	} else {
 		this.resource = resourceManager.getResourceById(this.remember('source'));
 	}
-	
+
 	this.remember('role', 'CreepMiner');
-	
-	this.act();
+
+	if(this.randomMovement() == false) {
+		this.act();
+	}
 };
 
 CreepMiner.prototype.act = function() {
@@ -37,7 +39,7 @@ CreepMiner.prototype.act = function() {
 		this.remember('closest-deposit', 0);
 	} else {
 		var deposit = false;
-		
+
 		// Deposit energy
 		if(!this.remember('closest-deposit')) {
 			deposit = this.depositManager.getClosestEmptyDeposit(creep);
@@ -52,7 +54,7 @@ CreepMiner.prototype.act = function() {
 	}
 };
 
- 
+
 module.exports = CreepMiner;
 /*
 module.exports = function (creep) {
@@ -69,11 +71,11 @@ module.exports = function (creep) {
 	}
 	//var res = ResourceDeposits.getEmptyResource(creep.energyCapacity);
 	var sources = creep.room.find(FIND_SOURCES);
-	
+
 	if(creep.memory.selectedSource == undefined) {
 		creep.memory.selectedSource = Math.floor(Math.random()*sources.length);
 	}
-	
+
 	if(res && res.pos && res.pos.findClosest) {
 	    if(creep.energy < creep.energyCapacity && creep.memory.lastEnergy == creep.energy){
 	        var creepsNear = creep.pos.findInRange(FIND_MY_CREEPS, 1);
@@ -90,11 +92,11 @@ module.exports = function (creep) {
 	        }
 	    }
     }
-	
+
 	if(RandomMovement(creep) == true) {
 		return;
 	}
-	
+
 	var continueDeposit = false;
 	if(creep.energy != 0 && res && creep.memory.lastAction == ACTIONS.DEPOSIT) {
 		continueDeposit = true;
@@ -107,7 +109,7 @@ module.exports = function (creep) {
 	} else {
 		creep.moveTo(res);
 		creep.transferEnergy(res);
-		creep.memory.lastAction = ACTIONS.DEPOSIT;		
+		creep.memory.lastAction = ACTIONS.DEPOSIT;
 	}
 };
 
