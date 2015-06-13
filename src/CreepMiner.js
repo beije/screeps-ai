@@ -35,6 +35,9 @@ CreepMiner.prototype.act = function() {
 };
 
 CreepMiner.prototype.harvestEnergy = function() {
+	if(this.creep.energy == this.creep.energyCapacity) {
+		return;
+	}
 	this.creep.moveTo(this.resource);
 	this.creep.harvest(this.resource);
 }
