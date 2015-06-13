@@ -1,44 +1,40 @@
 var HelperFunctions = require('HelperFunctions');
 var RoomHandler = require('RoomHandler');
+var ScoutHandler = require('ScoutHandler');
 var Room = require('Room');
 var CreepBase = require('CreepBase');
 var CreepScout = require('CreepScout');
-var rooms = [];
-var scouts = [];
 
+ScoutHandler.setRoomHandler(RoomHandler);
+
+// Init rooms
 for(var n in Game.rooms) {
-	RoomHandler.add(Game.rooms[n].name);
-	rooms.push(new Room(Game.rooms[n], RoomHandler));
+	var roomHandler = new Room(Game.rooms[n], RoomHandler);
+	RoomHandler.set(Game.rooms[n].name, roomHandler);
 };
 
-for(var i = 0; i < rooms.length; i++) {
-	rooms[i].loadCreeps();
-	rooms[i].populate();
-	// Check room controller level 3?
-	if(rooms[i].population.goalsMet() == true) {
-		rooms[i].creepFactory.new('CreepScout', rooms[i].depositManager.getSpawnDeposit());
-	}
+// Load rooms
+var rooms = RoomHandler.getRoomHandlers();
+for(var n in rooms) {
+	var room = rooms[n];
+	room.loadCreeps();
+	room.populate();
+
 	console.log(
-		rooms[i].room.name + ' | ' +
+		room.room.name + ' | ' +
 		'goals met:' +
-		rooms[i].population.goalsMet() +
+		room.population.goalsMet() +
 		', population: ' +
-		rooms[i].population.getTotalPopulation() + '/' + rooms[i].population.getMaxPopulation() +
-		' (' + rooms[i].population.getType('CreepBuilder').total + '/' + rooms[i].population.getType('CreepMiner').total + '/' + rooms[i].population.getType('CreepSoldier').total + '), ' +
-		'resources at: ' + parseInt( (rooms[i].depositManager.energy() / rooms[i].depositManager.energyCapacity())*100) +'%, ' +
-		'max resources: ' + rooms[i].depositManager.energyCapacity() +'u, ' +
-		'next death: ' + rooms[i].population.getNextExpectedDeath() +' ticks'
+		room.population.getTotalPopulation() + '/' + room.population.getMaxPopulation() +
+		' (' + room.population.getType('CreepBuilder').total + '/' + room.population.getType('CreepMiner').total + '/' + room.population.getType('CreepSoldier').total + '), ' +
+		'resources at: ' + parseInt( (room.depositManager.energy() / room.depositManager.energyCapacity())*100) +'%, ' +
+		'max resources: ' + room.depositManager.energyCapacity() +'u, ' +
+		'next death: ' + room.population.getNextExpectedDeath() +' ticks'
 	);
 };
 
-// MOve to scout handler or something.
-for(var name in Game.creeps) {
-	var creep = Game.creeps[name];
-	var role = creep.memory.role || creep.name.split('-')[0];
-	if(role == 'CreepScout') {
-		var c = new CreepScout(creep, RoomHandler);
-		HelperFunctions.extend(c, CreepBase);
-		c.init();
-	}
-}
+// Load scouts.
+ScoutHandler.loadScouts();
+ScoutHandler.spawnNewScouts();
+
 HelperFunctions.garbageCollection();
