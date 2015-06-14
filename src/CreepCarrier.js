@@ -85,10 +85,18 @@ CreepCarrier.prototype.depositEnergy = function() {
 
 	if(this.depositFor == DEPOSIT_FOR.CONSTRUCTION) {
 		var worker = this.getWorker();
+		var range = 1;
 		if(!worker) {
 			worker = this.constructionsManager.controller;
+			range = 2;
 		}
-		this.creep.moveTo(worker);
+
+		if(!this.creep.pos.isNearTo(worker, range)) {
+			this.creep.moveTo(worker);
+		} else {
+			this.remember('move-attempts', 0);
+		}
+
 		this.harvest();
 	}
 
@@ -129,7 +137,12 @@ CreepCarrier.prototype.getDeposit = function() {
 
 CreepCarrier.prototype.harvestEnergy = function() {
 	//this.creep.moveTo(0,0);
-	this.creep.moveTo(this.resource);
+	if(!this.creep.pos.isNearTo(this.resource, 2)) {
+		this.creep.moveTo(this.resource);
+	} else {
+		this.remember('move-attempts', 0);
+	}
+
 	this.harvest();
 	this.remember('last-action', ACTIONS.HARVEST);
 	this.forget('closest-deposit');
