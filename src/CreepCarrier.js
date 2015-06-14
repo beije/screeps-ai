@@ -73,6 +73,10 @@ CreepCarrier.prototype.depositEnergy = function() {
 		this.depositFor = DEPOSIT_FOR.CONSTRUCTION;
 	}
 
+	if(this.depositManager.energy() <= 100) {
+		this.depositFor = DEPOSIT_FOR.POPULATION;
+	}
+
 	if(this.depositFor == DEPOSIT_FOR.POPULATION) {
 		var deposit = this.getDeposit();
 		this.creep.moveTo(deposit);
