@@ -85,19 +85,19 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 				abilities = [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE];
 			} else
 			if(level <= 6) {
-				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE];
 			} else
 			if(level <= 7) {
-				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE];
 			} else
 			if(level <= 8) {
-				abilities = [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE];
 			} else
 			if(level <= 9) {
-				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE];
 			} else
 			if(level >= 10) {
-				abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+				abilities = [WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE];
 			}
 		break;
 		case 'CreepCarrier':
