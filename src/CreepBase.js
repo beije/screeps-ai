@@ -17,9 +17,12 @@ CreepBase.forget = function(key) {
 CreepBase.moveToNewRoom = function() {
 	var targetRoom = this.remember('targetRoom');
 	var srcRoom = this.remember('srcRoom');
+
 	if(targetRoom) {
 		if(targetRoom != this.creep.room.name) {
-			this.creep.moveTo(0,30);
+			var exitDir = this.creep.room.findExitTo(targetRoom);
+			var exit = this.creep.pos.findClosest(exitDir);
+			creep.moveTo(exit);
 			return true;
 		} else {
 			this.creep.moveTo(30,30);
