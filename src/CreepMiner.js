@@ -31,16 +31,13 @@ CreepMiner.prototype.init = function() {
 };
 
 CreepMiner.prototype.act = function() {
-	this.harvestEnergy()
-};
-
-CreepMiner.prototype.harvestEnergy = function() {
 	this.giveEnergy();
 	if(this.creep.energy == this.creep.energyCapacity) {
 		return;
 	}
 	this.creep.moveTo(this.resource);
 	this.creep.harvest(this.resource);
+	this.remember('last-energy', this.creep.energy);
 }
 
 CreepMiner.prototype.giveEnergy = function() {
@@ -48,9 +45,7 @@ CreepMiner.prototype.giveEnergy = function() {
 	if(creepsNear.length){
 		for(var n in creepsNear){
 			if(creepsNear[n].memory.role === 'CreepMiner'){
-
-				if(creepsNear[n].memory.lastEnergy == creepsNear[n].energy && creepsNear[n].energy < creepsNear[n].energyCapacity) {
-					console.log('give energy');
+				if(creepsNear[n].memory['last-energy'] == creepsNear[n].energy && creepsNear[n].energy < creepsNear[n].energyCapacity) {
 					this.creep.transferEnergy(creepsNear[n]);
 				}
 			}

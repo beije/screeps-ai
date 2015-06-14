@@ -21,15 +21,16 @@ CreepBuilder.prototype.init = function() {
 
 CreepBuilder.prototype.act = function() {
 	var site = this.constructionManager.getClosestConstructionSite(this.creep);
+	this.giveEnergy();
 	if(site) {
 		this.creep.moveTo(site);
 		var result = this.creep.build(site);
 	} else {
 		var controller = this.constructionManager.getController();
-		this.giveEnergy();
 		this.creep.moveTo(controller);
 		this.creep.upgradeController(controller);
 	}
+	this.remember('last-energy', this.creep.energy);
 };
 
 CreepBuilder.prototype.giveEnergy = function() {
@@ -37,7 +38,7 @@ CreepBuilder.prototype.giveEnergy = function() {
 	if(creepsNear.length){
 		for(var n in creepsNear){
 			if(creepsNear[n].memory.role === 'CreepBuilder'){
-				if(creepsNear[n].memory.lastEnergy > creepsNear[n].energy) {
+				if(creepsNear[n].memory['last-energy'] > creepsNear[n].energy) {
 					this.creep.transferEnergy(creepsNear[n]);
 				}
 			}
