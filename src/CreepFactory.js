@@ -137,31 +137,31 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 				abilities = [TOUGH, ATTACK, MOVE];
 			} else
 			if(level <= 2) {
-				abilities = [TOUGH, ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, MOVE, ATTACK, MOVE];
 			} else
 			if(level <= 3) {
-				abilities = [TOUGH, ATTACK, RANGED_ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, MOVE, ATTACK, RANGED_ATTACK, MOVE];
 			} else
 			if(level <= 4) {
-				abilities = [TOUGH, ATTACK, ATTACK, RANGED_ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, MOVE, ATTACK, ATTACK, RANGED_ATTACK, MOVE];
 			} else
 			if(level <= 5) {
-				abilities = [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
 			} else
 			if(level <= 6) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
 			} else
 			if(level <= 7) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 8) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 9) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level >= 10) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			}
 		break;
 		case 'CreepScout':
