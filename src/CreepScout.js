@@ -42,27 +42,26 @@ CreepScout.prototype.findExit = function() {
 }
 
 CreepScout.prototype.findController = function() {
-    return this.cache.remember(
-        'room-controller',
-        function() {
-            return this.creep.room.find(
-                FIND_STRUCTURES,
-                {
-                    filter: function(structure) {
-                        if(structure.structureType == STRUCTURE_CONTROLLER) {
-                            return true;
-                        }
-
-                        return false;
-                    }
+    return this.creep.room.find(
+        FIND_STRUCTURES,
+        {
+            filter: function(structure) {
+                if(structure.structureType == STRUCTURE_CONTROLLER) {
+                    return true;
                 }
-            );
-        }.bind(this)
+
+                return false;
+            }
+        }
     );
 };
 
 CreepScout.prototype.conquer = function() {
     var controller = this.findController();
+    if(controller.length != 0) {
+        controller = controller[0];
+    }
+    
     this.creep.moveTo(controller);
     this.creep.claimController(controller);
 }
