@@ -24,6 +24,12 @@ CreepMiner.prototype.init = function() {
 		var src = this.resourceManager.getAvailableResource();
 		this.remember('source', src.id);
 	}
+	if(!this.remember('srcRoom')) {
+		this.remember('srcRoom', this.creep.room.name);
+	}
+	if(this.moveToNewRoom() == true) {
+		return;
+	}
 
 	this.resource = this.resourceManager.getResourceById(this.remember('source'));
 

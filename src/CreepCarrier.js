@@ -34,8 +34,15 @@ CreepCarrier.prototype.init = function() {
 		this.resource = this.resourceManager.getResourceById(this.remember('source'));
 	}
 
+	if(!this.remember('srcRoom')) {
+		this.remember('srcRoom', this.creep.room.name);
+	}
+	if(this.moveToNewRoom() == true) {
+		return;
+	}
+
 	if(this.randomMovement() == false) {
-	       this.act();
+	    this.act();
 	}
 };
 

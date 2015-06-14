@@ -13,6 +13,12 @@ var CreepBuilder = function(creep, depositManager, constructionManager) {
 
 CreepBuilder.prototype.init = function() {
 	this.remember('role', 'CreepBuilder');
+	if(!this.remember('srcRoom')) {
+		this.remember('srcRoom', this.creep.room.name);
+	}
+	if(this.moveToNewRoom() == true) {
+		return;
+	}
 
 	//if(this.randomMovement() == false) {
 		this.act();

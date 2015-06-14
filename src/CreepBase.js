@@ -14,6 +14,24 @@ CreepBase.forget = function(key) {
 	delete this.creep.memory[key];
 }
 
+CreepBase.moveToNewRoom = function() {
+	var targetRoom = this.remember('targetRoom');
+	var srcRoom = this.remember('srcRoom');
+	if(targetRoom) {
+		if(targetRoom != this.creep.room.name) {
+			this.creep.moveTo(0,30);
+			return true;
+		} else {
+			this.creep.moveTo(30,30);
+			var targetRoom = this.remember('targetRoom', undefined);
+			var srcRoom = this.remember('srcRoom', this.creep.room.name);
+		}
+	} else {
+		return false;
+	}
+
+}
+
 CreepBase.randomMovement = function() {
 	if(!this.remember('temp-pos')) {
 		this.remember('temp-pos', {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)});
