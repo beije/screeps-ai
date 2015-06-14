@@ -60,8 +60,7 @@ CreepBase.randomMovement = function() {
 	var currPos = this.creep.pos;
 
 	if(lastEnergy != this.creep.energy) {
-		moveAttempts = 0;
-		this.remember('move-attempts', moveAttempts)
+		moveAttempts = this.remember('move-attempts', 0);
 	}
 
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y && this.creep.fatigue == 0) {
