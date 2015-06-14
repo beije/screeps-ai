@@ -25,17 +25,14 @@ ScoutHandler.setRoomHandler = function(roomHandler) {
 };
 
 ScoutHandler.spawnNewScouts = function() {
-    // TODO: Go through each room, check if it can create scouts.
-    // Check room controller level 3?
-    /*var rooms = this.roomHandler.getRoomHandlers();
+    var rooms = this.roomHandler.getRoomHandlers();
     for(var n in rooms) {
-        rooms[n].creepFactory.new('CreepScout', rooms[n].depositManager.getSpawnDeposit());
-    }*/
-    /*
-    if(rooms[i].population.goalsMet() == true) {
-        rooms[i].creepFactory.new('CreepScout', rooms[i].depositManager.getSpawnDeposit());
+        var room = rooms[n];
+        if(room.population.goalsMet() == true && room.constructionManager.getController().level >= 4) {
+            console.log(rooms[n].room.name + ' should expand.');
+            //rooms[n].creepFactory.new('CreepScout', rooms[n].depositManager.getSpawnDeposit());
+
     }
-    */
 }
 
 module.exports = ScoutHandler;

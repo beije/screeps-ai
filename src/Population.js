@@ -1,5 +1,6 @@
+var Cache = require('Cache');
 function Population(room) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.room = room;
 	this.population = 0;
 	this.populationLevelMultiplier = 8;

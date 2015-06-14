@@ -28,4 +28,15 @@ RoomHandler.getRoomHandlers = function() {
     return roomHandlers;
 };
 
+RoomHandler.requestReinforcement = function(room) {
+    var rooms = this.getRoomHandlers();
+    for(var n in rooms) {
+        var r = rooms[n];
+        if(r.room.name != room.room.name) {
+            r.sendReinforcements(room);
+        }
+
+    }
+}
+
 module.exports = RoomHandler;

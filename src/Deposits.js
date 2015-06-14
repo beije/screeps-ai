@@ -1,9 +1,10 @@
+var Cache = require('Cache');
 var CONSTS = {
 	EMPTY_LEVEL: 0.5
 };
 
 function Deposits(room) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.room = room;
 	this.deposits = this.room.find(
 		FIND_MY_STRUCTURES,

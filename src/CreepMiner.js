@@ -5,13 +5,14 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
+var Cache = require('Cache');
 var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
 };
 
 function CreepMiner(creep, resourceManager) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.creep = creep;
 	this.resourceManager = resourceManager;
 	this.resource = false;
@@ -24,6 +25,12 @@ CreepMiner.prototype.init = function() {
 		var src = this.resourceManager.getAvailableResource();
 		this.remember('source', src.id);
 	}
+	if(!this.remember('srcRoom')) {
+		this.remember('srcRoom', this.creep.room.name);
+	}
+	if(this.moveToNewRoom() == true) {
+		return;
+	}
 
 	this.resource = this.resourceManager.getResourceById(this.remember('source'));
 
@@ -31,16 +38,13 @@ CreepMiner.prototype.init = function() {
 };
 
 CreepMiner.prototype.act = function() {
-	this.harvestEnergy()
-};
-
-CreepMiner.prototype.harvestEnergy = function() {
 	this.giveEnergy();
 	if(this.creep.energy == this.creep.energyCapacity) {
 		return;
 	}
 	this.creep.moveTo(this.resource);
 	this.creep.harvest(this.resource);
+	this.remember('last-energy', this.creep.energy);
 }
 
 CreepMiner.prototype.giveEnergy = function() {
@@ -48,9 +52,7 @@ CreepMiner.prototype.giveEnergy = function() {
 	if(creepsNear.length){
 		for(var n in creepsNear){
 			if(creepsNear[n].memory.role === 'CreepMiner'){
-
-				if(creepsNear[n].memory.lastEnergy == creepsNear[n].energy && creepsNear[n].energy < creepsNear[n].energyCapacity) {
-					console.log('give energy');
+				if(creepsNear[n].memory['last-energy'] == creepsNear[n].energy && creepsNear[n].energy < creepsNear[n].energyCapacity) {
 					this.creep.transferEnergy(creepsNear[n]);
 				}
 			}

@@ -11,6 +11,13 @@ function CreepSoldier(creep) {
 
 CreepSoldier.prototype.init = function() {
     this.remember('role', 'CreepSoldier');
+    if(!this.remember('srcRoom')) {
+		this.remember('srcRoom', this.creep.room.name);
+	}
+    if(this.moveToNewRoom() == true) {
+		return;
+	}
+
     this.act();
 };
 

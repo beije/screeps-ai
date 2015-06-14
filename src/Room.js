@@ -20,7 +20,50 @@ function Room(room, roomHandler) {
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
 }
 
+Room.prototype.askForReinforcements = function() {
+	console.log(this.room.name + ': ask for reinforcements.');
+	this.roomHandler.requestReinforcement(this);
+};
+
+Room.prototype.sendReinforcements = function(room) {
+	if(!Memory[this.room.name]) {
+		Memory[this.room.name] = {};
+	}
+	var alreadySending = false;
+	for(var i = 0; i < this.population.creeps.length; i++) {
+		var creep = this.population.creeps[i];
+		if(creep.memory.targetRoom == room.room.name) {
+			alreadySending = true;
+			break;
+		}
+	}
+	if(alreadySending) {
+		console.log(this.room.name + ': already given reinforcements');
+		return;
+	}
+	if(this.population.getTotalPopulation() < this.population.getMaxPopulation()*0.8) {
+		console.log(this.room.name + ': Not enough resources ' + '(' + this.population.getTotalPopulation() + '/' + this.population.getMaxPopulation()*0.8 + ')');
+		return;
+	}
+
+	var sentType = [];
+	for(var i = 0; i < this.population.creeps.length; i++) {
+		var creep = this.population.creeps[i];
+		if(creep.ticksToLive < 1000) {
+			continue;
+		}
+		if(sentType.indexOf(creep.memory.role) == -1) {
+			sentType.push(creep.memory.role);
+			console.log('sending: ' + creep.memory.role);
+			creep.memory.targetRoom = room.room.name;
+		}
+	}
+}
+
 Room.prototype.populate = function() {
+	if(this.depositManager.spawns.length == 0 && this.population.totalPopulation < 10) {
+		this.askForReinforcements()
+	}
 	for(var i = 0; i < this.depositManager.spawns.length; i++) {
 		var spawn = this.depositManager.spawns[i];
 		if(spawn.spawning) {
@@ -83,6 +126,9 @@ Room.prototype.distributeCarriers = function() {
 	for(var i = 0; i < carriers.length; i++) {
 		var creep = carriers[i];
 		if(creep.remember('role') != 'CreepCarrier') {
+			continue;
+		}
+		if(!builders[counter]) {
 			continue;
 		}
 

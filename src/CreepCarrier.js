@@ -5,6 +5,7 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
+var Cache = require('Cache');
 var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
@@ -15,7 +16,7 @@ var DEPOSIT_FOR = {
 }
 
 function CreepCarrier(creep, depositManager, resourceManager, constructionsManager) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.creep = creep;
 	this.depositManager = depositManager;
 	this.resourceManager = resourceManager;
@@ -34,8 +35,15 @@ CreepCarrier.prototype.init = function() {
 		this.resource = this.resourceManager.getResourceById(this.remember('source'));
 	}
 
+	if(!this.remember('srcRoom')) {
+		this.remember('srcRoom', this.creep.room.name);
+	}
+	if(this.moveToNewRoom() == true) {
+		return;
+	}
+
 	if(this.randomMovement() == false) {
-	       this.act();
+	    this.act();
 	}
 };
 
@@ -44,9 +52,7 @@ CreepCarrier.prototype.onRandomMovement = function() {
 }
 
 CreepCarrier.prototype.setDepositFor = function(type) {
-	if(this.energy >= this.energyCapacity/2) {
-		this.remember('depositFor', type);
-	}
+	this.remember('depositFor', type);
 }
 
 CreepCarrier.prototype.act = function() {
@@ -65,6 +71,10 @@ CreepCarrier.prototype.act = function() {
 CreepCarrier.prototype.depositEnergy = function() {
 	if(this.depositManager.getEmptyDeposits().length == 0 && this.depositManager.getSpawnDeposit().energy == this.depositManager.getSpawnDeposit().energyCapacity) {
 		this.depositFor = DEPOSIT_FOR.CONSTRUCTION;
+	}
+
+	if(this.depositManager.energy() <= 100) {
+		this.depositFor = DEPOSIT_FOR.POPULATION;
 	}
 
 	if(this.depositFor == DEPOSIT_FOR.POPULATION) {
