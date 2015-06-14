@@ -1,5 +1,6 @@
+var Cache = require('Cache');
 function Resources(room, population) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.room = room;
 	this.population = population;
 }

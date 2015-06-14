@@ -5,6 +5,7 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
+var Cache = require('Cache');
 var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
@@ -15,7 +16,7 @@ var DEPOSIT_FOR = {
 }
 
 function CreepCarrier(creep, depositManager, resourceManager, constructionsManager) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.creep = creep;
 	this.depositManager = depositManager;
 	this.resourceManager = resourceManager;

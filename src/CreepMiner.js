@@ -5,13 +5,14 @@
  * You can import it from another modules like this:
  * var mod = require('harvester'); // -> 'a thing'
  */
+var Cache = require('Cache');
 var ACTIONS = {
 	HARVEST: 1,
 	DEPOSIT: 2
 };
 
 function CreepMiner(creep, resourceManager) {
-	this.cache = require('Cache');
+	this.cache = new Cache();
 	this.creep = creep;
 	this.resourceManager = resourceManager;
 	this.resource = false;
