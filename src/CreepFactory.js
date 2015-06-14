@@ -54,9 +54,9 @@ CreepFactory.prototype.load = function(creep) {
 CreepFactory.prototype.new = function(creepType, spawn) {
 	var abilities = [];
 	var id = new Date().getTime();
-	var creepLevel = Math.floor(this.population.getTotalPopulation() / this.population.populationLevelMultiplier);
-	var resourceLevel = Math.floor(this.depositManager.getFullDeposits().length / 5);
-	var level = creepLevel + resourceLevel;
+	var creepLevel = this.population.getTotalPopulation() / this.population.populationLevelMultiplier;
+	var resourceLevel = this.depositManager.getFullDeposits().length / 4;
+	var level = Math.floor(creepLevel + resourceLevel);
 
 	// TOUGH          10
 	// MOVE           50
@@ -111,25 +111,25 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 				abilities = [CARRY, CARRY, MOVE, MOVE];
 			} else
 			if(level <= 4) {
-				abilities = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
-			} else
-			if(level <= 5) {
-				abilities = [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
-			} else
-			if(level <= 6) {
 				abilities = [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
 			} else
-			if(level <= 7) {
+			if(level <= 5) {
 				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
 			} else
+			if(level <= 6) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
+			} else
+			if(level <= 7) {
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
+			} else
 			if(level <= 8) {
-				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
 			} else
 			if(level <= 9) {
-				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
 			} else
 			if(level >= 10) {
-				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,  CARRY, MOVE, MOVE, MOVE, MOVE];
+				abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,  CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
 			}
 		break;
 		case 'CreepSoldier':
@@ -181,7 +181,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 		return;
 	}
 
-	console.log('Spawn level ' + level + ' ' + creepType);
+	console.log('Spawn level ' + level + ' ' + creepType + '(' + creepLevel + '/' + resourceLevel + ')');
 	spawn.createCreep(abilities, creepType + '-' + id, {role: creepType});
 };
 
