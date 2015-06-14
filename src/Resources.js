@@ -15,13 +15,8 @@ Resources.prototype.getResourceById = function(id) {
 	return Game.getObjectById(id);
 };
 Resources.prototype.getSources = function(room) {
-	return this.cache.remember(
-		'resources-sources',
-		function() {
-			return this.room.find(FIND_SOURCES);
-		}.bind(this)
-
-	);
+	// TODO: Fix cache.
+	return this.room.find(FIND_SOURCES);
 };
 
 module.exports = Resources;
