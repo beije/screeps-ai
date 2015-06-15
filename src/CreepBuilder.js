@@ -26,12 +26,10 @@ CreepBuilder.prototype.init = function() {
 };
 
 CreepBuilder.prototype.act = function() {
-	var site = this.constructionManager.getClosestConstructionSite(this.creep);
+	var site = false;
+		site = this.constructionManager.constructStructure(this.creep);	
 
-	if(site) {
-		this.creep.moveTo(site);
-		var result = this.creep.build(site);
-	} else {
+	if(!site) {
 		var site = this.constructionManager.getController();
 		this.creep.moveTo(site);
 		this.creep.upgradeController(site);
