@@ -1,3 +1,6 @@
+var CONST = {
+    RAMPART_MAX: 150000
+};
 function Constructions(room) {
     this.room = room;
     this.sites = this.room.find(FIND_CONSTRUCTION_SITES);
@@ -13,7 +16,7 @@ Constructions.prototype.getDamagedStructures = function() {
         FIND_MY_STRUCTURES,
         {
             filter: function(s) {
-                if(s.hits < s.hitsMax/2) {
+                if((s.hits < s.hitsMax/2 && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
                     return true;
                 }
             }
@@ -26,7 +29,7 @@ Constructions.prototype.getUpgradeableStructures = function() {
         FIND_MY_STRUCTURES,
         {
             filter: function(s) {
-                if(s.hits < s.hitsMax) {
+                if((s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
                     return true;
                 }
             }
@@ -47,7 +50,7 @@ Constructions.prototype.getClosestConstructionSite = function(creep) {
     if(this.sites.length != 0) {
         site = creep.pos.findClosest(this.sites);
     }
-    
+
     return site;
 };
 
@@ -57,15 +60,15 @@ Constructions.prototype.constructStructure = function(creep) {
         site = creep.pos.findClosest(this.upgradeableStructures);
         creep.moveTo(site);
         creep.repair(site);
-        
+
         return site;
     }
-    
+
     if(this.damagedStructures.length != 0) {
         site = creep.pos.findClosest(this.damagedStructures);
         creep.moveTo(site);
         creep.repair(site);
-        
+
         return site;
     }
 
@@ -73,7 +76,7 @@ Constructions.prototype.constructStructure = function(creep) {
         site = creep.pos.findClosest(this.sites);
         creep.moveTo(site);
         creep.build(site);
-        
+
         return site;
     }
 
