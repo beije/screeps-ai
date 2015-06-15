@@ -22,7 +22,6 @@ CreepSoldier.prototype.init = function() {
 };
 
 CreepSoldier.prototype.act = function() {
-    var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
     if(this.remember('current-objective') === undefined) {
         this.remember('current-objective', 0);
     }
@@ -33,6 +32,35 @@ CreepSoldier.prototype.act = function() {
         this.remember('move-attempts', 0);
     }
 
+    this.attackHostiles();
+    this.attackSpawns();
+
+    //var exits = Room.find(FIND_EXIT);
+    var lastPosition = this.remember('last-position');
+    var objective = this.remember('current-objective');
+    var moveAttempts = this.remember('move-attempts');
+    if(lastPosition.x == this.creep.pos.x && lastPosition.y == this.creep.pos.y && this.creep.fatigue == 0) {
+        moveAttempts = this.remember('move-attempts', moveAttempts+1);
+    } else {
+        moveAttempts = this.remember('move-attempts', 0);
+    }
+    if(moveAttempts == 5) {
+        objective++;
+        if(objective >= positions.length) {
+            objective = 0;
+        }
+
+        this.remember('move-attempts', 0);
+        this.remember('last-position', {x:0, y:0});
+        this.remember('current-objective', objective);
+
+    }
+
+    this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});
+    this.creep.moveTo(positions[objective][0], positions[objective][1]);
+}
+CreepSoldier.prototype.attackHostiles = function() {
+    var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
     if(targets.length) {
         var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
         if(rangedTargets.length > 0) {
@@ -41,31 +69,21 @@ CreepSoldier.prototype.act = function() {
 
         this.creep.moveTo(targets[0]);
         this.creep.attack(targets[0]);
-    } else {
-        //var exits = Room.find(FIND_EXIT);
-        var lastPosition = this.remember('last-position');
-        var objective = this.remember('current-objective');
-        var moveAttempts = this.remember('move-attempts');
-        if(lastPosition.x == this.creep.pos.x && lastPosition.y == this.creep.pos.y && this.creep.fatigue == 0) {
-            moveAttempts = this.remember('move-attempts', moveAttempts+1);
-        } else {
-            moveAttempts = this.remember('move-attempts', 0);
-        }
-        if(moveAttempts == 5) {
-            objective++;
-            if(objective >= positions.length) {
-                objective = 0;
-            }
-
-            this.remember('move-attempts', 0);
-            this.remember('last-position', {x:0, y:0});
-            this.remember('current-objective', objective);
-
-        }
-
-        this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});
-        this.creep.moveTo(positions[objective][0], positions[objective][1]);
+        return;
     }
+}
+CreepSoldier.prototype.attackSpawns = function() {
+    var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
+    if(targets.length) {
+        var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_SPAWNS, 3);
+        if(rangedTargets.length > 0) {
+            this.creep.rangedAttack(rangedTargets[0]);
+        }
+
+        this.creep.moveTo(targets[0]);
+        this.creep.attack(targets[0]);
+        return;
+    };
 }
 
 module.exports = CreepSoldier;
