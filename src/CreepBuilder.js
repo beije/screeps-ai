@@ -9,6 +9,7 @@ var CreepBuilder = function(creep, depositManager, constructionManager) {
 	this.creep = creep;
 	this.depositManager = depositManager;
 	this.constructionManager = constructionManager;
+	this.forceControllerUpgrade = false;
 };
 
 CreepBuilder.prototype.init = function() {
@@ -19,6 +20,8 @@ CreepBuilder.prototype.init = function() {
 	if(this.moveToNewRoom() == true) {
 		return;
 	}
+	
+	this.forceControllerUpgrade = this.remember('forceControllerUpgrade');
 
 	//if(this.randomMovement() == false) {
 		this.act();
@@ -27,7 +30,9 @@ CreepBuilder.prototype.init = function() {
 
 CreepBuilder.prototype.act = function() {
 	var site = false;
+	if(!this.forceControllerUpgrade) {
 		site = this.constructionManager.constructStructure(this.creep);	
+	}
 
 	if(!site) {
 		var site = this.constructionManager.getController();

@@ -93,12 +93,31 @@ Room.prototype.loadCreeps = function() {
 			this.creeps.push(c);
 		}
 	}
-
+	this.distributeBuilders();
 	this.distributeResources('CreepMiner');
 	this.distributeResources('CreepCarrier');
 	this.distributeCarriers();
 };
-
+Room.prototype.distributeBuilders = function() {
+	var builderStats = this.population.getType('CreepBuilder');
+	if(builderStats <= 3) {
+		for(var i = 0; i < this.creeps.length; i++) {
+			var creep = this.creeps[i];
+			if(creep.remember('role') != 'CreepBuilder') {
+				continue;
+			}
+			creep.remember('forceControllerUpgrade', false);	
+		}
+	} else {
+		for(var i = 0; i < 2; i++) {
+			var creep = this.creeps[i];
+			if(creep.remember('role') != 'CreepBuilder') {
+				continue;
+			}
+			creep.remember('forceControllerUpgrade', true);	
+		}
+	}
+}
 Room.prototype.distributeCarriers = function() {
 	var counter = 0;
 	var builders = [];
