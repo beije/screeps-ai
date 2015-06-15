@@ -134,9 +134,26 @@ CreepCarrier.prototype.getDeposit = function() {
 		}.bind(this)
 	)
 };
-
+CreepCarrier.prototype.pickupEnergy = function() {
+	if(this.creep.energy == this.creep.energyCapacity) {
+		return false;
+	}
+	
+	var target = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,3);
+	if(target.length) {
+	    this.creep.moveTo(target[0]);
+	    this.creep.pickup(target[0]);
+		
+		return true;
+	}
+	return false;
+};
 CreepCarrier.prototype.harvestEnergy = function() {
 	//this.creep.moveTo(0,0);
+	if(this.pickupEnergy()) {
+		return;
+	}
+	
 	if(!this.creep.pos.isNearTo(this.resource, 2)) {
 		this.creep.moveTo(this.resource);
 	} else {
