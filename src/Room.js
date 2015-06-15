@@ -106,15 +106,20 @@ Room.prototype.distributeBuilders = function() {
 			if(creep.remember('role') != 'CreepBuilder') {
 				continue;
 			}
-			creep.remember('forceControllerUpgrade', false);	
+			creep.remember('forceControllerUpgrade', false);
 		}
 	} else {
-		for(var i = 0; i < 2; i++) {
+		var c = 0;
+		for(var i = 0; i < this.creeps.length; i++) {
 			var creep = this.creeps[i];
 			if(creep.remember('role') != 'CreepBuilder') {
 				continue;
 			}
-			creep.remember('forceControllerUpgrade', true);	
+			creep.remember('forceControllerUpgrade', true);
+			c++;
+			if(c == 2) {
+				break;
+			}
 		}
 	}
 }
