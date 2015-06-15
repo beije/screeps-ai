@@ -65,7 +65,7 @@ CreepBase.randomMovement = function() {
 
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y && this.creep.fatigue == 0) {
 		moveAttempts++;
-		if(moveAttempts >= 5) {
+		if(moveAttempts >= 7) {
 			moveAttempts = 0;
 			moveCounter = 3;
 		}

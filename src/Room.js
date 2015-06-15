@@ -136,12 +136,14 @@ Room.prototype.distributeCarriers = function() {
 			continue;
 		}
 		carriers.push(creep);
-		if(counter%2) {
-			// Construction
-			creep.setDepositFor(1);
-		} else {
-			// Population
-			creep.setDepositFor(2);
+		if(!creep.getDepositFor()) {
+			if(counter%2) {
+				// Construction
+				creep.setDepositFor(1);
+			} else {
+				// Population
+				creep.setDepositFor(2);
+			}
 		}
 
 		counter++;
@@ -155,8 +157,10 @@ Room.prototype.distributeCarriers = function() {
 		if(!builders[counter]) {
 			continue;
 		}
-
-		creep.remember('target-worker', builders[counter].id);
+		var id = creep.remember('target-worker');
+		if(!Game.getObjectById(id)) {
+			creep.remember('target-worker', builders[counter].id);
+		}
 		counter++;
 		if(counter >= builders.length) {
 			counter = 0;
