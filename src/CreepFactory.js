@@ -35,7 +35,7 @@ CreepFactory.prototype.load = function(creep) {
 			loadedCreep = new CreepSoldier(creep);
 		break;
 		case 'CreepHealer':
-			loadedCreep = new CreepHealer(creep, this.depositManager);
+			loadedCreep = new CreepHealer(creep);
 		break;
 		case 'CreepCarrier':
 			loadedCreep = new CreepCarrier(creep, this.depositManager, this.resourceManager, this.constructionsManager);
