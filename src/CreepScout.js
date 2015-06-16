@@ -18,33 +18,8 @@ CreepScout.prototype.init = function() {
 };
 
 CreepScout.prototype.act = function() {
-    this.conquer(); return;
-    if(this.roomHandler.isOurRoom(this.creep.room.name)) {
-        // Find new exit
-        var exit = this.findExit()
-        this.creep.moveTo(49, 30);
-    } else {
-        // Find controller, destroy & conquer
-        this.conquer();
-    }
+    this.conquer();
 };
-
-CreepScout.prototype.findExit = function() {
-    var exitPos = this.remember('exit');
-    if(!exitPos) {
-        var exit = this.creep.room.find(FIND_EXIT);
-
-        if(exit.length != 0) {
-            exitPos = {
-                x: exit[0].x,
-                y: exit[0].y
-            }
-            this.remember('exit', exitPos);
-        }
-    }
-
-    return exitPos;
-}
 
 CreepScout.prototype.findController = function() {
     return this.creep.room.find(

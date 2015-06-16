@@ -17,13 +17,16 @@ CreepBase.forget = function(key) {
 CreepBase.moveToNewRoom = function() {
 	var targetRoom = this.remember('targetRoom');
 	var srcRoom = this.remember('srcRoom');
+
 	if(targetRoom) {
 		if(targetRoom != this.creep.room.name) {
-			this.creep.moveTo(0,30);
+			var exitDir = this.creep.room.findExitTo(targetRoom);
+			var exit = this.creep.pos.findClosest(exitDir);
+			this.creep.moveTo(exit);
 			return true;
 		} else {
 			this.creep.moveTo(30,30);
-			var targetRoom = this.remember('targetRoom', undefined);
+			var targetRoom = this.remember('targetRoom', false);
 			var srcRoom = this.remember('srcRoom', this.creep.room.name);
 		}
 	} else {
@@ -57,13 +60,12 @@ CreepBase.randomMovement = function() {
 	var currPos = this.creep.pos;
 
 	if(lastEnergy != this.creep.energy) {
-		moveAttempts = 0;
-		this.remember('move-attempts', moveAttempts)
+		moveAttempts = this.remember('move-attempts', 0);
 	}
 
 	if(lastPos.x == currPos.x && lastPos.y == currPos.y && this.creep.fatigue == 0) {
 		moveAttempts++;
-		if(moveAttempts >= 5) {
+		if(moveAttempts >= 7) {
 			moveAttempts = 0;
 			moveCounter = 3;
 		}

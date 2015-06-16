@@ -5,12 +5,12 @@ var positions = [
     [49,0]
 ];
 
-function CreepSoldier(creep) {
+function CreepShooter(creep) {
     this.creep = creep;
 };
 
-CreepSoldier.prototype.init = function() {
-    this.remember('role', 'CreepSoldier');
+CreepShooter.prototype.init = function() {
+    this.remember('role', 'CreepShooter');
     if(!this.remember('srcRoom')) {
 		this.remember('srcRoom', this.creep.room.name);
 	}
@@ -21,7 +21,7 @@ CreepSoldier.prototype.init = function() {
     this.act();
 };
 
-CreepSoldier.prototype.act = function() {
+CreepShooter.prototype.act = function() {
     if(this.remember('current-objective') === undefined) {
         this.remember('current-objective', 0);
     }
@@ -59,32 +59,32 @@ CreepSoldier.prototype.act = function() {
     this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});
     this.creep.moveTo(positions[objective][0], positions[objective][1]);
 }
-CreepSoldier.prototype.attackHostiles = function() {
+CreepShooter.prototype.attackHostiles = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
     if(targets.length) {
         // Do something other if targets[0].owner == 'Source Keeper';
         var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
         if(rangedTargets.length > 0) {
             this.creep.rangedAttack(rangedTargets[0]);
+			return true;
         }
 
         this.creep.moveTo(targets[0]);
-        this.creep.attack(targets[0]);
         return true;
     }
 }
-CreepSoldier.prototype.attackSpawns = function() {
+CreepShooter.prototype.attackSpawns = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
     if(targets.length) {
         var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_SPAWNS, 3);
         if(rangedTargets.length > 0) {
             this.creep.rangedAttack(rangedTargets[0]);
+			return true;
         }
 
         this.creep.moveTo(targets[0]);
-        this.creep.attack(targets[0]);
         return true;
     };
 }
 
-module.exports = CreepSoldier;
+module.exports = CreepShooter;
