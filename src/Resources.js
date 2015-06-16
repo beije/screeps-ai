@@ -17,6 +17,7 @@ Resources.prototype.getResourceById = function(id) {
 };
 Resources.prototype.getSources = function(room) {
 	// TODO: Fix cache.
+	// TODO: Avoid sources with a source keeper.
 	return this.room.find(FIND_SOURCES);
 };
 
