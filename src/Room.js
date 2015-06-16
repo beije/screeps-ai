@@ -74,10 +74,11 @@ Room.prototype.populate = function() {
 			var types = this.population.getTypes()
 			for(var i = 0; i < types.length; i++) {
 				var type = this.population.getType(types[i]);
-
-				if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0 || type.total < type.max*0.75) {
-					this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
-					break;
+				if(type.minExtensions < this.resourceManager.getSources().length) {
+					if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0 || type.total < type.max*0.75) {
+						this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
+						break;
+					}
 				}
 			}
 		}

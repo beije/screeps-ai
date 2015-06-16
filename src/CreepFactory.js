@@ -7,6 +7,7 @@ var CreepSoldier = require('CreepSoldier');
 var CreepHealer = require('CreepHealer');
 var CreepScout = require('CreepScout');
 var CreepCarrier = require('CreepCarrier');
+var CreepShooter = require('CreepShooter');
 
 function CreepFactory(depositManager, resourceManager, constructionsManager, population, roomHandler) {
 	this.depositManager = depositManager;
@@ -38,6 +39,9 @@ CreepFactory.prototype.load = function(creep) {
 		break;
 		case 'CreepCarrier':
 			loadedCreep = new CreepCarrier(creep, this.depositManager, this.resourceManager, this.constructionsManager);
+		break;
+		case 'CreepShooter':
+			loadedCreep = new CreepShooter(creep);
 		break;
 	}
 
@@ -162,6 +166,26 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 			} else
 			if(level >= 10) {
 				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
+			}
+		break;
+		case 'CreepShooter':
+			if(level <= 5) {
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+			} else
+			if(level <= 6) {
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+			} else
+			if(level <= 7) {
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+			} else
+			if(level <= 8) {
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+			} else
+			if(level <= 9) {
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+			} else
+			if(level >= 10) {
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
 			}
 		break;
 		case 'CreepScout':
