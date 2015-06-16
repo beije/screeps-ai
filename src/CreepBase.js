@@ -26,7 +26,7 @@ CreepBase.moveToNewRoom = function() {
 			return true;
 		} else {
 			this.creep.moveTo(30,30);
-			var targetRoom = this.remember('targetRoom', undefined);
+			var targetRoom = this.remember('targetRoom', false);
 			var srcRoom = this.remember('srcRoom', this.creep.room.name);
 		}
 	} else {
