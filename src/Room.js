@@ -73,9 +73,9 @@ Room.prototype.populate = function() {
 		if((this.depositManager.energy() / this.depositManager.energyCapacity()) > 0.2) {
 			var types = this.population.getTypes()
 			for(var i = 0; i < types.length; i++) {
-				var type = this.population.getType(types[i]);
-				if(type.minExtensions < this.resourceManager.getSources().length) {
-					if((type.goalPercentage > type.currentPercentage && type.total < type.max) || type.total == 0 || type.total < type.max*0.75) {
+				var ctype = this.population.getType(types[i]);
+				if(this.depositManager.deposits.length > ctype.minExtensions) {
+					if((ctype.goalPercentage > ctype.currentPercentage && ctype.total < ctype.max) || ctype.total == 0 || ctype.total < ctype.max*0.75) {
 						this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
 						break;
 					}
