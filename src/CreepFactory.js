@@ -189,7 +189,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 			}
 		break;
 		case 'CreepScout':
-			abilities = [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE];
+			abilities = [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
 		break;
 	}
 
