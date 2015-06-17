@@ -28,9 +28,12 @@ ScoutHandler.spawnNewScouts = function() {
     var rooms = this.roomHandler.getRoomHandlers();
     for(var n in rooms) {
         var room = rooms[n];
+        if(!rooms[n].depositManager.getSpawnDeposit()) {
+            continue;
+        }
         if(room.population.goalsMet() == true && room.constructionManager.getController().level >= 4) {
             console.log(rooms[n].room.name + ' should expand.');
-            //rooms[n].creepFactory.new('CreepScout', rooms[n].depositManager.getSpawnDeposit());
+            rooms[n].creepFactory.new('CreepScout', rooms[n].depositManager.getSpawnDeposit());
         }
     }
 }
