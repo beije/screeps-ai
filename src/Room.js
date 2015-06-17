@@ -61,9 +61,10 @@ Room.prototype.sendReinforcements = function(room) {
 }
 
 Room.prototype.populate = function() {
-	if(this.depositManager.spawns.length == 0 && this.population.totalPopulation < 10) {
+	if(this.depositManager.spawns.length == 0 && this.population.getTotalPopulation() < 10) {
 		this.askForReinforcements()
 	}
+
 	for(var i = 0; i < this.depositManager.spawns.length; i++) {
 		var spawn = this.depositManager.spawns[i];
 		if(spawn.spawning) {
