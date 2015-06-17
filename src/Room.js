@@ -102,6 +102,17 @@ Room.prototype.loadCreeps = function() {
 };
 Room.prototype.distributeBuilders = function() {
 	var builderStats = this.population.getType('CreepBuilder');
+	if(this.depositManager.spawns.length == 0) {
+		for(var i = 0; i < this.creeps.length; i++) {
+			var creep = this.creeps[i];
+			if(creep.remember('role') != 'CreepBuilder') {
+				continue;
+			}
+
+			creep.remember('forceControllerUpgrade', false);
+		}
+		return;
+	}
 	if(builderStats <= 3) {
 		for(var i = 0; i < this.creeps.length; i++) {
 			var creep = this.creeps[i];
