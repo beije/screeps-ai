@@ -17,8 +17,23 @@ Resources.prototype.getResourceById = function(id) {
 };
 Resources.prototype.getSources = function(room) {
 	// TODO: Fix cache.
-	// TODO: Avoid sources with a source keeper.
-	return this.room.find(FIND_SOURCES);
+	return this.cache.remember(
+		'sources',
+		function() {
+			return this.room.find(
+				FIND_SOURCES, {
+					filter: function(src) {
+						var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 6);
+						if(targets.length == 0) {
+						    return true;
+						}
+
+						return false;
+					}
+				}
+			);
+		}.bind(this)
+	);
 };
 
 module.exports = Resources;
