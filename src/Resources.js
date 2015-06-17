@@ -17,6 +17,9 @@ Resources.prototype.getResourceById = function(id) {
 };
 Resources.prototype.getSources = function(room) {
 	// TODO: Fix cache.
+	if(this.room.name == 'E3S4') {
+		return [Game.getObjectById('5540ec840f7b59f6643702dd')];
+	}
 	return this.cache.remember(
 		'sources',
 		function() {
