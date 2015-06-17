@@ -89,4 +89,13 @@ CreepBase.randomMovement = function() {
 	return false;
 };
 
+CreepBase.avoidEnemy = function() {
+	var enemies = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+	if(enemies.length != 0) {
+		this.creep.move(BOTTOM);
+		return true;
+	}
+	return false;
+}
+
 module.exports = CreepBase;
