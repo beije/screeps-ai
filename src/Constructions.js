@@ -2,8 +2,11 @@ var CONST = {
     RAMPART_MAX: 200000,
     RAMPART_FIX: 100000,
 };
+var Cache = require('Cache');
+
 function Constructions(room) {
     this.room = room;
+    this.cache = new Cache();
     this.sites = this.room.find(FIND_CONSTRUCTION_SITES);
     this.structures = this.room.find(FIND_MY_STRUCTURES);
     this.damagedStructures = this.getDamagedStructures();
@@ -13,33 +16,56 @@ function Constructions(room) {
 
 
 Constructions.prototype.getDamagedStructures = function() {
-    return this.room.find(
-        FIND_MY_STRUCTURES,
-        {
-            filter: function(s) {
-                if((s.hits < s.hitsMax/2 && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_FIX)) {
-                    return true;
+    return this.cache.remember(
+        'damaged-structures',
+        function() {
+            return this.room.find(
+                FIND_MY_STRUCTURES,
+                {
+                    filter: function(s) {
+                        var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
+						if(targets.length != 0) {
+						    return false;
+						}
+                        if((s.hits < s.hitsMax/2 && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_FIX)) {
+                            return true;
+                        }
+                    }
                 }
-            }
-        }
+            );
+        }.bind(this)
     );
 };
 
 Constructions.prototype.getUpgradeableStructures = function() {
-    return this.room.find(
-        FIND_MY_STRUCTURES,
-        {
-            filter: function(s) {
-                if((s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
-                    return true;
+    return this.cache.remember(
+        'upgradeable-structures',
+        function() {
+            return this.room.find(
+                FIND_MY_STRUCTURES,
+                {
+                    filter: function(s)
+                        var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
+                        if(targets.length != 0) {
+                            return false;
+                        }
+                        if((s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
+                            return true;
+                        }
+                    }
                 }
-            }
-        }
+            );
+        }.bind(this)
     );
 };
 
 Constructions.prototype.getConstructionSiteById = function(id) {
-    return Game.getObjectById(id);
+    return this.cache.remember(
+        'object-id-' + id,
+        function() {
+            return Game.getObjectById(id);
+        }.bind(this)
+    );
 };
 
 Constructions.prototype.getController = function() {
