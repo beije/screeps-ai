@@ -33,7 +33,7 @@ ScoutHandler.spawnNewScouts = function() {
         }
         if(room.population.goalsMet() == true && room.constructionManager.getController().level >= 4) {
             console.log(rooms[n].room.name + ' should expand.');
-            rooms[n].creepFactory.new('CreepScout', rooms[n].depositManager.getSpawnDeposit());
+            //rooms[n].creepFactory.new('CreepScout', rooms[n].depositManager.getSpawnDeposit());
         }
     }
 }
