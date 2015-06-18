@@ -1,5 +1,6 @@
 var CreepBase = {};
-
+var Cache = require('Cache');
+var universalCache = new Cache();
 CreepBase.remember = function(key, value) {
 	if(value === undefined) {
 		return this.creep.memory[key];
@@ -13,7 +14,45 @@ CreepBase.remember = function(key, value) {
 CreepBase.forget = function(key) {
 	delete this.creep.memory[key];
 }
+CreepBase.getAvoidedArea = function() {
+	var positions = universalCache.remember(
+		'avoid-enemies-' + this.creep.room.name,
+		function() {
+			var calculateArea = function(x,y) {
+				var avoidPosArray= [];
 
+			    for(var n = -4; n < 4; n++) {
+			        for(var i = -4; i < 4; i++) {
+			            avoidPosArray.push({
+			                x: x+n,
+			                y: y+i
+			            });
+			        }
+			    }
+
+
+				return avoidPosArray;
+			};
+
+			var avoidPosArray= [];
+			var enemies = this.creep.room.find(FIND_HOSTILE_CREEPS);
+			for(var i = 0; i < enemies.length; i++) {
+				var startPosX = enemies[i].pos.x;
+				var startPosY = enemies[i].pos.y;
+				var positions = calculateArea(startPosX, startPosY);
+				for(var n = 0; n < positions.length; n++) {
+					avoidPosArray.push(
+						this.creep.room.getPositionAt(positions[n].x, positions[n].y)
+					);
+				}
+			}
+
+			return avoidPosArray;
+		}.bind(this)
+	)
+
+	return positions;
+};
 CreepBase.moveToNewRoom = function() {
 	var targetRoom = this.remember('targetRoom');
 	var srcRoom = this.remember('srcRoom');
@@ -88,14 +127,5 @@ CreepBase.randomMovement = function() {
 
 	return false;
 };
-
-CreepBase.avoidEnemy = function() {
-	var enemies = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
-	if(enemies.length != 0) {
-		this.creep.move(BOTTOM);
-		return true;
-	}
-	return false;
-}
 
 module.exports = CreepBase;
