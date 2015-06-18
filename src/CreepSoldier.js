@@ -57,23 +57,37 @@ CreepSoldier.prototype.act = function() {
     }
 
     this.remember('last-position', {x:this.creep.pos.x, y:this.creep.pos.y});
-    this.creep.moveTo(positions[objective][0], positions[objective][1]);
+    this.creep.moveTo(positions[objective][0], positions[objective][1], {avoid: avoidArea});
 }
 CreepSoldier.prototype.attackHostiles = function() {
-    var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
+    var avoidArea = this.getAvoidedArea();
+    var targets = this.creep.room.find(FIND_HOSTILE_CREEPS, {
+        filter: function(t) {
+            if(t.name == 'Source Keeper') {
+                return false;
+            }
+        }
+    });
     if(targets.length) {
         // Do something other if targets[0].owner == 'Source Keeper';
-        var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+        var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3, {
+            filter: function(t) {
+                if(t.name == 'Source Keeper') {
+                    return false;
+                }
+            }
+        });
         if(rangedTargets.length > 0) {
             this.creep.rangedAttack(rangedTargets[0]);
         }
 
-        this.creep.moveTo(targets[0]);
+        this.creep.moveTo(targets[0], {avoid: avoidArea});
         this.creep.attack(targets[0]);
         return true;
     }
 }
 CreepSoldier.prototype.attackSpawns = function() {
+    var avoidArea = this.getAvoidedArea();
     var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
     if(targets.length) {
         var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_SPAWNS, 3);
@@ -81,7 +95,7 @@ CreepSoldier.prototype.attackSpawns = function() {
             this.creep.rangedAttack(rangedTargets[0]);
         }
 
-        this.creep.moveTo(targets[0]);
+        this.creep.moveTo(targets[0], {avoid: avoidArea});
         this.creep.attack(targets[0]);
         return true;
     };
