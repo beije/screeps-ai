@@ -35,7 +35,24 @@ CreepBase.getAvoidedArea = function() {
 			};
 
 			var avoidPosArray= [];
-			var enemies = this.creep.room.find(FIND_HOSTILE_CREEPS);
+			var enemies = this.creep.room.find(FIND_HOSTILE_CREEPS, {
+				filter: function(t) {
+					if(t.name == 'Source Keeper') {
+						return true;
+					}
+					return false;
+				}
+			});
+			enemies = enemies.concat(
+				this.creep.room.find(FIND_HOSTILE_STRUCTURES, {
+					filter: function(t) {
+						if(t.owner.username == 'Source Keeper') {
+							return true;
+						}
+						return false;
+					}
+				})
+			);
 			for(var i = 0; i < enemies.length; i++) {
 				var startPosX = enemies[i].pos.x;
 				var startPosY = enemies[i].pos.y;
@@ -75,6 +92,7 @@ CreepBase.moveToNewRoom = function() {
 }
 
 CreepBase.randomMovement = function() {
+	var avoidArea = this.getAvoidedArea();
 	if(!this.remember('temp-pos')) {
 		this.remember('temp-pos', {x:parseInt(Math.random()*50), y:parseInt(Math.random()*50)});
 	}
@@ -115,7 +133,7 @@ CreepBase.randomMovement = function() {
 	if(moveCounter) {
 		moveCounter--;
 		this.remember('move-counter', moveCounter);
-		this.creep.moveTo(tempPos.x, tempPos.y);
+		this.creep.moveTo(tempPos.x, tempPos.y, {avoid: avoidArea});
 		if(this.onRandomMovement) {
 			this.onRandomMovement();
 		}
