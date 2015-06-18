@@ -166,7 +166,9 @@ CreepCarrier.prototype.harvestEnergy = function() {
 	var avoidArea = this.getAvoidedArea();
 
 	this.creep.moveTo(this.resource, {avoid: avoidArea});
-	this.harvest();
+	if(this.creep.pos.inRangeTo(this.resource, 3)) {
+		this.harvest();
+	}
 	this.remember('last-action', ACTIONS.HARVEST);
 	this.forget('closest-deposit');
 }

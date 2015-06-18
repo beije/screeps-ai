@@ -41,7 +41,10 @@ CreepBuilder.prototype.act = function() {
 		this.creep.moveTo(site, {avoid: avoidArea});
 		this.creep.upgradeController(site);
 	}
-	this.giveEnergy(site);
+	
+	if(this.creep.pos.inRangeTo(site, 3)) {
+		this.giveEnergy(site);
+	}
 	this.remember('last-energy', this.creep.energy);
 };
 
