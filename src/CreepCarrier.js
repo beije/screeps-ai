@@ -23,6 +23,10 @@ function CreepCarrier(creep, depositManager, resourceManager, constructionsManag
 	this.constructionsManager = constructionsManager;
 	this.resource = false;
 	this.target = false;
+
+	if(this.creep.energyCapacity == 0) {
+		this.creep.suicide();
+	}
 };
 
 CreepCarrier.prototype.init = function() {
