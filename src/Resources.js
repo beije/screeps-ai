@@ -16,17 +16,13 @@ Resources.prototype.getResourceById = function(id) {
 	return Game.getObjectById(id);
 };
 Resources.prototype.getSources = function(room) {
-	// TODO: Fix cache.
-	if(this.room.name == 'E3S4') {
-		return [Game.getObjectById('5540ec840f7b59f6643702dd')];
-	}
 	return this.cache.remember(
 		'sources',
 		function() {
 			return this.room.find(
 				FIND_SOURCES, {
 					filter: function(src) {
-						var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 6);
+						var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
 						if(targets.length == 0) {
 						    return true;
 						}
