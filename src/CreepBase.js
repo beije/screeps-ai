@@ -37,22 +37,13 @@ CreepBase.getAvoidedArea = function() {
 			var avoidPosArray= [];
 			var enemies = this.creep.room.find(FIND_HOSTILE_CREEPS, {
 				filter: function(t) {
-					if(t.name == 'Source Keeper') {
+					if(t.owner.username == 'Source Keeper') {
 						return true;
 					}
 					return false;
 				}
 			});
-			enemies = enemies.concat(
-				this.creep.room.find(FIND_HOSTILE_STRUCTURES, {
-					filter: function(t) {
-						if(t.owner.username == 'Source Keeper') {
-							return true;
-						}
-						return false;
-					}
-				})
-			);
+
 			for(var i = 0; i < enemies.length; i++) {
 				var startPosX = enemies[i].pos.x;
 				var startPosY = enemies[i].pos.y;
