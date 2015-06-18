@@ -44,7 +44,7 @@ Constructions.prototype.getUpgradeableStructures = function() {
             return this.room.find(
                 FIND_MY_STRUCTURES,
                 {
-                    filter: function(s)
+                    filter: function(s) {
                         var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
                         if(targets.length != 0) {
                             return false;
