@@ -22,6 +22,7 @@ CreepSoldier.prototype.init = function() {
 };
 
 CreepSoldier.prototype.act = function() {
+    var avoidArea = this.getAvoidedArea();
     if(this.remember('current-objective') === undefined) {
         this.remember('current-objective', 0);
     }
