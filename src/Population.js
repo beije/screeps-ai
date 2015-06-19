@@ -26,6 +26,13 @@ function Population(room) {
 			max: 15,
 			minExtensions: 0
 		},
+		CreepHealer: {
+			total: 0,
+			goalPercentage: 0.25,
+			currentPercentage: 0,
+			max: 2,
+			minExtensions: 2
+		},
 		CreepSoldier: {
 			total: 0,
 			goalPercentage: 0.25,

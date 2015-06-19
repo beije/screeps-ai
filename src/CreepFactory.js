@@ -191,6 +191,9 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 		case 'CreepScout':
 			abilities = [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
 		break;
+		case 'CreepHealer':
+			abilities = [MOVE, MOVE, MOVE, HEAL, MOVE];
+		break;
 	}
 
 	var canBuild = spawn.canCreateCreep(
