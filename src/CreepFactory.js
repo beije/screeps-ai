@@ -59,9 +59,11 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 	var abilities = [];
 	var id = new Date().getTime();
 	var creepLevel = this.population.getTotalPopulation() / this.population.populationLevelMultiplier;
-	var resourceLevel = this.depositManager.getFullDeposits().length / 4;
+	var resourceLevel = this.depositManager.getFullDeposits().length / 5;
 	var level = Math.floor(creepLevel + resourceLevel);
-
+	if(this.population.getTotalPopulation() < 5){
+		level = 1;
+	}
 	// TOUGH          10
 	// MOVE           50
 	// CARRY          50
