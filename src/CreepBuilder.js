@@ -33,7 +33,7 @@ CreepBuilder.prototype.act = function() {
 	var site = false;
 	var avoidArea = this.getAvoidedArea();
 	if(!this.forceControllerUpgrade) {
-		site = this.constructionManager.constructStructure(this.creep);
+		site = this.constructionManager.constructStructure(this);
 	}
 
 	if(!site) {
@@ -41,7 +41,7 @@ CreepBuilder.prototype.act = function() {
 		this.creep.moveTo(site, {avoid: avoidArea});
 		this.creep.upgradeController(site);
 	}
-	
+
 	if(this.creep.pos.inRangeTo(site, 3)) {
 		this.giveEnergy(site);
 	}
