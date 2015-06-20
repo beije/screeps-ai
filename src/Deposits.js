@@ -12,8 +12,14 @@ function Deposits(room) {
 			filter: filterExtensions
 		}
 	);
-	this.spawns = this.room.find(FIND_MY_SPAWNS);
 
+	this.spawns = [];
+	for(var n in Game.spawns) {
+		var s = Game.spawns[n];
+		if(s.room == this.room) {
+			this.spawns.push(s);
+		}
+	}
 };
 
 Deposits.prototype.getSpawnDeposit = function() {

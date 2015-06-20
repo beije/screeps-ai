@@ -17,10 +17,11 @@ CreepBuilder.prototype.init = function() {
 	if(!this.remember('srcRoom')) {
 		this.remember('srcRoom', this.creep.room.name);
 	}
+
 	if(this.moveToNewRoom() == true) {
 		return;
 	}
-	
+
 	this.forceControllerUpgrade = this.remember('forceControllerUpgrade');
 
 	//if(this.randomMovement() == false) {
@@ -30,16 +31,20 @@ CreepBuilder.prototype.init = function() {
 
 CreepBuilder.prototype.act = function() {
 	var site = false;
+	var avoidArea = this.getAvoidedArea();
 	if(!this.forceControllerUpgrade) {
-		site = this.constructionManager.constructStructure(this.creep);	
+		site = this.constructionManager.constructStructure(this);
 	}
 
 	if(!site) {
 		var site = this.constructionManager.getController();
-		this.creep.moveTo(site);
+		this.creep.moveTo(site, {avoid: avoidArea});
 		this.creep.upgradeController(site);
 	}
-	this.giveEnergy(site);
+
+	if(this.creep.pos.inRangeTo(site, 3)) {
+		this.giveEnergy(site);
+	}
 	this.remember('last-energy', this.creep.energy);
 };
 

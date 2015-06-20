@@ -14,7 +14,7 @@ function Room(room, roomHandler) {
 	this.depositManager = new Deposits(this.room);
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
-	this.population.typeDistribution.CreepBuilder.max = (this.constructionManager.sites.length+1)*2+2;
+	this.population.typeDistribution.CreepBuilder.max = 4;
 	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length+1)*2;
 	this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepBuilder.max+this.population.typeDistribution.CreepMiner.max;
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
@@ -61,9 +61,10 @@ Room.prototype.sendReinforcements = function(room) {
 }
 
 Room.prototype.populate = function() {
-	if(this.depositManager.spawns.length == 0 && this.population.totalPopulation < 10) {
+	if(this.depositManager.spawns.length == 0 && this.population.getTotalPopulation() < 10) {
 		this.askForReinforcements()
 	}
+
 	for(var i = 0; i < this.depositManager.spawns.length; i++) {
 		var spawn = this.depositManager.spawns[i];
 		if(spawn.spawning) {
@@ -101,6 +102,17 @@ Room.prototype.loadCreeps = function() {
 };
 Room.prototype.distributeBuilders = function() {
 	var builderStats = this.population.getType('CreepBuilder');
+	if(this.depositManager.spawns.length == 0) {
+		for(var i = 0; i < this.creeps.length; i++) {
+			var creep = this.creeps[i];
+			if(creep.remember('role') != 'CreepBuilder') {
+				continue;
+			}
+
+			creep.remember('forceControllerUpgrade', false);
+		}
+		return;
+	}
 	if(builderStats <= 3) {
 		for(var i = 0; i < this.creeps.length; i++) {
 			var creep = this.creeps[i];

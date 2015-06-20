@@ -59,9 +59,11 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 	var abilities = [];
 	var id = new Date().getTime();
 	var creepLevel = this.population.getTotalPopulation() / this.population.populationLevelMultiplier;
-	var resourceLevel = this.depositManager.getFullDeposits().length / 4;
+	var resourceLevel = this.depositManager.getFullDeposits().length / 5;
 	var level = Math.floor(creepLevel + resourceLevel);
-
+	if(this.population.getTotalPopulation() < 5){
+		level = 1;
+	}
 	// TOUGH          10
 	// MOVE           50
 	// CARRY          50
@@ -144,28 +146,28 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 				abilities = [TOUGH, MOVE, ATTACK, MOVE];
 			} else
 			if(level <= 3) {
-				abilities = [TOUGH, MOVE, ATTACK, RANGED_ATTACK, MOVE];
+				abilities = [TOUGH, MOVE, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 4) {
-				abilities = [TOUGH, MOVE, ATTACK, ATTACK, RANGED_ATTACK, MOVE];
+				abilities = [TOUGH, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 5) {
-				abilities = [TOUGH, TOUGH, TOUGH, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 6) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 7) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 8) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level <= 9) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			} else
 			if(level >= 10) {
-				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
+				abilities = [TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE];
 			}
 		break;
 		case 'CreepShooter':
@@ -189,7 +191,10 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 			}
 		break;
 		case 'CreepScout':
-			abilities = [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE];
+			abilities = [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
+		break;
+		case 'CreepHealer':
+			abilities = [MOVE, MOVE, MOVE, HEAL, MOVE];
 		break;
 	}
 

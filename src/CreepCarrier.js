@@ -35,11 +35,12 @@ CreepCarrier.prototype.init = function() {
 		this.resource = this.resourceManager.getResourceById(this.remember('source'));
 	}
 	if(this.depositFor == DEPOSIT_FOR.CONSTRUCTION) {
-		this.creep.say('w');
+		//this.creep.say('w');
 	}
 	if(!this.remember('srcRoom')) {
 		this.remember('srcRoom', this.creep.room.name);
 	}
+
 	if(this.moveToNewRoom() == true) {
 		return;
 	}
@@ -66,9 +67,7 @@ CreepCarrier.prototype.act = function() {
 		continueDeposit = true;
 	}
 
-	if(this.pickupEnergy()) {
-		return;
-	}
+	this.pickupEnergy();
 
 	if(this.creep.energy < this.creep.energyCapacity && continueDeposit == false) {
 		this.harvestEnergy();
@@ -78,17 +77,19 @@ CreepCarrier.prototype.act = function() {
 };
 
 CreepCarrier.prototype.depositEnergy = function() {
+	var avoidArea = this.getAvoidedArea();
+
 	if(this.depositManager.getEmptyDeposits().length == 0 && this.depositManager.getSpawnDeposit().energy == this.depositManager.getSpawnDeposit().energyCapacity) {
 		this.depositFor = DEPOSIT_FOR.CONSTRUCTION;
 	}
 
-	if(this.depositManager.energy() <= 100) {
+	if(this.depositManager.energy() / this.depositManager.energyCapacity() < 0.3) {
 		this.depositFor = DEPOSIT_FOR.POPULATION;
 	}
 
 	if(this.depositFor == DEPOSIT_FOR.POPULATION) {
 		var deposit = this.getDeposit();
-		this.creep.moveTo(deposit);
+		this.creep.moveTo(deposit, {avoid: avoidArea});
 		this.creep.transferEnergy(deposit);
 	}
 
@@ -101,11 +102,10 @@ CreepCarrier.prototype.depositEnergy = function() {
 		}
 
 		if(!this.creep.pos.isNearTo(worker, range)) {
-			this.creep.moveTo(worker);
+			this.creep.moveTo(worker, {avoid: avoidArea});
 		} else {
 			this.remember('move-attempts', 0);
 		}
-
 		this.harvest();
 	}
 
@@ -144,29 +144,24 @@ CreepCarrier.prototype.getDeposit = function() {
 	)
 };
 CreepCarrier.prototype.pickupEnergy = function() {
+	var avoidArea = this.getAvoidedArea();
 	if(this.creep.energy == this.creep.energyCapacity) {
 		return false;
 	}
 
-	var target = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,3);
+	var target = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,2, {avoid: avoidArea});
 	if(target.length) {
-	    this.creep.moveTo(target[0]);
 	    this.creep.pickup(target[0]);
-
-		return true;
 	}
-	return false;
 };
 CreepCarrier.prototype.harvestEnergy = function() {
 	//this.creep.moveTo(0,0);
+	var avoidArea = this.getAvoidedArea();
 
-	if(!this.creep.pos.isNearTo(this.resource, 2)) {
-		this.creep.moveTo(this.resource);
-	} else {
-		this.remember('move-attempts', 0);
+	this.creep.moveTo(this.resource, {avoid: avoidArea});
+	if(this.creep.pos.inRangeTo(this.resource, 3)) {
+		this.harvest();
 	}
-
-	this.harvest();
 	this.remember('last-action', ACTIONS.HARVEST);
 	this.forget('closest-deposit');
 }
