@@ -22,7 +22,7 @@ Resources.prototype.getSources = function(room) {
 			return this.room.find(
 				FIND_SOURCES, {
 					filter: function(src) {
-						var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
+						var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
 						if(targets.length == 0) {
 						    return true;
 						}
