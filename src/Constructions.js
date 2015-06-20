@@ -1,6 +1,6 @@
 var CONST = {
     RAMPART_MAX: 200000,
-    RAMPART_FIX: 100000,
+    RAMPART_FIX: 50000,
 };
 var Cache = require('Cache');
 
@@ -23,7 +23,7 @@ Constructions.prototype.getDamagedStructures = function() {
                 FIND_MY_STRUCTURES,
                 {
                     filter: function(s) {
-                        var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
+                        var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
 						if(targets.length != 0) {
 						    return false;
 						}
@@ -45,11 +45,13 @@ Constructions.prototype.getUpgradeableStructures = function() {
                 FIND_MY_STRUCTURES,
                 {
                     filter: function(s) {
-                        var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 4);
+                        var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
                         if(targets.length != 0) {
                             return false;
                         }
+
                         if((s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
+
                             return true;
                         }
                     }
@@ -84,18 +86,19 @@ Constructions.prototype.getClosestConstructionSite = function(creep) {
 
 Constructions.prototype.constructStructure = function(creep) {
     var avoidArea = creep.getAvoidedArea();
-    if(this.sites.length != 0) {
-        site = creep.creep.pos.findClosest(this.sites);
-        creep.creep.moveTo(site, {avoid: avoidArea});
-        creep.creep.build(site);
-
-        return site;
-    }
 
     if(this.damagedStructures.length != 0) {
         site = creep.creep.pos.findClosest(this.damagedStructures);
         creep.creep.moveTo(site, {avoid: avoidArea});
         creep.creep.repair(site);
+
+        return site;
+    }
+
+    if(this.sites.length != 0) {
+        site = creep.creep.pos.findClosest(this.sites);
+        creep.creep.moveTo(site, {avoid: avoidArea});
+        creep.creep.build(site);
 
         return site;
     }
