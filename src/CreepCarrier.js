@@ -23,10 +23,6 @@ function CreepCarrier(creep, depositManager, resourceManager, constructionsManag
 	this.constructionsManager = constructionsManager;
 	this.resource = false;
 	this.target = false;
-
-	if(this.creep.energyCapacity == 0) {
-		this.creep.suicide();
-	}
 };
 
 CreepCarrier.prototype.init = function() {
@@ -39,11 +35,12 @@ CreepCarrier.prototype.init = function() {
 		this.resource = this.resourceManager.getResourceById(this.remember('source'));
 	}
 	if(this.depositFor == DEPOSIT_FOR.CONSTRUCTION) {
-		this.creep.say('w');
+		//this.creep.say('w');
 	}
 	if(!this.remember('srcRoom')) {
 		this.remember('srcRoom', this.creep.room.name);
 	}
+
 	if(this.moveToNewRoom() == true) {
 		return;
 	}
@@ -70,9 +67,7 @@ CreepCarrier.prototype.act = function() {
 		continueDeposit = true;
 	}
 
-	if(this.pickupEnergy()) {
-		return;
-	}
+	this.pickupEnergy();
 
 	if(this.creep.energy < this.creep.energyCapacity && continueDeposit == false) {
 		this.harvestEnergy();
@@ -111,7 +106,6 @@ CreepCarrier.prototype.depositEnergy = function() {
 		} else {
 			this.remember('move-attempts', 0);
 		}
-
 		this.harvest();
 	}
 
@@ -151,19 +145,14 @@ CreepCarrier.prototype.getDeposit = function() {
 };
 CreepCarrier.prototype.pickupEnergy = function() {
 	var avoidArea = this.getAvoidedArea();
-
 	if(this.creep.energy == this.creep.energyCapacity) {
 		return false;
 	}
 
-	var target = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,3);
+	var target = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,2, {avoid: avoidArea});
 	if(target.length) {
-	    this.creep.moveTo(target[0], {avoid: avoidArea});
 	    this.creep.pickup(target[0]);
-
-		return true;
 	}
-	return false;
 };
 CreepCarrier.prototype.harvestEnergy = function() {
 	//this.creep.moveTo(0,0);
