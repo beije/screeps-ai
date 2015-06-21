@@ -87,18 +87,18 @@ Constructions.prototype.getClosestConstructionSite = function(creep) {
 Constructions.prototype.constructStructure = function(creep) {
     var avoidArea = creep.getAvoidedArea();
 
-    if(this.damagedStructures.length != 0) {
-        site = creep.creep.pos.findClosest(this.damagedStructures);
-        creep.creep.moveTo(site, {avoid: avoidArea});
-        creep.creep.repair(site);
-
-        return site;
-    }
-
     if(this.sites.length != 0) {
         site = creep.creep.pos.findClosest(this.sites);
         creep.creep.moveTo(site, {avoid: avoidArea});
         creep.creep.build(site);
+
+        return site;
+    }
+
+    if(this.damagedStructures.length != 0) {
+        site = creep.creep.pos.findClosest(this.damagedStructures);
+        creep.creep.moveTo(site, {avoid: avoidArea});
+        creep.creep.repair(site);
 
         return site;
     }
