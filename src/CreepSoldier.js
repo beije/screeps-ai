@@ -7,7 +7,7 @@ CreepSoldier.prototype.init = function() {
     if(!this.remember('srcRoom')) {
 		this.remember('srcRoom', this.creep.room.name);
 	}
-    this.remember('targetRoom', false);
+
     if(this.moveToNewRoom() == true) {
 		return;
 	}
@@ -23,7 +23,7 @@ CreepSoldier.prototype.act = function() {
     if(this.attackSpawns()) { return; }
 
 
-    this.creep.moveTo(25,25, {avoid: avoidArea});
+    this.creep.moveTo(40,10, {avoid: avoidArea});
 }
 CreepSoldier.prototype.attackHostiles = function() {
     var avoidArea = this.getAvoidedArea();
