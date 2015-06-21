@@ -31,7 +31,7 @@ CreepShooter.prototype.attackHostiles = function() {
     var avoidArea = this.getAvoidedArea();
     var targets = this.creep.room.find(FIND_HOSTILE_CREEPS, {
         filter: function(t) {
-            if(t.name == 'Source Keeper') {
+            if(t.owner.username == 'Source Keeper') {
                 return false;
             }
         }
