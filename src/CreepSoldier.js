@@ -11,6 +11,10 @@ CreepSoldier.prototype.init = function() {
     if(this.moveToNewRoom() == true) {
 		return;
 	}
+    
+    if(this.creep.fatigue != 0) {
+        return;
+    }
 
     this.act();
 };

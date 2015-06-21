@@ -28,15 +28,18 @@ function CreepCarrier(creep, depositManager, resourceManager, constructionsManag
 CreepCarrier.prototype.init = function() {
 	this.remember('role', 'CreepCarrier');
 	this.depositFor = this.remember('depositFor') || 2;
+	
+    if(this.creep.fatigue != 0) {
+        return;
+    }
+
 	if(!this.remember('source')) {
 		var src = this.resourceManager.getAvailableResource();
 		this.remember('source', src.id);
 	} else {
 		this.resource = this.resourceManager.getResourceById(this.remember('source'));
 	}
-	if(this.depositFor == DEPOSIT_FOR.CONSTRUCTION) {
-		//this.creep.say('w');
-	}
+
 	if(!this.remember('srcRoom')) {
 		this.remember('srcRoom', this.creep.room.name);
 	}

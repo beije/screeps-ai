@@ -12,6 +12,10 @@ CreepShooter.prototype.init = function() {
 		return;
 	}
 
+    if(this.creep.fatigue != 0) {
+        return;
+    }
+    
     this.act();
 };
 

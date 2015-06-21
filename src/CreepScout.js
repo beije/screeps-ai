@@ -11,6 +11,10 @@ CreepScout.prototype.init = function() {
     if(this.remember('role')) {
         this.remember('roomName', this.creep.room.name);
     }
+
+    if(this.creep.fatigue != 0) {
+        return;
+    }
     if(this.moveToNewRoom() == true) {
 		return;
 	}

@@ -18,6 +18,10 @@ CreepBuilder.prototype.init = function() {
 		this.remember('srcRoom', this.creep.room.name);
 	}
 
+	if(this.creep.fatigue != 0) {
+		return;
+	}
+
 	if(this.moveToNewRoom() == true) {
 		return;
 	}

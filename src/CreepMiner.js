@@ -21,6 +21,10 @@ function CreepMiner(creep, resourceManager) {
 CreepMiner.prototype.init = function() {
 	this.remember('role', 'CreepMiner');
 
+	if(this.creep.fatigue != 0) {
+		return;
+	}
+
 	if(!this.remember('source')) {
 		var src = this.resourceManager.getAvailableResource();
 		this.remember('source', src.id);
