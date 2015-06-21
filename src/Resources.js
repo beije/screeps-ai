@@ -22,13 +22,20 @@ Resources.prototype.getSources = function(room) {
 			return this.room.find(
 				FIND_SOURCES, {
 					filter: function(src) {
+						var targets = src.pos.findInRange(FIND_STRUCTURES, 3);
+						for(var i = 0; i < targets.length; i++) {
+							if(targets[i].owner.username == 'Source Keeper') {
+								return false;
+							}
+						}
+
 						var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
 						if(targets.length == 0) {
 						    return true;
 						}
 
 						return false;
-					}
+					}.bind(this)
 				}
 			);
 		}.bind(this)
