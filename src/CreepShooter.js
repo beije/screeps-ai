@@ -8,14 +8,14 @@ CreepShooter.prototype.init = function() {
 		this.remember('srcRoom', this.creep.room.name);
 	}
 
+    if(this.creep.fatigue != 0) {
+        return;
+    }
+
     if(this.moveToNewRoom() == true) {
 		return;
 	}
 
-    if(this.creep.fatigue != 0) {
-        return;
-    }
-    
     this.act();
 };
 
@@ -25,7 +25,7 @@ CreepShooter.prototype.act = function() {
     if(this.attackHostiles()) { return; }
     if(this.attackSpawns()) { return; }
 
-    this.creep.moveTo(40,10, {avoid: avoidArea});
+    this.creep.moveTo(24,10, {avoid: avoidArea});
 }
 CreepShooter.prototype.attackHostiles = function() {
     var avoidArea = this.getAvoidedArea();
