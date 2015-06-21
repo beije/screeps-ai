@@ -149,14 +149,12 @@ Room.prototype.distributeCarriers = function() {
 			continue;
 		}
 		carriers.push(creep);
-		if(!creep.getDepositFor()) {
-			if(counter%2) {
-				// Construction
-				creep.setDepositFor(1);
-			} else {
-				// Population
-				creep.setDepositFor(2);
-			}
+		if(counter%2) {
+			// Construction
+			creep.setDepositFor(1);
+		} else {
+			// Population
+			creep.setDepositFor(2);
 		}
 
 		counter++;
