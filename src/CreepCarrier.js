@@ -67,9 +67,10 @@ CreepCarrier.prototype.act = function() {
 		continueDeposit = true;
 	}
 
-	this.pickupEnergy();
-
 	if(this.creep.energy < this.creep.energyCapacity && continueDeposit == false) {
+		if(this.pickupEnergy()) {
+			return;
+		}
 		this.harvestEnergy();
 	} else {
 		this.depositEnergy();
@@ -97,6 +98,7 @@ CreepCarrier.prototype.depositEnergy = function() {
 		var worker = this.getWorker();
 		var range = 1;
 		if(!worker) {
+			this.remember('target-worker', false);
 			worker = this.constructionsManager.controller;
 			range = 2;
 		}
@@ -149,9 +151,12 @@ CreepCarrier.prototype.pickupEnergy = function() {
 		return false;
 	}
 
-	var target = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,2, {avoid: avoidArea});
-	if(target.length) {
-	    this.creep.pickup(target[0]);
+	var targets = this.creep.pos.findInRange(FIND_DROPPED_ENERGY, 3, {avoid: avoidArea});
+	if(targets.length) {
+		var target = this.creep.pos.findClosest(targets);
+		this.creep.moveTo(target, {avoid: avoidArea});
+	    this.creep.pickup(target);
+		return true;
 	}
 };
 CreepCarrier.prototype.harvestEnergy = function() {
