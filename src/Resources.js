@@ -24,7 +24,7 @@ Resources.prototype.getSources = function(room) {
 					filter: function(src) {
 						var targets = src.pos.findInRange(FIND_STRUCTURES, 3);
 						for(var i = 0; i < targets.length; i++) {
-							if(targets[i].owner.username == 'Source Keeper') {
+							if(targets[i].owner && targets[i].owner.username == 'Source Keeper') {
 								return false;
 							}
 						}
