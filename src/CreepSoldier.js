@@ -26,7 +26,7 @@ CreepSoldier.prototype.act = function() {
     if(this.attackHostiles()) { return; }
     if(this.attackSpawns()) { return; }
 
-    this.creep.moveTo(40, 8, {avoid: avoidArea});
+    this.creep.moveTo(37,40, {avoid: avoidArea});
 }
 CreepSoldier.prototype.attackHostiles = function() {
     var avoidArea = this.getAvoidedArea();
