@@ -95,6 +95,10 @@ Constructions.prototype.constructStructure = function(creep) {
         return site;
     }
 
+    if(this.controller.level <= 2) {
+        return false;
+    }
+
     if(this.damagedStructures.length != 0) {
         site = creep.creep.pos.findClosest(this.damagedStructures);
         creep.creep.moveTo(site, {avoid: avoidArea});
