@@ -15,7 +15,7 @@ function Room(room, roomHandler) {
 	this.resourceManager = new Resources(this.room, this.population);
 	this.constructionManager = new Constructions(this.room);
 	this.population.typeDistribution.CreepBuilder.max = 4;
-	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length+1)*2;
+	this.population.typeDistribution.CreepMiner.max = (this.resourceManager.getSources().length)*2;
 	this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepBuilder.max+this.population.typeDistribution.CreepMiner.max;
 	this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.constructionManager, this.population, this.roomHandler);
 }
@@ -61,8 +61,8 @@ Room.prototype.sendReinforcements = function(room) {
 }
 
 Room.prototype.populate = function() {
-	if(this.depositManager.spawns.length == 0 && this.population.getTotalPopulation() < 10) {
-		this.askForReinforcements()
+	if(this.depositManager.spawns.length == 0 || this.population.getTotalPopulation() < 10) {
+		//this.askForReinforcements()
 	}
 
 	for(var i = 0; i < this.depositManager.spawns.length; i++) {
@@ -71,11 +71,11 @@ Room.prototype.populate = function() {
 			continue;
 		}
 
-		if((this.depositManager.energy() / this.depositManager.energyCapacity()) > 0.2) {
+		if((this.depositManager.energy() / this.depositManager.energyCapacity()) > 0.2 || this.population.getTotalPopulation() < 10) {
 			var types = this.population.getTypes()
 			for(var i = 0; i < types.length; i++) {
 				var ctype = this.population.getType(types[i]);
-				if(this.depositManager.deposits.length > ctype.minExtensions) {
+				if(this.depositManager.deposits.length >= ctype.minExtensions) {
 					if((ctype.goalPercentage > ctype.currentPercentage && ctype.total < ctype.max) || ctype.total == 0 || ctype.total < ctype.max*0.75) {
 						this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
 						break;
@@ -128,9 +128,9 @@ Room.prototype.distributeBuilders = function() {
 			if(creep.remember('role') != 'CreepBuilder') {
 				continue;
 			}
-			creep.remember('forceControllerUpgrade', true);
+			creep.remember('forceControllerUpgrade', false);
 			c++;
-			if(c == 2) {
+			if(c == 1) {
 				break;
 			}
 		}
