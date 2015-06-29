@@ -204,7 +204,18 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 			abilities = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
 		break;
 		case 'CreepHealer':
-			abilities = [MOVE, MOVE, MOVE, HEAL, MOVE];
+			if(level <= 3) {
+				abilities = [MOVE, MOVE, MOVE, HEAL, MOVE];
+			} else
+			if(level <= 6) {
+				abilities = [MOVE, MOVE, MOVE, HEAL, HEAL, MOVE];
+			} else
+			if(level <= 8) {
+				abilities = [MOVE, MOVE, MOVE, HEAL, HEAL, HEAL, MOVE];
+			} else
+			if(level >= 8) {
+				abilities = [MOVE, MOVE, MOVE, HEAL, HEAL, HEAL, HEAL, MOVE];
+			}
 		break;
 	}
 
