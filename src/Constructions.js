@@ -1,6 +1,8 @@
 var CONST = {
-    RAMPART_MAX: 200000,
+    RAMPART_MAX: 500000,
     RAMPART_FIX: 50000,
+    WALL_MAX: 200000,
+    WALL_FIX: 50000,
 };
 var Cache = require('Cache');
 
@@ -20,16 +22,23 @@ Constructions.prototype.getDamagedStructures = function() {
         'damaged-structures',
         function() {
             return this.room.find(
-                FIND_MY_STRUCTURES,
+                FIND_STRUCTURES,
                 {
                     filter: function(s) {
                         var targets = s.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
 						if(targets.length != 0) {
 						    return false;
 						}
-                        if((s.hits < s.hitsMax/2 && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_FIX)) {
-                            return true;
+                        if(s.my) {
+                            if((s.hits < s.hitsMax/2 && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_FIX)) {
+                                return true;
+                            }
+                        }else {
+                            if(s.structureType == STRUCTURE_WALL && s.hits < CONST.WALL_FIX) {
+                                return true;
+                            }
                         }
+
                     }
                 }
             );
@@ -49,10 +58,15 @@ Constructions.prototype.getUpgradeableStructures = function() {
                         if(targets.length != 0) {
                             return false;
                         }
+                        if(s.my) {
+                            if((s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
 
-                        if((s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART) || (s.structureType == STRUCTURE_RAMPART && s.hits < CONST.RAMPART_MAX)) {
-
-                            return true;
+                                return true;
+                            }
+                        } else {
+                            if(s.structureType == STRUCTURE_WALL && s.hits < CONST.WALL_MAX) {
+                                return true;
+                            }
                         }
                     }
                 }
